@@ -1,2 +1,2 @@
 # exalt
-A framework for building native apps with JavaScript
+A framework for building universal apps with JavaScript
