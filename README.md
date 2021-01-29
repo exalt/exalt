@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/OutwalkStudios/exalt/main/resources/exalt_logo.svg" alt="Exalt" width="400px" height="400px" />
+    <img src="https://raw.githubusercontent.com/OutwalkStudios/exalt/main/resources/exalt_logo.svg" alt="Exalt" width="400px" height="300px" />
 </div>
 
 <div align="center">
