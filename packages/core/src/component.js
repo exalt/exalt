@@ -47,6 +47,11 @@ export class Component extends HTMLElement {
         };
     }
 
+    /* subscribe to a state context */
+    useContext(context) {
+        context._collections.push(this._requestUpdate());
+    }
+
     /* renders the component dom tree by returning a template */
     render() { }
 
