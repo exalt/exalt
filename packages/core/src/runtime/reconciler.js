@@ -7,7 +7,7 @@ export class Reconciler {
     static reconcile(template, container) {
         const templateNode = TemplateEngine.processTemplate(template);
 
-        if (container.childElementCount > 0) {
+        if (container.childElementCount == 0) {
             container.appendChild(templateNode);
             return;
         }
