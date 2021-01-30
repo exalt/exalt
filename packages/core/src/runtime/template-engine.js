@@ -36,7 +36,7 @@ export class TemplateEngine {
             else {
                 return template + string + value;
             }
-        }, "").replace(/<([a-z]+)([^/>]*)\/>/g, "<$1$2></$1>");
+        }, "").replace(/<([a-z]+-?(?:[a-z]+)?)([^/>]*)\/>/g, "<$1$2></$1>");
 
         return { source, events };
     }
@@ -63,7 +63,7 @@ export class TemplateEngine {
                         /* if the attribute has an event marker, bind the event and remove the attribute */
                         if (attribute.value == "{{e}}") {
                             currentNode.addEventListener(attribute.localName.slice(2), events[index++]);
-                            currentNode.removeEventListener(attribute.localName);
+                            currentNode.removeAttribute(attribute.localName);
                         }
                     }
                 }
