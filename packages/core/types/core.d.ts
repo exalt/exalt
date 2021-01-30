@@ -20,7 +20,11 @@ declare interface Template {
     data: Array<any>
 }
 
-declare abstract class Component<A = {}, S extends State = {}> extends HTMLElement {
+declare interface Attributes {
+    [key: string]: string;
+}
+
+declare abstract class Component<A, S extends State> extends HTMLElement {
 
     private _observer: MutationObserver;
     private _styles: string;
@@ -31,7 +35,7 @@ declare abstract class Component<A = {}, S extends State = {}> extends HTMLEleme
 
     private connectedCallback(): void;
     private disconnectedCallback(): void;
-    private _requestUpdate(updateAttribs?: boolean = false): UpdateCallback;
+    private _requestUpdate(updateAttribs?: boolean): UpdateCallback;
 
     useContext(context: object): void;
 
