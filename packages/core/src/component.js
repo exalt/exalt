@@ -1,10 +1,10 @@
+import { State } from "./state";
 import {
     getComponentAttributes,
     getAttributeObserver,
     getComponentOptions,
     render
-} from "./runtime/runtime";
-import { State } from "./state";
+} from "./runtime/utils";
 
 /* Component class for building reusable pieces of a UI */
 export class Component extends HTMLElement {
