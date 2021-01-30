@@ -227,7 +227,7 @@ export class Reconciler {
             oldNode.value = newValue;
         }
 
-        if (oldNode.firstChild && oldNode.firstChild.ndoeValue != newValue) {
+        if (oldNode.firstChild && oldNode.firstChild.nodeValue != newValue) {
             oldNode.firstChild.nodeValue = newValue;
         }
     }
