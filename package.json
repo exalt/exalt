@@ -1,0 +1,15 @@
+{
+  "name": "exalt",
+  "private": true,
+  "scripts": {
+    "install": "pnpm install",
+    "update": "pnpm -r update",
+    "deploy": "pnpm -r publish",
+    "build": "pnpm run -r build",
+    "lint": "pnpm run -r lint"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "pnpm": "^5.16.0"
+  }
+}

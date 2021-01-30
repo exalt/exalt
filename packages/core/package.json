@@ -1,0 +1,44 @@
+{
+  "name": "@exalt/core",
+  "version": "0.1.0",
+  "description": "A JavaScript framework for building universal apps",
+  "main": "dist/core.cjs.js",
+  "module": "dist/core.esm.js",
+  "types": "types/core.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "eslint src",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "keywords": [],
+  "files": [
+    "dist",
+    "types"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/core.cjs.js",
+      "import": "./dist/core.esm.js",
+      "default": "./dist/core.esm.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OutwalkStudios/exalt.git",
+    "directory": "packages/exalt"
+  },
+  "bugs": {
+    "url": "https://github.com/OutwalkStudios/exalt/issues"
+  },
+  "homepage": "https://github.com/OutwalkStudios/exalt#readme",
+  "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "esbuild": "^0.8.36",
+    "eslint": "^7.18.0",
+    "rollup": "^2.38.1",
+    "rollup-plugin-esbuild": "^2.6.1"
+  }
+}
