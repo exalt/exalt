@@ -11,7 +11,7 @@ export class Component extends HTMLElement {
 
     constructor() {
         super();
-
+        
         /* get the component attributes */
         this.attribs = getComponentAttributes(this);
         this._observer = getAttributeObserver(this, this._requestUpdate(true));
@@ -26,7 +26,7 @@ export class Component extends HTMLElement {
 
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
-        render(this.render(), this.styles, this.root);
+        render(this.render(this.attribs), this.styles, this.root);
         this.mount();
     }
 

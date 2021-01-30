@@ -8,7 +8,7 @@ export default {
     ],
     plugins: [
         esbuild({
-            minify: false,
+            minify: true,
             target: "es2015",
         })
     ]
