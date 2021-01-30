@@ -7,8 +7,8 @@ export class State {
     }
 
     /* create a reactive object */
-    static createReactiveObject(object, callback) {
-        return new Proxy(object, {
+    static createReactiveObject(obj, callback) {
+        return new Proxy(obj, {
             set: (target, key, value) => {
                 /* prevent redundant state updates */
                 if (key == "prototype" || target[key] == value) return true;

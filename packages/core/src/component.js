@@ -11,22 +11,24 @@ export class Component extends HTMLElement {
 
     constructor() {
         super();
-        
-        /* get the component attributes */
-        this.attribs = getComponentAttributes(this);
-        this._observer = getAttributeObserver(this, this._requestUpdate(true));
-        this.state = State.createState(this._requestUpdate());
 
         /* get the options specified in the component creation */
         const { useShadow, styles } = getComponentOptions(this.constructor);
 
+        this._observer = getAttributeObserver(this, this._requestUpdate(true));
+        this._styles = styles.join("");
+        
+        /* get the component attributes */
+        this.attribs = getComponentAttributes(this);
+        this.state = State.createState(this._requestUpdate());
+
+        /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
-        this.styles = styles.join("");
     }
 
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
-        render(this.render(this.attribs), this.styles, this.root);
+        render(this.render(this.attribs), this._styles, this.root);
         this.mount();
     }
 
@@ -41,7 +43,7 @@ export class Component extends HTMLElement {
         return (key, value) => {
             if (this.shouldUpdate(key, value)) {
                 if (updateAttribs) this.attribs[key] = value;
-                render(this.render(this.attribs), this.styles, this.root);
+                render(this.render(this.attribs), this._styles, this.root);
                 this.onUpdate(key, value);
             }
         };
