@@ -24,17 +24,6 @@ export class Component extends HTMLElement {
         this.styles = styles.join("");
     }
 
-    /* request an update function callback */
-    _requestUpdate(updateAttribs = false) {
-        return (key, value) => {
-            if (this.shouldUpdate(key, value)) {
-                if (updateAttribs) this.attribs[key] = value;
-                render(this.render(this.attribs), this.styles, this.root);
-                this.onUpdate(key, value);
-            }
-        };
-    }
-
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
         render(this.render(), this.styles, this.root);
@@ -45,6 +34,17 @@ export class Component extends HTMLElement {
     disconnectedCallback() {
         this.unmount();
         this._observer.disconnect();
+    }
+
+    /* request an update function callback */
+    _requestUpdate(updateAttribs = false) {
+        return (key, value) => {
+            if (this.shouldUpdate(key, value)) {
+                if (updateAttribs) this.attribs[key] = value;
+                render(this.render(this.attribs), this.styles, this.root);
+                this.onUpdate(key, value);
+            }
+        };
     }
 
     /* renders the component dom tree by returning a template */

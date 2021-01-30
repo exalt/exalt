@@ -6,9 +6,9 @@ export class State {
         this.prototype = Object.assign(this, state);
     }
 
-    /* create a new reactive state object */
-    static createState(callback) {
-        return new Proxy(new State(), {
+    /* create a reactive object */
+    static createReactiveObject(object, callback) {
+        return new Proxy(object, {
             set: (target, key, value) => {
                 /* prevent redundant state updates */
                 if (key == "prototype" || target[key] == value) return true;
@@ -31,6 +31,11 @@ export class State {
                 return true;
             }
         });
+    }
+
+    /* create a new reactive state object */
+    static createState(callback) {
+        return State.createReactiveObject(new State(), callback);
     }
 
     /* creates a new reactive array object */
