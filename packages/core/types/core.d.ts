@@ -52,3 +52,5 @@ declare abstract class Component<A, S extends State> extends HTMLElement {
 declare function html(string: TemplateStringsArray, ...values: Array<any>): Template;
 
 declare function createContext(context: object): object;
+
+export { State, Template, Attributes, Component, html, createContext };
