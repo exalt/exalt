@@ -4,6 +4,7 @@ import {
     getComponentOptions,
     render
 } from "./runtime/runtime";
+import { State } from "./state";
 
 /* Component class for building reusable pieces of a UI */
 export class Component extends HTMLElement {
@@ -14,6 +15,7 @@ export class Component extends HTMLElement {
         /* get the component attributes */
         this.attribs = getComponentAttributes(this);
         this._observer = getAttributeObserver(this, this._requestUpdate(true));
+        this.state = State.createState(this._requestUpdate());
 
         /* get the options specified in the component creation */
         const { useShadow, styles } = getComponentOptions(this.constructor);

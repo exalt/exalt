@@ -129,7 +129,7 @@ export class Reconciler {
 
             /* if there is no old child, add the new child */
             else if (!oldChild) {
-                oldNode.appendChild(neewChild);
+                oldNode.appendChild(newChild);
                 offset++;
             }
 
@@ -212,7 +212,7 @@ export class Reconciler {
 
         if (newValue == "null") {
             oldNode.value = "";
-            olldNode.removeAttribute("value");
+            oldNode.removeAttribute("value");
         }
 
         if (!newNode.hasAttribute("value")) oldNode.removeAttribute("value");

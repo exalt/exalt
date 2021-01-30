@@ -4,3 +4,5 @@ import { TemplateEngine } from "./runtime/template-engine";
 export function html(strings, ...values) {
     return TemplateEngine.createTemplate(strings, values);
 }
+
+export { Component } from "./component";

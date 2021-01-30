@@ -45,5 +45,5 @@ export function render(template, styles, container) {
         template.source += `<style>${styles}</style>`;
     }
 
-    Reconciler.reconcile(templatet, container);
+    Reconciler.reconcile(template, container);
 }
