@@ -2,7 +2,7 @@
   "name": "exalt",
   "private": true,
   "scripts": {
-    "install": "pnpm install",
+    "bootstrap": "pnpm install",
     "update": "pnpm -r update",
     "deploy": "pnpm -r publish",
     "build": "pnpm run -r build",

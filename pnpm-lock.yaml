@@ -1,18 +1,38 @@
 importers:
-  packages/core:
+  .:
+    devDependencies:
+      pnpm: 5.16.0
+    specifiers:
+      pnpm: ^5.16.0
+  packages/cli:
     devDependencies:
       '@babel/core': 7.12.10
-      '@babel/eslint-parser': 7.12.1_b5d2baead2359fee426c65690feab125
-      esbuild: 0.8.36
-      eslint: 7.18.0
-      rollup: 2.38.1
-      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.36+rollup@2.38.1
+      '@babel/eslint-parser': 7.12.1_4040d347f50623727eb9d26c8bacfc4b
+      esbuild: 0.8.39
+      eslint: 7.19.0
+      rollup: 2.38.3
+      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.39+rollup@2.38.3
     specifiers:
       '@babel/core': ^7.12.10
       '@babel/eslint-parser': ^7.12.1
-      esbuild: ^0.8.36
-      eslint: ^7.18.0
-      rollup: ^2.38.1
+      esbuild: ^0.8.39
+      eslint: ^7.19.0
+      rollup: ^2.38.3
+      rollup-plugin-esbuild: ^2.6.1
+  packages/core:
+    devDependencies:
+      '@babel/core': 7.12.10
+      '@babel/eslint-parser': 7.12.1_4040d347f50623727eb9d26c8bacfc4b
+      esbuild: 0.8.39
+      eslint: 7.19.0
+      rollup: 2.38.3
+      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.39+rollup@2.38.3
+    specifiers:
+      '@babel/core': ^7.12.10
+      '@babel/eslint-parser': ^7.12.1
+      esbuild: ^0.8.39
+      eslint: ^7.19.0
+      rollup: ^2.38.3
       rollup-plugin-esbuild: ^2.6.1
 lockfileVersion: 5.2
 packages:
@@ -35,7 +55,7 @@ packages:
       convert-source-map: 1.7.0
       debug: 4.3.1
       gensync: 1.0.0-beta.2
-      json5: 2.1.3
+      json5: 2.2.0
       lodash: 4.17.20
       semver: 5.7.1
       source-map: 0.5.7
@@ -44,10 +64,10 @@ packages:
       node: '>=6.9.0'
     resolution:
       integrity: sha512-eTAlQKq65zHfkHZV0sIVODCPGVgoo1HdBlbSLi9CqOzuZanMv2ihzY+4paiKr1mH+XmYESMAmJ/dpZ68eN6d8w==
-  /@babel/eslint-parser/7.12.1_b5d2baead2359fee426c65690feab125:
+  /@babel/eslint-parser/7.12.1_4040d347f50623727eb9d26c8bacfc4b:
     dependencies:
       '@babel/core': 7.12.10
-      eslint: 7.18.0
+      eslint: 7.19.0
       eslint-scope: 5.1.0
       eslint-visitor-keys: 1.3.0
       semver: 6.3.0
@@ -208,11 +228,11 @@ packages:
       node: ^10.12.0 || >=12.0.0
     resolution:
       integrity: sha512-1JTKgrOKAHVivSvOYw+sJOunkBjUOvjqWk1DPja7ZFhIS2mX/4EgTT8M7eTK9jrKhL/FvXXEbQwIs3pg1xp3dg==
-  /@rollup/pluginutils/4.1.0_rollup@2.38.1:
+  /@rollup/pluginutils/4.1.0_rollup@2.38.3:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.2.2
-      rollup: 2.38.1
+      rollup: 2.38.3
     dev: true
     engines:
       node: '>= 8.0.0'
@@ -408,12 +428,12 @@ packages:
       node: '>=8.6'
     resolution:
       integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
-  /esbuild/0.8.36:
+  /esbuild/0.8.39:
     dev: true
     hasBin: true
     requiresBuild: true
     resolution:
-      integrity: sha512-kcUQB61Tf8rLJ3mOwP2ruWi/iFufaQcEs4No+JA6e7W2kMOtFExOsbyeFpEF6zNacwk2RF5fYUz5jfZwgn/SJg==
+      integrity: sha512-/do5H74a5ChyeKRWfkDh3EpICXpsz6dWTtFFbotb7BlIHvWqnRrZYDb8IBubOHdEtKzuiksilRO19aBtp3/HHQ==
   /escape-string-regexp/1.0.5:
     dev: true
     engines:
@@ -458,7 +478,7 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-QudtT6av5WXels9WjIM7qz1XD1cWGvX4gGXvp/zBn9nXG02D0utdU3Em2m/QjTnrsk6bBjmCygl3rmj118msQQ==
-  /eslint/7.18.0:
+  /eslint/7.19.0:
     dependencies:
       '@babel/code-frame': 7.12.11
       '@eslint/eslintrc': 0.3.0
@@ -502,7 +522,7 @@ packages:
       node: ^10.12.0 || >=12.0.0
     hasBin: true
     resolution:
-      integrity: sha512-fbgTiE8BfUJZuBeq2Yi7J3RB3WGUQ9PNuNbmgi6jt9Iv8qrkxfy19Ds3OpL1Pm7zg3BtTVhvcUZbIRQ0wmSjAQ==
+      integrity: sha512-CGlMgJY56JZ9ZSYhJuhow61lMPPjUzWmChFya71Z/jilVos7mR/jPgaEfVGgMBY5DshbKdG8Ezb8FDCHcoMEMg==
   /espree/7.3.1:
     dependencies:
       acorn: 7.4.1
@@ -595,8 +615,7 @@ packages:
     dev: true
     resolution:
       integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
-  /fsevents/2.1.3:
-    deprecated: '"Please update to latest v2.3 or v2.2"'
+  /fsevents/2.3.1:
     dev: true
     engines:
       node: ^8.16.0 || ^10.6.0 || >=11.0.0
@@ -604,7 +623,7 @@ packages:
     os:
       - darwin
     resolution:
-      integrity: sha512-Auw9a4AxqWpa9GUfj370BMPzzyncfBABW8Mab7BGWBYDj4Isgq+cDKtx0i6u9jcX9pQDnswsaaOTgTmA5pEjuQ==
+      integrity: sha512-YR47Eg4hChJGAB1O3yEAOkGO+rlzutoICGqGo9EZ4lKWokzZRSyIW1QmTzqjtw8MJdj9srP869CuWw/hyzSiBw==
   /functional-red-black-tree/1.0.1:
     dev: true
     resolution:
@@ -753,7 +772,7 @@ packages:
     dev: true
     resolution:
       integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
-  /json5/2.1.3:
+  /json5/2.2.0:
     dependencies:
       minimist: 1.2.5
     dev: true
@@ -761,7 +780,7 @@ packages:
       node: '>=6'
     hasBin: true
     resolution:
-      integrity: sha512-KXPvOm8K9IJKFM0bmdn8QXh7udDh1g/giieX0NLCaMnb4hEiVFqnop2ImTXCc5e0/oHz3LTqmHGtExn5hfMkOA==
+      integrity: sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==
   /levn/0.4.1:
     dependencies:
       prelude-ls: 1.2.1
@@ -846,6 +865,13 @@ packages:
       node: '>=8.6'
     resolution:
       integrity: sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
+  /pnpm/5.16.0:
+    dev: true
+    engines:
+      node: '>=10.16'
+    hasBin: true
+    resolution:
+      integrity: sha512-f7bNVvYGK24eiZ5gYX4wKOSohg6kIybEhrprHqUtFsP3TfttGSLqid1OTzLvVzwVp58QBj9ifOVwRQ+RiSmE0A==
   /prelude-ls/1.2.1:
     dev: true
     engines:
@@ -889,10 +915,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
-  /rollup-plugin-esbuild/2.6.1_esbuild@0.8.36+rollup@2.38.1:
+  /rollup-plugin-esbuild/2.6.1_esbuild@0.8.39+rollup@2.38.3:
     dependencies:
-      '@rollup/pluginutils': 4.1.0_rollup@2.38.1
-      esbuild: 0.8.36
+      '@rollup/pluginutils': 4.1.0_rollup@2.38.3
+      esbuild: 0.8.39
       joycon: 2.2.5
       strip-json-comments: 3.1.1
     dev: true
@@ -903,15 +929,15 @@ packages:
       rollup: '*'
     resolution:
       integrity: sha512-hskMEQQ4Vxlyoeg1OWlFTwWHIhpNaw6q+diOT7p9pdkk34m9Mbk3aymS/JbTqLXy/AbJi22iuXrucknKpeczfg==
-  /rollup/2.38.1:
+  /rollup/2.38.3:
     dev: true
     engines:
       node: '>=10.0.0'
     hasBin: true
     optionalDependencies:
-      fsevents: 2.1.3
+      fsevents: 2.3.1
     resolution:
-      integrity: sha512-q07T6vU/V1kqM8rGRRyCgEvIQcIAXoKIE5CpkYAlHhfiWM1Iuh4dIPWpIbqFngCK6lwAB2aYHiUVhIbSWHQWhw==
+      integrity: sha512-FVx/XzR2DtCozKNDBjHJCHIgkC12rNg/ruAeoYWjLeeKfSKgwhh+lDLDhuCkuRG/fsup8py8dKBTlHdvUFX32A==
   /safe-buffer/5.1.2:
     dev: true
     resolution:
