@@ -1,7 +1,10 @@
 {
   "name": "@exalt/core",
   "version": "0.1.0",
-  "description": "A JavaScript framework for building universal apps",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Exalt - The core framework",
   "main": "dist/core.cjs.js",
   "module": "dist/core.esm.js",
   "types": "types/core.d.ts",
@@ -10,7 +13,9 @@
     "lint": "eslint src",
     "prepublishOnly": "npm run lint && npm run build"
   },
-  "keywords": [],
+  "keywords": [
+
+  ],
   "files": [
     "dist",
     "types"
