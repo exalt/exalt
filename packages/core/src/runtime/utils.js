@@ -11,12 +11,24 @@ export function getComponentOptions(component) {
     };
 }
 
+/* resolve an attribute value to its non string value */
+export function resolveAttributeValue(value) {
+    switch (value) {
+        case "": return true;
+        case "undefined": return undefined;
+        case "null": return null;
+        case "true": return true;
+        case "false": return false;
+        default: return value;
+    }
+}
+
 /* gets the component attributes and calculates boolean attributes */
 export function getComponentAttributes(component) {
     const attributes = {};
 
     for (let attribute of component.attributes) {
-        attributes[attribute.localName] = attribute.value || true;
+        attributes[attribute.localName] = resolveAttributeValue(attribute.value);
     }
 
     return attributes;
@@ -28,7 +40,7 @@ export function getAttributeObserver(element, callback) {
         for (let mutation of mutations) {
             if (mutation.type == "attributes") {
                 const name = mutation.attributeName;
-                callback(name, mutation.target.getAttribute(name));
+                callback(name, resolveAttributeValue(mutation.target.getAttribute(name)));
             }
         }
     });
@@ -39,7 +51,7 @@ export function getAttributeObserver(element, callback) {
 
 /* render the component and apply styles */
 export function render(template, styles, container) {
-    template = template ?? { source: "", data: [] };
+    template = template ?? { source: "", events: [] };
 
     if (styles.length > 0) {
         template.source += `<style>${styles}</style>`;
