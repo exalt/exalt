@@ -1,4 +1,4 @@
-import { State } from "./state";
+import { Reactive } from "./reactive";
 import {
     getComponentAttributes,
     getAttributeObserver,
@@ -20,7 +20,7 @@ export class Component extends HTMLElement {
         
         /* get the component attributes */
         this.attribs = getComponentAttributes(this);
-        this.state = State.createState(this._requestUpdate());
+        this.state = Reactive.createReactiveObject({}, this._requestUpdate());
 
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
@@ -51,7 +51,7 @@ export class Component extends HTMLElement {
 
     /* subscribe to a state context */
     useContext(context) {
-        context._collections.push(this._requestUpdate());
+        context._components.push(this._requestUpdate());
     }
 
     /* renders the component dom tree by returning a template */

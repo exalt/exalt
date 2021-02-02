@@ -1,5 +1,10 @@
-/* State class to manage component and application state */
-export class State {
+/* Reactive class to manage reactive data */
+export class Reactive {
+
+    /* merge inital object with the reactive object */
+    constructor(obj) {
+        this.set(obj);
+    }
 
     /* set a new state, (merges with the previous state) */
     set(state) {
@@ -8,7 +13,7 @@ export class State {
 
     /* create a reactive object */
     static createReactiveObject(obj, callback) {
-        return new Proxy(obj, {
+        return new Proxy(new Reactive(obj), {
             set: (target, key, value) => {
                 /* prevent redundant state updates */
                 if (key == "prototype" || target[key] == value) return true;
@@ -22,7 +27,7 @@ export class State {
 
                 /* if the property does not exist, and the value is an array, make it reactive */
                 if (Array.isArray(value)) {
-                    target[key] = State.createArrayProxy(value, callback);
+                    target[key] = Reactive.createArrayProxy(value, callback);
                     return true;
                 }
 
@@ -31,11 +36,6 @@ export class State {
                 return true;
             }
         });
-    }
-
-    /* create a new reactive state object */
-    static createState(callback) {
-        return State.createReactiveObject(new State(), callback);
     }
 
     /* creates a new reactive array object */
@@ -47,7 +47,7 @@ export class State {
 
                 /* if the property does not exist, and the value is an array, make it reactive */
                 if (Array.isArray(value)) {
-                    target[key] = State.createArrayProxy(value, callback);
+                    target[key] = Reactive.createArrayProxy(value, callback);
                     return true;
                 }
 

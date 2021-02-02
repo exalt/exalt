@@ -1,5 +1,5 @@
 import { TemplateEngine } from "./runtime/template-engine";
-import { State } from "./state";
+import { Reactive } from "./reactive";
 
 /* create a template object using a template literal */
 export function html(strings, ...values) {
@@ -8,10 +8,10 @@ export function html(strings, ...values) {
 
 /* create a state context */
 export function createContext(context) {
-    context._collections = [];
+    context._components = [];
 
-    return State.createReactiveObject(context, (key, value) => {
-        for (let callback of context._collections) {
+    return Reactive.createReactiveObject(context, (key, value) => {
+        for (let callback of context._components) {
             callback(key, value);
         }
     });
