@@ -14,7 +14,7 @@ export class TemplateGenerator {
 
         this.template = (this.library)
             ? path.join(__dirname, "../templates/library")
-            : path.join(__dirname, "..templates/application");
+            : path.join(__dirname, "../templates/application");
 
         this.force = options.getOption("force", "f", false);
         this.skipInstall = options.getOption("skip-install", null, false);
