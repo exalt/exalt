@@ -1,11 +1,11 @@
 import { FileSystem } from "../utils/file-system";
-import { Tasks } from "../utils/tasks";
 import { Template } from "../utils/template";
+import { spawn, exec } from "child_process";
 import path from "path";
 import fs from "fs";
 
-/* TemplateGenerate class for generating projects */
-export class TemplateGenerator {
+/* ProjectGenerate class for generating projects */
+export class ProjectGenerator {
 
     constructor(name, options) {
         this.name = name;
@@ -75,7 +75,9 @@ export class TemplateGenerator {
     /* install project dependencies */
     installDependencies() {
         return new Promise((resolve, reject) => {
-            const thread = Tasks.npm(["install"], {
+            const npm = /^win/.test(process.platform) ? "npm.cmd" : "npm";
+
+            const thread = spawn(npm, ["install"], {
                 cwd: this.dest,
                 stdio: ["ignore", 1, 2]
             });
@@ -90,7 +92,7 @@ export class TemplateGenerator {
     /* intitialize a git repository */
     intitializeGitRepository() {
         return new Promise((resolve, reject) => {
-            const thread = Tasks.git({ cwd: this.dest }, (error) => {
+            const thread = exec("git init", { cwd: this.dest }, (error) => {
                 if (error) reject(error);
             });
 

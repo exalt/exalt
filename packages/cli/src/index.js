@@ -1,5 +1,7 @@
 import { Parser } from "./utils/parser";
 import version from "./cmds/version";
+import help from "./cmds/help";
+import create from "./cmds/create";
 
 /* parse the cli arguments */
 const args = Parser.parseArguments(process.argv.slice(2));
@@ -10,7 +12,9 @@ if (args.version || args.v) cmd = "version";
 else if (args.help || args.h) cmd = "help";
 
 const commands = {
-    "version": version
+    "version": version,
+    "help": help,
+    "create": create
 };
 
 if (commands[cmd]) commands[cmd](args);

@@ -10,7 +10,21 @@ const helpMap = {
         serve <options> ........ Runs the project on a development server.
         build <options> ........ Builds the project for production.
         start <options> ........ Runs the production build.
-    `
+
+    For help with a specific command run "exalt [command] --help"
+    `,
+
+    create: `
+    Usage: exalt create [project-name] <options>
+    - Creates a new project.
+
+    Options:
+        -d, --dest ........ Set the destination for the project.
+        -l, --library ........ Generate a library project.
+        -f, --force ........ Override the project if it already exists.
+        --skip-install ........ Skip installing project dependencies.
+        --skip-git ........ Skip initializing a git repository for the project.
+    `,
 };
 
 /* print out the requested help menu */
