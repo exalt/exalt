@@ -7,7 +7,7 @@ export class Template {
 
     /* create a project from a template */
     static create(src, dest, filter = {}, templateValues = {}) {
-        const filesToCreate = FileSystem.readDirectory(src);
+        const filesToCreate = fs.readdirSync(src);
 
         for (let file of filesToCreate) {
             const originalPath = path.join(src, file);

@@ -7,7 +7,7 @@ export class Config {
     /* load the config file from the root of the project */
     static loadConfig() {
         try {
-            return FileSystem.readJSON(path.join(process.cwd(), "exalt.json"));
+            return JSON.parse(fs.readFileSync(path.join(process.cwd(), "exalt.json")));
         } catch {
             return null;
         }
@@ -15,7 +15,7 @@ export class Config {
 
     /* validate the config, ensuring that all required fields are present */
     static validateConfig(config) {
-        const requiredKeys = ["name", "input", "toolchain", "platform"];
+        const requiredKeys = ["name", "input", "toolchain"];
 
         for (let key of requiredKeys) {
             if (config[key] == undefined) {
@@ -32,7 +32,10 @@ export class Config {
         const toolchainPath = (path.isAbsolute(toolchain)) ? toolchain : path.join(process.cwd(), "node_modules", toolchain);
 
         if (config.toolchain && fs.existsSync(toolchainPath)) {
-            return import(require.resolve(toolchain, { path: [process.cwd()] }));
+            return {
+                toolchain: import(require.resolve(toolchain, { path: [process.cwd()] })),
+                toolchainOptions: config.toolchainOptions || {}
+            };
         } else {
             return null;
         }
