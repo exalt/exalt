@@ -3,8 +3,12 @@ export class Parser {
 
     /* extract arguments from the command line and map them into an object */
     static parseArguments(args) {
-        const tmp = {};
-        tmp._ = [];
+        const tmp = {
+            _: [],
+            getOption: (full, short, fallback = null) => {
+                return (this[full] || this[short]) ? this[full] || this[short] : fallback;
+            }
+        };
 
         let arg = null;
         let newArg = [];
