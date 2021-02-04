@@ -1,0 +1,5 @@
+{
+    "name": "{{project-name}}",
+    "input": "src/index.js",
+    "toolchain": "@exalt/toolchain"
+}

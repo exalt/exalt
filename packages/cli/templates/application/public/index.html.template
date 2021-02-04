@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html {attributes}>
+<head>
+    {metas}
+    <title>{title}</title>
+    <link rel="icon" href="./favicon.ico" />
+    {links}
+</head>
+<body>
+    <app-root></app-root>
+    {scripts}
+</body>
+</html>

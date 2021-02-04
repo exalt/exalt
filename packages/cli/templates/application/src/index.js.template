@@ -1,0 +1,13 @@
+import { Component, html } from "@exalt/core";
+import "./index.css";
+
+export class App extends Component {
+
+    render() {
+        return html`
+            <h1>Hello World!</h1>
+        `;
+    }
+}
+
+Component.create({ name: "app-root", useShadow: false }, App);
