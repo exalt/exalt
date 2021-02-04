@@ -1,5 +1,4 @@
 import { FileSystem } from "../utils/file-system";
-import { Template } from "../utils/template";
 import { spawn, exec } from "child_process";
 import path from "path";
 import fs from "fs";
@@ -37,7 +36,7 @@ export class ProjectGenerator {
         /* Start copying template files to the destination */
         try {
             FileSystem.createDirectory(this.dest);
-            Template.create(this.template, this.dest, {}, { "project-name": this.name });
+            FileSystem.copyTemplate(this.template, this.dest, { "project-name": this.name });
         } catch (error) {
             console.error("ERROR: Failed to create the project template.");
             throw error;

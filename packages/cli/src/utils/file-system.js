@@ -34,4 +34,42 @@ export class FileSystem {
     static isFilePath(filepath) {
         return (filepath.includes("/") && !filepath.startsWith("@"));
     }
+
+    /* copy a template into the desired destination */
+    static copyTemplate(src, dest, values = {}) {
+        const filesToCreate = fs.readdirSync(src);
+
+        /* render the data into the templates */
+        const render = (content) => {
+            const keys = Object.keys(values);
+
+            for (let key of keys) {
+                content = content.replace(new RegExp(`{{${key}}}`, "g"), values[key]);
+            }
+
+            return content;
+        };
+
+        for (let file of filesToCreate) {
+            const originalPath = path.join(src, file);
+
+            if (file.endsWith(".template")) {
+                file = file.replace(/.template$/, "");
+            }
+
+            const newPath = path.join(dest, file);
+            const stats = fs.statSync(originalPath);
+
+            if (stats.isFile()) {
+                if (path.extname(originalPath) == ".template") {
+                    fs.writeFileSync(newPath, render(fs.readFileSync(originalPath, "utf8")));
+                } else {
+                    fs.writeFileSync(newPath, fs.readFileSync(originalPath));
+                }
+            } else if (stats.isDirectory()) {
+                FileSystem.createDirectory(newPath);
+                FileSystem.copyTemplate(originalPath, newPath, values);
+            }
+        }
+    }
 }

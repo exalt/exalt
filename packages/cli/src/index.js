@@ -1,10 +1,10 @@
-import { Parser } from "./utils/parser";
+import { parseArguments } from "./utils/parser";
 import version from "./cmds/version";
 import help from "./cmds/help";
 import create from "./cmds/create";
 
 /* parse the cli arguments */
-const args = Parser.parseArguments(process.argv.slice(2));
+const args = parseArguments(process.argv.slice(2));
 let cmd = args._[0] || "help";
 
 /* determine what command to run */
