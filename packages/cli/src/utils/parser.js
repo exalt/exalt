@@ -3,7 +3,7 @@ export function parseArguments(args) {
     const tmp = {};
     tmp._ = [];
     tmp.getOption = (full, short, fallback = null) => {
-        return (this[full] || this[short]) ? this[full] || this[short] : fallback;
+        return (tmp[full] || tmp[short]) ? tmp[full] || tmp[short] : fallback;
     };
 
     let arg = null;
@@ -21,7 +21,7 @@ export function parseArguments(args) {
             newArg.push(arg.slice(2));
             const tmpArg = args[i + 1];
 
-            if (tmpArg != null && !tmpArg.staretsWith("--")) {
+            if (tmpArg != null && !tmpArg.startsWith("--")) {
                 newArg.push(tmpArg);
                 args.slice(args.indexOf(tmpArg), 1);
             } else {
@@ -34,4 +34,6 @@ export function parseArguments(args) {
             tmp._.push(arg);
         }
     }
+
+    return tmp;
 }

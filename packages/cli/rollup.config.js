@@ -4,7 +4,7 @@ import { builtinModules } from "module";
 
 export default {
     input: "src/index.js",
-    output: { file: "dist/cli.js", format: "cjs" },
+    output: { file: "dist/cli.js", format: "cjs", banner: "#!/usr/bin/env node" },
     plugins: [
         esbuild({
             minify: true,

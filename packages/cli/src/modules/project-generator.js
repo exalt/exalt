@@ -104,16 +104,16 @@ export class ProjectGenerator {
 
     /* print the startup message when a project is done being generated */
     printStartMessage() {
-        console.log(`Successfully creates ${this.name}\n`);
+        console.log(`Successfully created ${this.name}\n`);
         console.log("----------------------------------");
         console.log("Get started with your new project!\n");
-        console.log(` > cd ${this.unresolvedDest}/${this.name}`);
+        console.log(` > cd ./${path.relative(process.cwd(), this.dest)}`);
 
         if (this.skipInstall) {
             console.log(` > npm install`);
         }
 
-        if (!this.library) {
+        if (this.library) {
             console.log(" > npm run build");
         } else {
             console.log(" > npm run dev");
