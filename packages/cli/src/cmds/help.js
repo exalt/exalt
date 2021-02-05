@@ -25,6 +25,11 @@ const helpMap = {
         --skip-install ........ Skip installing project dependencies.
         --skip-git ........ Skip initializing a git repository for the project.
     `,
+
+    build: `
+    Usage: exalt build <options>
+    - Builds the project for production.
+    `
 };
 
 /* print out the requested help menu */

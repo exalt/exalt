@@ -9,7 +9,7 @@ export class Config {
         try {
             return JSON.parse(fs.readFileSync(path.join(process.cwd(), "exalt.json")));
         } catch {
-            return null;
+            throw new Error("ERROR: This command can only be run inside an exalt project");
         }
     }
 
@@ -32,10 +32,7 @@ export class Config {
         const toolchainPath = (path.isAbsolute(toolchain)) ? toolchain : path.join(process.cwd(), "node_modules", toolchain);
 
         if (config.toolchain && fs.existsSync(toolchainPath)) {
-            return {
-                toolchain: import(require.resolve(toolchain, { path: [process.cwd()] })),
-                toolchainOptions: config.toolchainOptions || {}
-            };
+            return import(require.resolve(toolchain, { path: [process.cwd()] }));
         } else {
             return null;
         }
