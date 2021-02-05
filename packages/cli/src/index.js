@@ -1,4 +1,5 @@
 import { parseArguments } from "./utils/parser";
+import { logError } from "./utils/logging";
 import version from "./cmds/version";
 import help from "./cmds/help";
 import create from "./cmds/create";
@@ -20,4 +21,4 @@ const commands = {
 };
 
 if (commands[cmd]) commands[cmd](args);
-else console.error(`Unknown Command: ${cmd}`);
+else logError(`Unknown Command: ${cmd}`, true);

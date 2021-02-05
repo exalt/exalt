@@ -1,4 +1,5 @@
-import { FileSystem } from "../utils/file-system";
+import { createDirectory, deleteDirectory, copyTemplate } from "../utils/file-system";
+import { logError } from "../utils/logging";
 import { spawn, exec } from "child_process";
 import path from "path";
 import fs from "fs";
@@ -24,9 +25,9 @@ export class ProjectGenerator {
     async generate() {
         /* check if the project already exists */
         if (fs.existsSync(this.dest)) {
-            if (this.force) FileSystem.deleteDirectory(this.dest);
+            if (this.force) deleteDirectory(this.dest);
             else {
-                console.error(`ERROR: ${this.name} already exists!`);
+                logError(`${this.name} already exists!`);
                 return;
             }
         }
@@ -35,11 +36,11 @@ export class ProjectGenerator {
 
         /* Start copying template files to the destination */
         try {
-            FileSystem.createDirectory(this.dest);
-            FileSystem.copyTemplate(this.template, this.dest, { "project-name": this.name });
+            createDirectory(this.dest);
+            copyTemplate(this.template, this.dest, { "project-name": this.name });
         } catch (error) {
-            console.error("ERROR: Failed to create the project template.");
-            throw error;
+            logError(error.message);
+            return;
         }
 
         /* if the skip-install flag is not present, install the project dependencies */
@@ -49,9 +50,9 @@ export class ProjectGenerator {
             try {
                 await this.installDependencies();
             } catch (error) {
-                console.error("ERROR: Failed to install project dependencies!");
-                FileSystem.deleteDirectory(this.dest);
-                throw error;
+                logError(error.message);
+                deleteDirectory(this.dest);
+                return;
             }
         }
 
@@ -62,9 +63,8 @@ export class ProjectGenerator {
             try {
                 await this.intitializeGitRepository();
             } catch (error) {
-                console.error("ERROR: Failed to initialize the git repository!");
-                FileSystem.deleteDirectory(this.dest);
-                throw error;
+                logError(error.message);
+                deleteDirectory(this.dest);
             }
         }
 
@@ -83,7 +83,7 @@ export class ProjectGenerator {
 
             thread.on("close", (code) => {
                 if (code == 0) resolve();
-                else reject();
+                else reject(new Error("Failed to install project dependencies!"));
             });
         });
     }
@@ -97,7 +97,7 @@ export class ProjectGenerator {
 
             thread.on("close", (code) => {
                 if (code == 0) resolve();
-                else reject();
+                else reject(new Error("Failed to initialize the git repository!"));
             });
         });
     }
