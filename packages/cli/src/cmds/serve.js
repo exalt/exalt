@@ -1,14 +1,14 @@
 import { loadConfig, loadToolchain } from "../utils/config";
 import { logError } from "../utils/logging";
 
-/* build the project for production */
-export default async function build(args) {
+/* starts the application in development mode */
+export default async function serve(args) {
     try {
         const config = loadConfig();
         const toolchain = await loadToolchain(config);
         const toolchainOptions = Object.assign(toolchain.defaultOptions, config.toolchainOptions ?? {}, args);
 
-        toolchain.build(toolchainOptions);
+        toolchain.serve(toolchainOptions);
 
     } catch (error) {
         logError(error.message);

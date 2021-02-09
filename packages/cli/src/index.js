@@ -3,6 +3,8 @@ import { logError } from "./utils/logging";
 import version from "./cmds/version";
 import help from "./cmds/help";
 import create from "./cmds/create";
+import serve from "./cmds/serve";
+import start from "./cmds/start";
 import build from "./cmds/build";
 
 /* parse the cli arguments */
@@ -17,6 +19,8 @@ const commands = {
     "version": version,
     "help": help,
     "create": create,
+    "serve": serve,
+    "start": start,
     "build": build
 };
 
