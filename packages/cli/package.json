@@ -34,9 +34,9 @@
     "@babel/core": "^7.12.13",
     "@babel/eslint-parser": "^7.12.13",
     "@rollup/plugin-json": "^4.1.0",
-    "esbuild": "^0.8.41",
+    "esbuild": "^0.8.43",
     "eslint": "^7.19.0",
-    "rollup": "^2.38.4",
+    "rollup": "^2.38.5",
     "rollup-plugin-esbuild": "^2.6.1"
   }
 }
