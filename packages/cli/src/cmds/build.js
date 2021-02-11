@@ -6,7 +6,7 @@ export default async function build(args) {
     try {
         const config = loadConfig();
         const toolchain = await loadToolchain(config);
-        const toolchainOptions = Object.assign(toolchain.defaultOptions, config.toolchainOptions ?? {}, args);
+        const toolchainOptions = Object.assign(toolchain.defaultOptions, config, config.toolchainOptions ?? {}, args);
 
         toolchain.build(toolchainOptions);
 

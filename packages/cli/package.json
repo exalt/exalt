@@ -1,6 +1,9 @@
 {
   "name": "@exalt/cli",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "Exalt - The CLI tool for development",
   "bin": {
     "exalt": "dist/cli.js"

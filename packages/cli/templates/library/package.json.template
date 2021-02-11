@@ -2,8 +2,7 @@
     "name": "{{project-name}}",
     "version": "0.1.0",
     "description": "",
-    "main": "dist/index.cjs.js",
-    "module": "dist/index.esm.js",
+    "main": "dist/index.js",
     "scripts": {
         "build": "exalt build",
         "prepublishOnly": "npm run build"

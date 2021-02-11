@@ -35,7 +35,7 @@ export async function loadToolchain(config) {
 
     if (config.toolchain && fs.existsSync(toolchainPath)) {
         const toolchainModule = await import(require.resolve(toolchain, { paths: [process.cwd()] }));
-        const requiredKeys = ["defaultOptions", "serve", "start", "build"];
+        const requiredKeys = ["defaultOptions", /*"serve", "start",*/ "build"];
 
         /* validate the toolchain */
         for (let key of requiredKeys) {

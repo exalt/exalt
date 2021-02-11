@@ -1,0 +1,35 @@
+{
+    "env": {
+        "node": true,
+        "es2020": true
+    },
+    "extends": "eslint:recommended",
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "requireConfigFile": false
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double",
+            { "allowTemplateLiterals": true }
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}
