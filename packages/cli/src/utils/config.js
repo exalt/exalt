@@ -35,7 +35,7 @@ export async function loadToolchain(config) {
 
     if (config.toolchain && fs.existsSync(toolchainPath)) {
         const toolchainModule = await import(require.resolve(toolchain, { paths: [process.cwd()] }));
-        const requiredKeys = ["defaultOptions", /*"serve", "start",*/ "build"];
+        const requiredKeys = ["serve", "start", "build"];
 
         /* validate the toolchain */
         for (let key of requiredKeys) {
@@ -49,4 +49,20 @@ export async function loadToolchain(config) {
     } else {
         throw new Error("Unable to find the toolchain specified in exalt.json");
     }
+}
+
+/* load the options from the config */
+export function loadOptions(config) {
+    const configOptions = {
+        name: config.name,
+        input: config.input,
+        dest: (process.env.NODE_ENV == "production") ? "dist/app" : ".exalt/app"
+    };
+
+    const toolchainOptions = config.toolchainOptions ?? {};
+
+    return {
+        config: configOptions,
+        options: toolchainOptions
+    };
 }
