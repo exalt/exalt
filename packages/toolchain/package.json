@@ -39,7 +39,7 @@
         "rollup": "^2.38.5",
         "rollup-plugin-esbuild": "^2.6.1",
         "rollup-plugin-html-literals": "^1.1.2",
-        "rollup-plugin-import-css": "^1.1.7",
+        "rollup-plugin-import-css": "^2.0.0",
         "rollup-plugin-import-folder": "^1.0.2"
     }
 }

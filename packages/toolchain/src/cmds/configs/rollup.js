@@ -5,6 +5,7 @@ import folder from "rollup-plugin-import-folder";
 import css from "rollup-plugin-import-css";
 import template from "rollup-plugin-html-literals";
 import esbuild from "rollup-plugin-esbuild";
+import html from "@rollup/plugin-html";
 import path from "path";
 
 export default function getRollupConfig(options) {
@@ -18,6 +19,7 @@ export default function getRollupConfig(options) {
     const dest = (options.library) ? "dist" : ".exalt/app";
     const format = (options.library) ? "esm" : "iife";
 
+    /* parse the alias paths into the expected format */
     const getAliasPaths = (paths) => {
         if (!paths) return null;
 
@@ -46,25 +48,20 @@ export default function getRollupConfig(options) {
 
         /* import css */
         css({
-            output: `${dest}/index.css`,
+            output: "index.css",
             minify: options.minify
-        })
-    ];
+        }),
 
-    if (options.minify) {
-        plugins.push(
-            /* minify tagged template literals */
-            template({
-                options: {
-                    minifyOptions: {
-                        keepClosingSlash: true
-                    }
+        /* minify tagged template literals */
+        template({
+            options: {
+                shouldMinify: () => options.minify,
+                minifyOptions: {
+                    keepClosingSlash: true
                 }
-            })
-        );
-    }
+            }
+        }),
 
-    plugins.push(
         /* transpile and minify the source code */
         esbuild({
             target: options.target,
@@ -74,16 +71,25 @@ export default function getRollupConfig(options) {
             loaders: {
                 ".json": "json"
             }
-        })
-    );
-    
+        }),
+
+        /* if the project is not a library, generate the html files */
+        (() => {
+            if (!options.library) {
+                return html({
+                    title: options.name
+                });
+            }
+        })()
+    ];
+
     /* construct the config */
     const config = {
         input: options.input,
         plugins: plugins
     };
 
-    if(typeof options.input != "string") {
+    if (typeof options.input != "string") {
         config.output = { dir: dest, format: "esm" };
     } else {
         config.output = { file: `${dest}/index.js`, format: format, name: "bundle" };
