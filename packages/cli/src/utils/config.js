@@ -56,6 +56,7 @@ export function loadOptions(config) {
     const configOptions = {
         name: config.name,
         input: config.input,
+        format: "iife",
         dest: (process.env.NODE_ENV == "production") ? "dist/app" : ".exalt/app"
     };
 
