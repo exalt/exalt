@@ -1,13 +1,5 @@
-import build from "./cmds/build";
+/* export the cli hooks  */
+export function serve() { }
+export function start() { }
 
-const defaultOptions = {
-    library: false,
-    target: "es2015",
-    minify: false,
-    sourcemap: false,
-    define: {},
-    paths: {},
-    devServer: {}
-};
-
-export { defaultOptions, build };
+export { build } from "./cmds/build";

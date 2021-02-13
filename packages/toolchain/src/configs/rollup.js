@@ -7,17 +7,15 @@ import template from "rollup-plugin-html-literals";
 import esbuild from "rollup-plugin-esbuild";
 import html from "@rollup/plugin-html";
 import path from "path";
+import fs from "fs";
 
-export default function getRollupConfig(options) {
+export default function getRollupConfig({ config, options }) {
 
-    /* 
-        output path to place files in & format to compile for
-
-        NOTICE: these are going to be changing to be dynamic based on the platform
-        to compile for.
-    */
-    const dest = (options.library) ? "dist" : ".exalt/app";
-    const format = (options.library) ? "esm" : "iife";
+    /* override config options when building a library */
+    if (options.library) {
+        config.dest = "dist";
+        config.format = "esm";
+    }
 
     /* parse the alias paths into the expected format */
     const getAliasPaths = (paths) => {
@@ -31,6 +29,36 @@ export default function getRollupConfig(options) {
                 replacement: path.resolve(process.cwd(), paths[key])
             };
         });
+    };
+
+    const renderHTML = ({ files, publicPath, title }) => {
+        let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
+
+        const scripts = [];
+        const links = [];
+
+        for(let file of files.js) {
+            scripts.push(`<script src="${publicPath + file.fileName}"></script>`);
+        }
+
+        for(let file of files.css) {
+            links.push(`<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
+        }
+
+        const mapping = {
+            "title": title,
+            "links": links.join("\n"),
+            "scripts": scripts.join("\n")
+        };
+
+        const keys = Object.keys(mapping);
+
+        for (let key of keys) {
+            html = html.replace(new RegExp(`{{${key}}}`, "g"), mapping[key]);
+        }
+
+        return html;
+
     };
 
     const plugins = [
@@ -77,25 +105,25 @@ export default function getRollupConfig(options) {
         (() => {
             if (!options.library) {
                 return html({
-                    title: options.name
+                    title: config.name,
+                    publicPath: "./",
+                    template: renderHTML
                 });
             }
         })()
     ];
 
-    /* construct the config */
-    const config = {
-        input: options.input,
+    /* construct the rollup config */
+    const rollupConfig = {
+        input: config.input,
         plugins: plugins
     };
 
-    if (typeof options.input != "string") {
-        config.output = { dir: dest, format: "esm" };
-    } else {
-        config.output = { file: `${dest}/index.js`, format: format, name: "bundle" };
-    }
+    rollupConfig.output = (typeof config.input != "string")
+        ? { dir: config.dest, format: "esm" }
+        : { file: `${config.dest}/index.js`, format: config.format, name: "bundle" };
 
-    config.output.sourcemap = options.sourcemap;
+    rollupConfig.output.sourcemap = options.sourcemap;
 
-    return config;
+    return rollupConfig;
 }

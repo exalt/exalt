@@ -1,20 +1,23 @@
 import rollup from "rollup";
-import getRollupConfig from "./configs/rollup";
+import getRollupConfig from "../configs/rollup";
+import { productionOptions } from "../configs/default";
+import { color, logError } from "../utils/logging";
 
-export default async function build(options) {
-    const config = getRollupConfig(options);
+export async function build({ config, options }) {
+    const buildOptions = { ...productionOptions, ...options };
+    const rollupConfig = getRollupConfig({ config, options: buildOptions });
 
     try {
-        const bundle = await rollup.rollup(config);
-        await bundle.write(config.output);
-        console.log(`Successfully built ${options.name}`);
+        console.log(`${color.cyan}info${color.reset} - Creating an optimized production build...`);
+        const bundle = await rollup.rollup(rollupConfig);
+        await bundle.write(rollupConfig.output);
+        console.log(`${color.cyan}info${color.reset} - Compiled successfully`);
     } catch (error) {
-        console.log(error);
-        console.error(`\nExalt StackTrace: ${error.message}`);
+        logError(`\nExalt StackTrace: ${error.message}`);
         if (error.loc) {
-            console.error(`File: ${error.id}`);
-            console.error(`Line: ${error.loc.line}, Column: ${error.loc.column}`);
-            if (error.frame) { console.error(error.frame); }
+            logError(`File: ${error.id}`);
+            logError(`Line: ${error.loc.line}, Column: ${error.loc.column}`);
+            if (error.frame) { console.log(error.frame); }
         }
     }
 }
