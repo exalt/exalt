@@ -31,33 +31,38 @@ export default function getRollupConfig({ config, options }) {
         });
     };
 
+    /* render the html template */
     const renderHTML = ({ files, publicPath, title }) => {
-        let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
+        try {
+            let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
 
-        const scripts = [];
-        const links = [];
+            const scripts = [];
+            const links = [];
 
-        for(let file of files.js) {
-            scripts.push(`<script src="${publicPath + file.fileName}"></script>`);
+            for (let file of files.js) {
+                scripts.push(`<script src="${publicPath + file.fileName}"></script>`);
+            }
+
+            for (let file of files.css) {
+                links.push(`<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
+            }
+
+            const mapping = {
+                "title": title,
+                "links": links.join("\n"),
+                "scripts": scripts.join("\n")
+            };
+
+            const keys = Object.keys(mapping);
+
+            for (let key of keys) {
+                html = html.replace(new RegExp(`{{${key}}}`, "g"), mapping[key]);
+            }
+
+            return html;
+        } catch {
+            throw new Error(`Failed to find an index.html file in "public"`);
         }
-
-        for(let file of files.css) {
-            links.push(`<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
-        }
-
-        const mapping = {
-            "title": title,
-            "links": links.join("\n"),
-            "scripts": scripts.join("\n")
-        };
-
-        const keys = Object.keys(mapping);
-
-        for (let key of keys) {
-            html = html.replace(new RegExp(`{{${key}}}`, "g"), mapping[key]);
-        }
-
-        return html;
 
     };
 
@@ -95,7 +100,6 @@ export default function getRollupConfig({ config, options }) {
             target: options.target,
             minify: options.minify,
             sourceMap: options.sourcemap,
-            define: options.define,
             loaders: {
                 ".json": "json"
             }

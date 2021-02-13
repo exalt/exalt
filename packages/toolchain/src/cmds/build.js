@@ -2,6 +2,7 @@ import rollup from "rollup";
 import getRollupConfig from "../configs/rollup";
 import { productionOptions } from "../configs/default";
 import { color, logError } from "../utils/logging";
+import { copyAssets } from "../utils/file-system";
 
 export async function build({ config, options }) {
     const buildOptions = { ...productionOptions, ...options };
@@ -9,8 +10,15 @@ export async function build({ config, options }) {
 
     try {
         console.log(`${color.cyan}info${color.reset} - Creating an optimized production build...`);
+        
         const bundle = await rollup.rollup(rollupConfig);
         await bundle.write(rollupConfig.output);
+
+        if(!options.library) {
+            console.log(`${color.cyan}info${color.reset} - Copying assets...`);
+            copyAssets("public", config.dest);
+        }
+        
         console.log(`${color.cyan}info${color.reset} - Compiled successfully`);
     } catch (error) {
         logError(`\nExalt StackTrace: ${error.message}`);
