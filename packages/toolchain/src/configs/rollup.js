@@ -6,6 +6,9 @@ import css from "rollup-plugin-import-css";
 import template from "rollup-plugin-html-literals";
 import esbuild from "rollup-plugin-esbuild";
 import html from "@rollup/plugin-html";
+import serve from "rollup-plugin-serve";
+import livereload from "rollup-plugin-livereload";
+import { color } from "../utils/logging";
 import path from "path";
 import fs from "fs";
 
@@ -107,11 +110,39 @@ export default function getRollupConfig({ config, options }) {
 
         /* if the project is not a library, generate the html files */
         (() => {
+
             if (!options.library) {
                 return html({
                     title: config.name,
                     publicPath: "./",
                     template: renderHTML
+                });
+            }
+        })(),
+
+        /* if the project is not a library and we are in development mode, run the dev server */
+        (() => {
+            if (!options.library && process.env.NODE_ENV == "development") {
+                return serve({
+                    open: options.devServer.open,
+                    port: options.devServer.port,
+                    headers: options.devServer.headers,
+                    contentBase: config.dest,
+                    historyApiFallback: true,
+                    verbose: false,
+                    onListening: () => {
+                        console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${options.devServer.port}/${color.reset}`);
+                    }
+                });
+            }
+        })(),
+
+        /* if the project is not a library and we are in development mode, run the dev server */
+        (() => {
+            if (!options.library && process.env.NODE_ENV == "development") {
+                return livereload({
+                    watch: config.dest,
+                    verbose: false
                 });
             }
         })()

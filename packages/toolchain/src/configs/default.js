@@ -6,7 +6,11 @@ export const developmentOptions = {
     sourcemap: false,
     define: {},
     paths: {},
-    devServer: {}
+    devServer: {
+        open: true,
+        port: 3000,
+        headers: {}
+    }
 };
 
 /* production options */
@@ -17,5 +21,9 @@ export const productionOptions = {
     sourcemap: false,
     define: {},
     paths: {},
-    devServer: {}
+    devServer: {
+        open: false,
+        port: 3000,
+        headers: {}
+    }
 };

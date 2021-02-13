@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 /* copy assets to the build folder */
-export function copyAssets(src, dest, copyOnce = false) {
+export function copyAssets(src, dest) {
     const filesToCreate = fs.readdirSync(src);
 
     for (let file of filesToCreate) {
@@ -18,7 +18,7 @@ export function copyAssets(src, dest, copyOnce = false) {
             if (!fs.existsSync(newPath)) {
                 fs.mkdirSync(newPath, { recursive: true });
             }
-            copyAssets(originalPath, newPath, copyOnce);
+            copyAssets(originalPath, newPath);
         }
     }
 }
