@@ -38,6 +38,7 @@ importers:
       rollup-plugin-esbuild: ^2.6.1
   packages/toolchain:
     dependencies:
+      '@jolt/server': 5.1.4
       '@rollup/plugin-alias': 3.1.2_rollup@2.38.5
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.38.5
       '@rollup/plugin-html': 0.2.2_rollup@2.38.5
@@ -51,6 +52,7 @@ importers:
       rollup-plugin-livereload: 2.0.0
       rollup-plugin-serve: 1.1.0
     specifiers:
+      '@jolt/server': ^5.1.4
       '@rollup/plugin-alias': ^3.1.2
       '@rollup/plugin-commonjs': ^17.1.0
       '@rollup/plugin-html': ^0.2.2
@@ -257,6 +259,11 @@ packages:
       node: ^10.12.0 || >=12.0.0
     resolution:
       integrity: sha512-1JTKgrOKAHVivSvOYw+sJOunkBjUOvjqWk1DPja7ZFhIS2mX/4EgTT8M7eTK9jrKhL/FvXXEbQwIs3pg1xp3dg==
+  /@jolt/server/5.1.4:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-uGJ3Zoi2dJEIjWVGsG04PQIxJO86fSfyRcdiZmTIP7FsSJs1fhC4zi9NfSdMl7M+/9WmqyYq1ymWbQfzwrbhhQ==
   /@rollup/plugin-alias/3.1.2_rollup@2.38.5:
     dependencies:
       rollup: 2.38.5

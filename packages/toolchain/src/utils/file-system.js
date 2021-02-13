@@ -6,7 +6,7 @@ export function copyAssets(src, dest) {
     const filesToCreate = fs.readdirSync(src);
 
     for (let file of filesToCreate) {
-        if(file ==  "index.html") continue;
+        if(file.endsWith(".html")) continue;
 
         const originalPath = path.join(src, file);
         const newPath = path.join(dest, file);
