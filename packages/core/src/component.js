@@ -17,10 +17,6 @@ export class Component extends HTMLElement {
 
         this._observer = getAttributeObserver(this, this._requestUpdate(true));
         this._styles = styles.join("");
-        
-        /* get the component attributes */
-        this.attribs = getComponentAttributes(this);
-        this.state = Reactive.createReactiveObject({}, this._requestUpdate());
 
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
@@ -28,6 +24,11 @@ export class Component extends HTMLElement {
 
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
+        
+        /* get the component attributes */
+        this.attribs = getComponentAttributes(this);
+        this.state = Reactive.createReactiveObject(this.state ?? {}, this._requestUpdate());
+
         render(this.render(this.attribs), this._styles, this.root);
         this.mount();
     }
