@@ -64,7 +64,7 @@ export default function getRollupConfig({ config, options }) {
 
             return html;
         } catch {
-            throw new Error(`Failed to find an index.html file in "public"`);
+            throw new Error(`Failed to find an index.html file in the "public" directory`);
         }
 
     };
@@ -114,7 +114,7 @@ export default function getRollupConfig({ config, options }) {
             if (!options.library) {
                 return html({
                     title: config.name,
-                    publicPath: "./",
+                    publicPath: "/",
                     template: renderHTML
                 });
             }
