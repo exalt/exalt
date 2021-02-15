@@ -1,23 +1,23 @@
 importers:
   .:
     devDependencies:
-      pnpm: 5.17.1
+      pnpm: 5.17.2
     specifiers:
-      pnpm: ^5.17.1
+      pnpm: ^5.17.2
   packages/cli:
     devDependencies:
       '@babel/core': 7.12.16
       '@babel/eslint-parser': 7.12.16_442e1696da38772be2d58fc500f0ec59
       '@rollup/plugin-json': 4.1.0_rollup@2.39.0
-      esbuild: 0.8.45
+      esbuild: 0.8.46
       eslint: 7.20.0
       rollup: 2.39.0
-      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.45+rollup@2.39.0
+      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.46+rollup@2.39.0
     specifiers:
       '@babel/core': ^7.12.16
       '@babel/eslint-parser': ^7.12.16
       '@rollup/plugin-json': ^4.1.0
-      esbuild: ^0.8.45
+      esbuild: ^0.8.46
       eslint: ^7.20.0
       rollup: ^2.39.0
       rollup-plugin-esbuild: ^2.6.1
@@ -25,39 +25,39 @@ importers:
     devDependencies:
       '@babel/core': 7.12.16
       '@babel/eslint-parser': 7.12.16_442e1696da38772be2d58fc500f0ec59
-      esbuild: 0.8.45
+      esbuild: 0.8.46
       eslint: 7.20.0
       rollup: 2.39.0
-      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.45+rollup@2.39.0
+      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.46+rollup@2.39.0
     specifiers:
       '@babel/core': ^7.12.16
       '@babel/eslint-parser': ^7.12.16
-      esbuild: ^0.8.45
+      esbuild: ^0.8.46
       eslint: ^7.20.0
       rollup: ^2.39.0
       rollup-plugin-esbuild: ^2.6.1
   packages/toolchain:
     dependencies:
-      '@jolt/server': 5.1.4
       '@rollup/plugin-alias': 3.1.2_rollup@2.39.0
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.39.0
-      '@rollup/plugin-html': 0.2.2_rollup@2.39.0
-      '@rollup/plugin-node-resolve': 11.1.1_rollup@2.39.0
-      esbuild: 0.8.45
+      '@rollup/plugin-html': 0.2.3_rollup@2.39.0
+      '@rollup/plugin-node-resolve': 11.2.0_rollup@2.39.0
+      app-serve: 0.1.1
+      esbuild: 0.8.46
       rollup: 2.39.0
-      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.45+rollup@2.39.0
+      rollup-plugin-esbuild: 2.6.1_esbuild@0.8.46+rollup@2.39.0
       rollup-plugin-html-literals: 1.1.2_rollup@2.39.0
       rollup-plugin-import-css: 2.0.0_rollup@2.39.0
       rollup-plugin-import-folder: 1.0.2_rollup@2.39.0
       rollup-plugin-livereload: 2.0.0
       rollup-plugin-serve: 1.1.0
     specifiers:
-      '@jolt/server': ^5.1.4
       '@rollup/plugin-alias': ^3.1.2
       '@rollup/plugin-commonjs': ^17.1.0
-      '@rollup/plugin-html': ^0.2.2
-      '@rollup/plugin-node-resolve': ^11.1.1
-      esbuild: ^0.8.45
+      '@rollup/plugin-html': ^0.2.3
+      '@rollup/plugin-node-resolve': ^11.2.0
+      app-serve: ^0.1.1
+      esbuild: ^0.8.46
       rollup: ^2.39.0
       rollup-plugin-esbuild: ^2.6.1
       rollup-plugin-html-literals: ^1.1.2
@@ -265,11 +265,6 @@ packages:
       node: ^10.12.0 || >=12.0.0
     resolution:
       integrity: sha512-1JTKgrOKAHVivSvOYw+sJOunkBjUOvjqWk1DPja7ZFhIS2mX/4EgTT8M7eTK9jrKhL/FvXXEbQwIs3pg1xp3dg==
-  /@jolt/server/5.1.4:
-    dev: false
-    hasBin: true
-    resolution:
-      integrity: sha512-uGJ3Zoi2dJEIjWVGsG04PQIxJO86fSfyRcdiZmTIP7FsSJs1fhC4zi9NfSdMl7M+/9WmqyYq1ymWbQfzwrbhhQ==
   /@rollup/plugin-alias/3.1.2_rollup@2.39.0:
     dependencies:
       rollup: 2.39.0
@@ -298,7 +293,7 @@ packages:
       rollup: ^2.30.0
     resolution:
       integrity: sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew==
-  /@rollup/plugin-html/0.2.2_rollup@2.39.0:
+  /@rollup/plugin-html/0.2.3_rollup@2.39.0:
     dependencies:
       rollup: 2.39.0
     dev: false
@@ -307,7 +302,7 @@ packages:
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
     resolution:
-      integrity: sha512-qOBjZQ1v0vneKe7ES0K74NNY/yzCMPkUz5Hg/AyLR/fc8HVuAx+G9dmzUJoDg0Zfh6s5M4U0MCpU3jbUi+csTw==
+      integrity: sha512-efx8Ud1FWaHmj3Es5parp6uRt1DPyKq9A8t1GEZoNsYB4UTQQIL8PsjxcJOlH+P3QKRsSv1rIJhiMvuG4+kfwg==
   /@rollup/plugin-json/4.1.0_rollup@2.39.0:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.39.0
@@ -317,7 +312,7 @@ packages:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
       integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==
-  /@rollup/plugin-node-resolve/11.1.1_rollup@2.39.0:
+  /@rollup/plugin-node-resolve/11.2.0_rollup@2.39.0:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.39.0
       '@types/resolve': 1.17.1
@@ -332,7 +327,7 @@ packages:
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
     resolution:
-      integrity: sha512-zlBXR4eRS+2m79TsUZWhsd0slrHUYdRx4JF+aVQm+MI0wsKdlpC2vlDVjmlGvtZY1vsefOT9w3JxvmWSBei+Lg==
+      integrity: sha512-qHjNIKYt5pCcn+5RUBQxK8krhRvf1HnyVgUCcFFcweDS7fhkOLZeYh0mhHK6Ery8/bb9tvN/ubPzmfF0qjDCTA==
   /@rollup/pluginutils/3.1.0_rollup@2.39.0:
     dependencies:
       '@types/estree': 0.0.39
@@ -358,7 +353,7 @@ packages:
       integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==
   /@types/clean-css/4.2.3:
     dependencies:
-      '@types/node': 14.14.27
+      '@types/node': 14.14.28
       source-map: 0.6.1
     dev: false
     resolution:
@@ -378,17 +373,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-j1P/4PcWVVCPEy5lofcHnQ6BtXz9tHGiFPWzqm7TtGuWZEfCHEP446HlkSNc9fQgNJaJZ6ewPtp2aaFla/Uerg==
-  /@types/node/14.14.27:
+  /@types/node/14.14.28:
     dev: false
     resolution:
-      integrity: sha512-Ecfmo4YDQPwuqTCl1yBxLV5ihKfRlkBmzUEDcfIRvDxOTGQEeikr317Ln7Gcv0tjA8dVgKI3rniqW2G1OyKDng==
+      integrity: sha512-lg55ArB+ZiHHbBBttLpzD07akz0QPrZgUODNakeC09i62dnrywr9mFErHuaPlB6I7z+sEbK+IYmplahvplCj2g==
   /@types/relateurl/0.2.28:
     dev: false
     resolution:
       integrity: sha1-a9p9uGU/piZD9e5p6facEaOS46Y=
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 14.14.27
+      '@types/node': 14.14.28
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -468,6 +463,12 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-mM8522psRCqzV+6LhomX5wgp25YVibjh8Wj23I5RPkPppSVSjyKD2A2mBJmWGa+KN7f2D6LNh9jkBCeyLktzjg==
+  /app-serve/0.1.1:
+    dependencies:
+      mime: 2.5.0
+    dev: false
+    resolution:
+      integrity: sha512-NMdfptD8xwjYNCIn/sj4KwEk98RMuAaBT5XxevJFz0JRcDRRYcNPY7YbMeIntYNsVji26RdSl9KHNRF4CillOg==
   /argparse/1.0.10:
     dependencies:
       sprintf-js: 1.0.3
@@ -661,11 +662,11 @@ packages:
       node: '>=8.6'
     resolution:
       integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
-  /esbuild/0.8.45:
+  /esbuild/0.8.46:
     hasBin: true
     requiresBuild: true
     resolution:
-      integrity: sha512-AhR+h/Kat9QMssi0rSJIei0yR+dJ0DQ5aDqnZy4VLu9kOBHdJh8vDSE2XzUlwnm4umvMFnfQTELZlsH7Zmvksw==
+      integrity: sha512-xck9sXNCNmjDHCCfxTCyhKTiFuEBweh+IDAhMLOJI990v1Fzii6MyIkT1LbkvjgoVgPX2SK1kpi5eZVGNrl8yg==
   /escape-string-regexp/1.0.5:
     dev: true
     engines:
@@ -1236,13 +1237,13 @@ packages:
       node: '>=8.6'
     resolution:
       integrity: sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
-  /pnpm/5.17.1:
+  /pnpm/5.17.2:
     dev: true
     engines:
       node: '>=10.16'
     hasBin: true
     resolution:
-      integrity: sha512-jSQZCzWyf3tZSANyWnA/errzlnomqrZQO11yvURLxkLDyJvzi5D1equahjJXyT/ubd7S2iJb8dlkHvqR5ORb3w==
+      integrity: sha512-X0WEumozKhlYZObL1E+Nmi67f+ZMS+fbpE6vAymlazT2lx0B+Agw9iJsdd//tjAqIzxcsxxgZScx0EIPc42Ulw==
   /prelude-ls/1.2.1:
     dev: true
     engines:
@@ -1307,10 +1308,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
-  /rollup-plugin-esbuild/2.6.1_esbuild@0.8.45+rollup@2.39.0:
+  /rollup-plugin-esbuild/2.6.1_esbuild@0.8.46+rollup@2.39.0:
     dependencies:
       '@rollup/pluginutils': 4.1.0_rollup@2.39.0
-      esbuild: 0.8.45
+      esbuild: 0.8.46
       joycon: 2.2.5
       strip-json-comments: 3.1.1
     engines:
