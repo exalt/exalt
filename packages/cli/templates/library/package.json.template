@@ -14,10 +14,10 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@exalt/cli": "^0.1.0",
-        "@exalt/toolchain": "^0.1.0"
+        "@exalt/cli": "^0.0.1",
+        "@exalt/toolchain": "^0.0.1"
     },
     "peerDependencies": {
-        "@exalt/core": "^0.1.0"
+        "@exalt/core": "^0.0.1"
     }
 }
