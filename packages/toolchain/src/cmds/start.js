@@ -1,10 +1,12 @@
 import serve from "app-serve";
-import { productionOptions } from "../configs/default";
+import { defaultOptions } from "../configs/default";
 import { color, logError } from "../utils/logging";
 import fs from "fs";
 
 export function start({ config, options }) {
-    if (options.library) {
+    const buildOptions = { ...defaultOptions, ...options };
+
+    if (buildOptions.library) {
         logError("The start command does not support libraries");
         return;
     }
@@ -14,17 +16,15 @@ export function start({ config, options }) {
         return;
     }
 
-    const serverOptions = { ...productionOptions, ...options };
-
     try {
         serve({
-            port: serverOptions.devServer.port,
-            headers: serverOptions.devServer.headers,
+            port: buildOptions.devServer.port,
+            headers: buildOptions.devServer.headers,
             contentBase: config.dest,
             historyApiFallback: true,
             verbose: false,
             onListening: () => {
-                console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${serverOptions.devServer.port}/${color.reset}`);
+                console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${buildOptions.devServer.port}/${color.reset}`);
             }
         });
     } catch (error) {

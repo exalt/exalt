@@ -1,28 +1,13 @@
-/* development options */
-export const developmentOptions = {
+/* default options */
+export const defaultOptions = {
     library: false,
     target: "es2015",
-    minify: false,
+    minify: (process.env.NODE_ENV == "production") ? true : false,
     sourcemap: false,
     define: {},
     paths: {},
     devServer: {
-        open: true,
-        port: 3000,
-        headers: {}
-    }
-};
-
-/* production options */
-export const productionOptions = {
-    library: false,
-    target: "es2015",
-    minify: true,
-    sourcemap: false,
-    define: {},
-    paths: {},
-    devServer: {
-        open: false,
+        open: (process.env.NODE_ENV == "development") ? true : false,
         port: 3000,
         headers: {}
     }

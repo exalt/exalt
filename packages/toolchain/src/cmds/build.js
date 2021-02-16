@@ -1,11 +1,11 @@
 import rollup from "rollup";
 import getRollupConfig from "../configs/rollup";
-import { productionOptions } from "../configs/default";
+import { defaultOptions } from "../configs/default";
 import { color, logError } from "../utils/logging";
 import { copyAssets } from "../utils/file-system";
 
 export async function build({ config, options }) {
-    const buildOptions = { ...productionOptions, ...options };
+    const buildOptions = { ...defaultOptions, ...options };
     const rollupConfig = getRollupConfig({ config, options: buildOptions });
 
     try {
@@ -21,6 +21,7 @@ export async function build({ config, options }) {
         
         console.log(`${color.cyan}info${color.reset} - Compiled successfully`);
     } catch (error) {
+        
         logError(`\nExalt StackTrace: ${error.message}`);
         if (error.loc) {
             logError(`File: ${error.id}`);

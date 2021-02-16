@@ -1,16 +1,16 @@
 import rollup from "rollup";
 import getRollupConfig from "../configs/rollup";
-import { developmentOptions } from "../configs/default";
+import { defaultOptions } from "../configs/default";
 import { color, logError, logWarning } from "../utils/logging";
 import { copyAssets } from "../utils/file-system";
 
 export async function serve({ config, options }) {
     if(options.library) {
-        logError("The serve command does not support libraries");
+        logError("the serve command does not support libraries");
         return;
     }
     
-    const buildOptions = { ...developmentOptions, ...options };
+    const buildOptions = { ...defaultOptions, ...options };
     const rollupConfig = getRollupConfig({ config, options: buildOptions });
     rollupConfig.watch = { exclude: ["node_modules/**"] };
 

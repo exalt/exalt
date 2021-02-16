@@ -106,24 +106,25 @@ export default function getRollupConfig({ config, options }) {
             loaders: {
                 ".json": "json"
             }
-        }),
+        })
+    ];
 
-        /* if the project is not a library, generate the html files */
-        (() => {
+    /* if the project is not a library add app specific plugins */
+    if (!options.library) {
 
-            if (!options.library) {
-                return html({
-                    title: config.name,
-                    publicPath: "/",
-                    template: renderHTML
-                });
-            }
-        })(),
+        /* generate the html files */
+        plugins.push(
+            html({
+                title: config.name,
+                publicPath: "/",
+                template: renderHTML
+            })
+        );
 
-        /* if the project is not a library and we are in development mode, run the dev server */
-        (() => {
-            if (!options.library && process.env.NODE_ENV == "development") {
-                return serve({
+        /* if we are in a development environment, run the development server */
+        if (process.env.NODE_ENV == "development") {
+            plugins.push(
+                serve({
                     open: options.devServer.open,
                     port: options.devServer.port,
                     headers: options.devServer.headers,
@@ -133,20 +134,14 @@ export default function getRollupConfig({ config, options }) {
                     onListening: () => {
                         console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${options.devServer.port}/${color.reset}`);
                     }
-                });
-            }
-        })(),
-
-        /* if the project is not a library and we are in development mode, run the dev server */
-        (() => {
-            if (!options.library && process.env.NODE_ENV == "development") {
-                return livereload({
+                }),
+                livereload({
                     watch: config.dest,
                     verbose: false
-                });
-            }
-        })()
-    ];
+                })
+            );
+        }
+    }
 
     /* construct the rollup config */
     const rollupConfig = {
