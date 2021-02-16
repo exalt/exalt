@@ -57,7 +57,7 @@ export function loadOptions(config) {
         name: config.name,
         input: config.input,
         format: "iife", /* will be dynamically changed by the platform api */
-        dest: (process.env.NODE_ENV == "production") ? ".exalt/dist/app" : ".exalt/app" /* will be dynamically changed by the platform api */
+        dest: (process.env.NODE_ENV == "production") ? "dist/app" : ".exalt/app" /* will be dynamically changed by the platform api */
     };
 
     const toolchainOptions = config.toolchainOptions ?? {};

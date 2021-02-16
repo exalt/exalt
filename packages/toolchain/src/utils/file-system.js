@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-/* copy assets to another folder */
-export function copyAssets(src, dest) {
+/* copy folder to another folder */
+export function copyFolder(src, dest) {
     const filesToCreate = fs.readdirSync(src);
 
     for (let file of filesToCreate) {
@@ -18,11 +18,9 @@ export function copyAssets(src, dest) {
             if (!fs.existsSync(newPath)) {
                 fs.mkdirSync(newPath, { recursive: true });
             }
-            copyAssets(originalPath, newPath);
+            copyFolder(originalPath, newPath);
         }
     }
-
-    copyFile("exalt.json", ".exalt", { "exalt.json": "cache.json" });
 }
 
 /* copy files to another folder */
@@ -35,4 +33,14 @@ export function copyFile(file, dest, filter = {}) {
     if (stats.isFile()) {
         fs.writeFileSync(path.join(dest, newFile), fs.readFileSync(file));
     }
+}
+
+/* copy the project assets to the build directory */
+export function copyAssets(src, dest) {
+    copyFolder(src, dest);
+
+    const fragments = dest.split("/");
+    fragments.pop();
+    
+    copyFile("exalt.json", fragments.join("/"));
 }
