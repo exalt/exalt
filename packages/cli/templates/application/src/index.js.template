@@ -10,4 +10,4 @@ export class App extends Component {
     }
 }
 
-Component.create({ name: "app-root", useShadow: false }, App);
+Component.create({ name: "app-root" }, App);
