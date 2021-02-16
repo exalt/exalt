@@ -1,10 +1,11 @@
 {
     "name": "@exalt/toolchain",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publishConfig": {
         "access": "public"
     },
     "description": "Exalt - The build toolchain",
+    "main": "dist/toolchain.js",
     "scripts": {
         "build": "rollup -c",
         "lint": "eslint src",
