@@ -55,7 +55,6 @@ export class Reactive {
                 target[key] = value;
                 callback(key, value);
                 return true;
-
             }
         });
     }

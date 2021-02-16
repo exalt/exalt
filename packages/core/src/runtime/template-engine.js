@@ -36,7 +36,7 @@ export class TemplateEngine {
             else {
                 return template + string + value;
             }
-        }, "").replace(/<([a-z]+-?(?:[a-z]+)?)([^/>]*)\/>/g, "<$1$2></$1>");
+        }, "").replace(/<([a-z]+-[a-z]+)([^/>]*)\/>/g, "<$1$2></$1>");
 
         return { source, events };
     }
