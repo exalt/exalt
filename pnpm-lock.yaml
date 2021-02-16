@@ -42,7 +42,7 @@ importers:
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.39.0
       '@rollup/plugin-html': 0.2.3_rollup@2.39.0
       '@rollup/plugin-node-resolve': 11.2.0_rollup@2.39.0
-      app-serve: 0.1.1
+      app-serve: 0.1.2
       esbuild: 0.8.46
       rollup: 2.39.0
       rollup-plugin-esbuild: 2.6.1_esbuild@0.8.46+rollup@2.39.0
@@ -56,7 +56,7 @@ importers:
       '@rollup/plugin-commonjs': ^17.1.0
       '@rollup/plugin-html': ^0.2.3
       '@rollup/plugin-node-resolve': ^11.2.0
-      app-serve: ^0.1.1
+      app-serve: ^0.1.2
       esbuild: ^0.8.46
       rollup: ^2.39.0
       rollup-plugin-esbuild: ^2.6.1
@@ -463,12 +463,12 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-mM8522psRCqzV+6LhomX5wgp25YVibjh8Wj23I5RPkPppSVSjyKD2A2mBJmWGa+KN7f2D6LNh9jkBCeyLktzjg==
-  /app-serve/0.1.1:
+  /app-serve/0.1.2:
     dependencies:
       mime: 2.5.0
     dev: false
     resolution:
-      integrity: sha512-NMdfptD8xwjYNCIn/sj4KwEk98RMuAaBT5XxevJFz0JRcDRRYcNPY7YbMeIntYNsVji26RdSl9KHNRF4CillOg==
+      integrity: sha512-sCqte8tAN+8TAX8SDbpGq//DSkwBUp3MA+hErXmlGMtvqyDuy19mQNIqdHapYf0R6W9j1rgvR2NTTijvlyjhGA==
   /argparse/1.0.10:
     dependencies:
       sprintf-js: 1.0.3
