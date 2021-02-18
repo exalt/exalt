@@ -12,13 +12,22 @@ export class ProjectGenerator {
         this.dest = path.join(process.cwd(), options.getOption("dest", "d", "."), this.name);
         this.library = options.getOption("library", "l", false);
 
+        this.force = options.getOption("force", "f", false);
+        this.skipInstall = options.getOption("skip-install", null, false);
+        this.skipGit = options.getOption("skip-git", null, false);
+
         this.template = (this.library)
             ? path.join(__dirname, "../templates/library")
             : path.join(__dirname, "../templates/application");
 
-        this.force = options.getOption("force", "f", false);
-        this.skipInstall = options.getOption("skip-install", null, false);
-        this.skipGit = options.getOption("skip-git", null, false);
+        this.devDependencies = [
+            "@exalt/toolchain@0.1.x",
+            "@exalt/cli@0.1.x"
+        ];
+
+        this.dependencies = [
+            "@exalt/core@0.1.x"
+        ];
     }
 
     /* generate the project */
@@ -49,6 +58,7 @@ export class ProjectGenerator {
 
             try {
                 await this.installDependencies();
+                await this.installDevDependencies();
             } catch (error) {
                 logError(error.message);
                 deleteDirectory(this.dest);
@@ -76,7 +86,24 @@ export class ProjectGenerator {
         return new Promise((resolve, reject) => {
             const npm = /^win/.test(process.platform) ? "npm.cmd" : "npm";
 
-            const thread = spawn(npm, ["install"], {
+            const thread = spawn(npm, ["install", "--save"].concat(this.dependencies), {
+                cwd: this.dest,
+                stdio: ["ignore", 1, 2]
+            });
+
+            thread.on("close", (code) => {
+                if (code == 0) resolve();
+                else reject(new Error("Failed to install project dependencies!"));
+            });
+        });
+    }
+
+    /* install project devDependencies */
+    installDevDependencies() {
+        return new Promise((resolve, reject) => {
+            const npm = /^win/.test(process.platform) ? "npm.cmd" : "npm";
+
+            const thread = spawn(npm, ["install", "--save-dev"].concat(this.devDependencies), {
                 cwd: this.dest,
                 stdio: ["ignore", 1, 2]
             });

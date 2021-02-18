@@ -6,12 +6,5 @@
         "dev": "exalt serve",
         "build": "exalt build",
         "start": "exalt start"
-    },
-    "dependencies": {
-        "@exalt/core": "^0.1.0"
-    },
-    "devDependencies": {
-        "@exalt/cli": "^0.1.0",
-        "@exalt/toolchain": "^0.1.0"
     }
 }
