@@ -25,7 +25,7 @@ export class TemplateEngine {
                 let source = "";
 
                 for (let fragment of value) {
-                    events.conact(fragment.events);
+                    events.concat(fragment.events);
                     source += fragment.source;
                 }
 

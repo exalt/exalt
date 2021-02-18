@@ -24,8 +24,8 @@ export class Reconciler {
         else {
             Reconciler.diff(newNode, oldNode);
 
-            /* if the element is a component, we dontt need to diff its children */
-            if (!Reconciler.isComponent(newNode)) {
+            /* if the node has children and not a shadow root, diff them */
+            if (!newNode.shadowRoot && newNode.childNodes.length > 0) {
                 Reconciler.diffChildren(newNode, oldNode);
             }
 
@@ -242,6 +242,8 @@ export class Reconciler {
 
     /* determine if a node is a component */
     static isComponent(node) {
-        return (node.tagName && node.tagName.includes("-"));
+        return (
+            node.tagName && node.tagName.includes("-")
+        );
     }
 }
