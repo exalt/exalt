@@ -72,7 +72,9 @@ export default function getRollupConfig({ config, options }) {
 
     const plugins = [
         /* resolve modules from node_modules */
-        resolve(),
+        resolve({
+            mainFields: ["browser", "module", "main"]
+        }),
 
         /* import commonjs modules as es modules */
         commonjs(),
