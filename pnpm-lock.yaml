@@ -41,6 +41,7 @@ importers:
       '@rollup/plugin-alias': 3.1.2_rollup@2.39.0
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.39.0
       '@rollup/plugin-html': 0.2.3_rollup@2.39.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.39.0
       '@rollup/plugin-node-resolve': 11.2.0_rollup@2.39.0
       app-serve: 0.1.2
       esbuild: 0.8.46
@@ -55,6 +56,7 @@ importers:
       '@rollup/plugin-alias': ^3.1.2
       '@rollup/plugin-commonjs': ^17.1.0
       '@rollup/plugin-html': ^0.2.3
+      '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^11.2.0
       app-serve: ^0.1.2
       esbuild: ^0.8.46
@@ -307,7 +309,6 @@ packages:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.39.0
       rollup: 2.39.0
-    dev: true
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:

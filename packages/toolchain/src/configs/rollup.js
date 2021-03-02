@@ -1,5 +1,6 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import alias from "@rollup/plugin-alias";
 import folder from "rollup-plugin-import-folder";
 import css from "rollup-plugin-import-css";
@@ -75,6 +76,9 @@ export default function getRollupConfig({ config, options }) {
 
         /* import commonjs modules as es modules */
         commonjs(),
+
+        /* import json files as es modules */
+        json(),
 
         /* map aliases to relative file paths */
         alias({ entries: getAliasPaths(options.paths) }),
