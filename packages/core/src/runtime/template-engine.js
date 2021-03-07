@@ -14,6 +14,11 @@ export class TemplateEngine {
                 return template + string + "{{e}}";
             }
 
+            /* if the string is an attribute without quotes, add the quotes to the attribute binding */
+            else if (string.match(/ [a-z]*=$/)) {
+                return template + string + `"${value}"`;
+            }
+
             /* if the value is a template, merge it with this template */
             else if (TemplateEngine.isTemplate(value)) {
                 events.concat(value.events);
