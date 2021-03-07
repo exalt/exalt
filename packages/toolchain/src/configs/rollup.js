@@ -47,8 +47,10 @@ export default function getRollupConfig({ config, options }) {
                 scripts.push(`<script src="${publicPath + file.fileName}"></script>`);
             }
 
-            for (let file of files.css) {
-                links.push(`<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
+            if(files.css) {
+                for (let file of files.css) {
+                    links.push(`<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
+                }
             }
 
             const mapping = {
