@@ -37,6 +37,7 @@ declare abstract class Component<A, S extends State> extends HTMLElement {
     private disconnectedCallback(): void;
     private _requestUpdate(updateAttribs?: boolean): UpdateCallback;
 
+    createRef(): HTMLElement | null;
     useContext(context: object): void;
 
     abstract render(attribs?: A): Template | void;

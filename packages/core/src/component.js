@@ -17,6 +17,7 @@ export class Component extends HTMLElement {
 
         this._observer = getAttributeObserver(this, this._requestUpdate(true));
         this._styles = styles.join("");
+        this._refCount = 0;
 
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
@@ -31,6 +32,13 @@ export class Component extends HTMLElement {
 
         /* render the component */
         render(this.render(this.attribs), this._styles, this.root);
+
+        /* collect all the refs */
+        this.root.querySelectorAll("[ref]").forEach((node) => {
+            this[node.getAttribute("ref")] = node;
+            node.removeAttribute("ref");
+        });
+
         this.mount();
     }
 
@@ -49,6 +57,12 @@ export class Component extends HTMLElement {
                 this.onUpdate(key, value);
             }
         };
+    }
+
+    /* create a reference to a node in the template */
+    createRef() {
+        this._refCount++;
+        return null;
     }
 
     /* subscribe to a state context */

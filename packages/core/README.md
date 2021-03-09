@@ -143,6 +143,34 @@ the component would be available as:
 <say-hello name="John Doe" />
 ```
 
+### Working with DOM elements
+
+Sometimes you may need to access a dom element from the template. Because Exalt renders directly to the real dom,
+you can simply use normal dom manipulation methods. Alternatively Exalt offers a ref api to help clean up your dom manipulation code.
+
+Simply use the components `createRef` method and then give an element the corresponding ref attribute name.
+
+**Example:**
+```js
+import { Component, html } from "@exalt/core";
+
+export class HelloWorld extends Component {
+
+    header = super.createRef();
+
+    render() {
+        return html`
+            <h1 ref="header">Hello World!</h1>
+        `;
+    }
+
+    mount() {
+        this.header.innerHTML = "Goodbye World!";
+    }
+}
+
+Component.create({ name: "hello-world" }, HelloWorld);
+```
 ---
 
 ## Templates
