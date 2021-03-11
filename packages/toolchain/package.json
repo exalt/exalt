@@ -46,5 +46,10 @@
         "rollup-plugin-import-folder": "^1.0.2",
         "rollup-plugin-livereload": "^2.0.0",
         "rollup-plugin-serve": "^1.1.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.13.10",
+        "@babel/eslint-parser": "^7.13.10",
+        "eslint": "^7.21.0"
     }
 }

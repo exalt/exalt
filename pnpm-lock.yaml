@@ -52,7 +52,13 @@ importers:
       rollup-plugin-import-folder: 1.0.2_rollup@2.41.1
       rollup-plugin-livereload: 2.0.0
       rollup-plugin-serve: 1.1.0
+    devDependencies:
+      '@babel/core': 7.13.10
+      '@babel/eslint-parser': 7.13.10_a947faa3ff7c013f5c2dc3fbd09e9947
+      eslint: 7.21.0
     specifiers:
+      '@babel/core': ^7.13.10
+      '@babel/eslint-parser': ^7.13.10
       '@rollup/plugin-alias': ^3.1.2
       '@rollup/plugin-commonjs': ^17.1.0
       '@rollup/plugin-html': ^0.2.3
@@ -60,6 +66,7 @@ importers:
       '@rollup/plugin-node-resolve': ^11.2.0
       app-serve: ^0.1.2
       esbuild: ^0.8.57
+      eslint: ^7.21.0
       rollup: ^2.41.1
       rollup-plugin-esbuild: ^2.6.1
       rollup-plugin-html-literals: ^1.1.2
