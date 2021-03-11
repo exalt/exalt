@@ -29,7 +29,7 @@ export class Component extends HTMLElement {
         /* get the component attributes */
         this.attribs = getComponentAttributes(this);
         if(this.state) {
-            this.state = Reactive.createReactiveObject(this.state ?? {}, this._requestUpdate());
+            this.state = Reactive.createReactiveObject(this.state, this._requestUpdate());
         }
 
         /* render the component */
