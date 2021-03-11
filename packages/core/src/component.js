@@ -28,16 +28,20 @@ export class Component extends HTMLElement {
         
         /* get the component attributes */
         this.attribs = getComponentAttributes(this);
-        this.state = Reactive.createReactiveObject(this.state ?? {}, this._requestUpdate());
+        if(this.state) {
+            this.state = Reactive.createReactiveObject(this.state ?? {}, this._requestUpdate());
+        }
 
         /* render the component */
         render(this.render(this.attribs), this._styles, this.root);
 
         /* collect all the refs */
-        this.root.querySelectorAll("[ref]").forEach((node) => {
-            this[node.getAttribute("ref")] = node;
-            node.removeAttribute("ref");
-        });
+        if(this._refCount > 0) {
+            this.root.querySelectorAll("[ref]").forEach((node) => {
+                this[node.getAttribute("ref")] = node;
+                node.removeAttribute("ref");
+            });
+        }
 
         this.mount();
     }
