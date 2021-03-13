@@ -3,7 +3,7 @@ export class TemplateEngine {
 
     /* create a template object */
     static createTemplate(strings, values) {
-        const events = [];
+        let events = [];
 
         let source = strings.reduce((template, string, index) => {
             const value = values[index] ?? "";
@@ -21,7 +21,7 @@ export class TemplateEngine {
 
             /* if the value is a template, merge it with this template */
             else if (TemplateEngine.isTemplate(value)) {
-                events.concat(value.events);
+                events = events.concat(value.events);
                 return template + string + value.source;
             }
 
@@ -30,8 +30,19 @@ export class TemplateEngine {
                 let source = "";
 
                 for (let fragment of value) {
-                    events.concat(fragment.events);
+                    events = events.concat(fragment.events);
                     source += fragment.source;
+                }
+
+                return template + string + source;
+            }
+
+            /* if the value is an array, iterate through it and append it to the template */
+            else if (Array.isArray(value)) {
+                let source = "";
+
+                for (let item of value) {
+                    source += item;
                 }
 
                 return template + string + source;
