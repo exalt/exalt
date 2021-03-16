@@ -1,10 +1,5 @@
-import { Reactive } from "./reactive";
-import {
-    getComponentAttributes,
-    getAttributeObserver,
-    getComponentOptions,
-    render
-} from "./runtime/utils";
+import { createReactiveObject } from "./reactive";
+import { getComponentOptions, render } from "./runtime/utils";
 
 /* Component class for building reusable pieces of a UI */
 export class Component extends HTMLElement {
@@ -15,7 +10,6 @@ export class Component extends HTMLElement {
         /* get the options specified in the component creation */
         const { useShadow, styles } = getComponentOptions(this.constructor);
 
-        this._observer = getAttributeObserver(this, this._requestUpdate(true));
         this._styles = styles.join("");
         this._refCount = 0;
 
@@ -25,15 +19,16 @@ export class Component extends HTMLElement {
 
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
+
+        this.props = createReactiveObject(this.props, this._requestUpdate());
+
         
-        /* get the component attributes */
-        this.attribs = getComponentAttributes(this);
         if(this.state) {
-            this.state = Reactive.createReactiveObject(this.state, this._requestUpdate());
+            this.state = createReactiveObject(this.state, this._requestUpdate());
         }
 
         /* render the component */
-        render(this.render(this.attribs), this._styles, this.root);
+        render(this.render(this.props), this._styles, this.root);
 
         /* collect all the refs */
         if(this._refCount > 0) {
@@ -53,11 +48,10 @@ export class Component extends HTMLElement {
     }
 
     /* request an update function callback */
-    _requestUpdate(updateAttribs = false) {
+    _requestUpdate() {
         return (key, value) => {
             if (this.shouldUpdate(key, value)) {
-                if (updateAttribs) this.attribs[key] = value;
-                render(this.render(this.attribs), this._styles, this.root);
+                render(this.render(this.props), this._styles, this.root);
                 this.onUpdate(key, value);
             }
         };

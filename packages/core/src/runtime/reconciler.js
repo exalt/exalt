@@ -1,11 +1,11 @@
-import { TemplateEngine } from "./template-engine";
+import { compileTemplate } from "./template-engine";
 
 /* Reconciler class for diffing and updating the dom */
 export class Reconciler {
 
     /* diff and update the dom */
     static reconcile(template, container) {
-        const templateNode = TemplateEngine.processTemplate(template);
+        const templateNode = compileTemplate(template);
 
         if (container.childElementCount == 0) {
             container.appendChild(templateNode);
@@ -35,13 +35,16 @@ export class Reconciler {
 
     /* find and update the differences between two nodes */
     static diff(newNode, oldNode) {
-        if (newNode.isEqualNode(oldNode)) return;
+        //if (newNode.isEqualNode(oldNode)) return;
 
         let nodeType = newNode.nodeType;
         let nodeName = newNode.nodeName;
 
         /* diff based on node types */
-        if (nodeType == 1) Reconciler.diffAttributes(newNode, oldNode);
+        if (nodeType == 1) {
+            Reconciler.diffAttributes(newNode, oldNode);
+            Reconciler.diffProps(newNode, oldNode);
+        }
         else if (nodeType == 3 || nodeType == 8) {
             if (oldNode.nodeValue != newNode.nodeValue) {
                 oldNode.nodeValue = newNode.nodeValue;
@@ -52,6 +55,16 @@ export class Reconciler {
         if (nodeName == "INPUT") Reconciler.updateInput(newNode, oldNode);
         else if (nodeName == "OPTION") Reconciler.updateAttribute(newNode, oldNode);
         else if (nodeName == "TEXTAREA") Reconciler.updateTextarea(newNode, oldNode);
+    }
+
+    static diffProps(newNode, oldNode) {
+        if (newNode.props && oldNode.props) {
+            for (let name of Object.keys(newNode.props)) {
+                if(oldNode.props[name] != newNode.props[name]) {
+                    oldNode.props[name] = newNode.props[name];
+                }
+            }
+        }
     }
 
     /* find and update the differences between two nodes attributes */
@@ -108,7 +121,7 @@ export class Reconciler {
 
     /* find and update the differences between two nodes children */
     static diffChildren(newNode, oldNode) {
-        if (newNode.isEqualNode(oldNode)) return;
+        if (Reconciler.isEqualNode(newNode, oldNode)) return;
 
         let offset = 0;
 
@@ -240,10 +253,13 @@ export class Reconciler {
         return false;
     }
 
-    /* determine if a node is a component */
-    static isComponent(node) {
-        return (
-            node.tagName && node.tagName.includes("-")
-        );
+    static isEqualNode(a, b) {
+        if (a.isEqualNode(b) && (a.props && b.props) && (a.props == b.props)) {
+            return true;
+        } else if (a.isEqualNode(b) && (!a.props && !b.props)) {
+            return true;
+        } else {
+            return a.isEqualNode(b);
+        }
     }
 }

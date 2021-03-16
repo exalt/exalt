@@ -1,62 +1,45 @@
-/* Reactive class to manage reactive data */
-export class Reactive {
+/* create a reactive object */
+export function createReactiveObject(base, callback) {
+    /* 
+        we need to merge the object seperately to make sure
+        nested properties are made reactive
+    */
+    const proxy = new Proxy({}, handleMutation(callback));
+    proxy.prototype = Object.assign(this, base);
 
-    /* merge the state with the existing state */
-    set(obj) {
-        this.prototype = Object.assign(this, obj);
-    }
+    return proxy;
+}
 
-    /* create a reactive object */
-    static createReactiveObject(obj, callback) {
-        const proxy = new Proxy(new Reactive(), Reactive.getHandler(callback));
-        proxy.set(obj);
-        return proxy;
-    }
+/* create a reactive array */
+export function createReactiveArray(base, callback) {
+    return new Proxy(base, handleMutation(callback));
+}
 
-    /* creates a new reactive array object */
-    static createArrayProxy(array, callback) {
-        return new Proxy(array, {
-            set: (target, key, value) => {
-                /* prevent redundant state updates */
-                if (key == "prototype" || target[key] == value) return true;
+function handleMutation(callback) {
+    return {
+        set: (target, key, value) => {
+            /* prevent redundant state updates */
+            if (key == "prototype" || target[key] == value) return true;
 
-                /* if the property does not exist, and the value is an array, make it reactive */
-                if (Array.isArray(value)) {
-                    target[key] = Reactive.createArrayProxy(value, callback);
-                    return true;
-                }
-
-                /* the property does not exist, so we create it */
+            /* if the property exists, it should be updated */
+            if (target[key] != undefined) {
                 target[key] = value;
                 callback(key, value);
                 return true;
             }
-        });
-    }
 
-    static getHandler(callback) {
-        return {
-            set: (target, key, value) => {
-                /* prevent redundant state updates */
-                if (key == "prototype" || target[key] == value) return true;
-    
-                /* if the property exists, it should be updated */
-                if (target[key] != undefined) {
-                    target[key] = value;
-                    callback(key, value);
-                    return true;
-                }
-    
-                /* if the property does not exist, and the value is an array, make it reactive */
-                if (Array.isArray(value)) {
-                    target[key] = Reactive.createArrayProxy(value, callback);
-                    return true;
-                }
-    
-                /* the property does not exist, so we create it */
-                target[key] = value;
+            /* if the property does not exist, and the value is an array, make it reactive */
+            if (Array.isArray(value)) {
+                target[key] = createReactiveArray(value, callback);
                 return true;
             }
-        };
-    }
+
+            /* the property does not exist, so we create it */
+            target[key] = value;
+
+            /* if the value is an array, we should still run the callback */
+            if (Array.isArray(value)) callback(key, value);
+            return true;
+        }
+    };
 }

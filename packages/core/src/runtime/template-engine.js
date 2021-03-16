@@ -1,108 +1,125 @@
-/* TemplateEngine class to create and parse templates */
-export class TemplateEngine {
+/* REGEX rule to enable the use of self closing components */
+const SELF_CLOSING_COMPONENTS = /<([a-z]+-[a-z]+)([^/>]*)\/>/g;
 
-    /* create a template object */
-    static createTemplate(strings, values) {
-        let events = [];
+/* parse a template literal into a template object */
+export function createTemplate(strings, values) {
+    let data = [];
 
-        let source = strings.reduce((template, string, index) => {
-            const value = values[index] ?? "";
+    let source = strings.reduce((combined, string, index) => {
+        const value = values[index] ?? "";
+        let match;
 
-            /* if the string is an event, add an event marker and collect the event function */
-            if (string.match(/ on[a-z]*="?$/) && typeof value == "function") {
-                events.push(value);
-                return template + string + "{{e}}";
+        /* if we find an attribute binding, collect the data and place a marker */
+        if ((match = string.match(/ ([A-Za-z]*)="?$/))) {
+            data.push({ name: match[1], value: value });
+            return combined + string + "{{a}}";
+        }
+
+        /* if we find a template, merge it into this template */
+        else if (isTemplate(value)) {
+            data = data.concat(value.data);
+            return combined + string + value.source;
+        }
+
+        /* if we find an array of templates, merge them into this template */
+        else if (isTemplateArray(value)) {
+            let source = "";
+
+            for (let part of value) {
+                data = data.concat(part.data);
+                source += part.source;
             }
 
-            /* if the string is an attribute without quotes, add the quotes to the attribute binding */
-            else if (string.match(/ [a-z]*=$/)) {
-                return template + string + `"${value}"`;
+            return combined + string + source;
+        }
+
+        /* if we find an array, iterate through it and add them as strings to this template */
+        else if (Array.isArray(value)) {
+            let source = "";
+
+            for (let part of value) {
+                source += part;
             }
 
-            /* if the value is a template, merge it with this template */
-            else if (TemplateEngine.isTemplate(value)) {
-                events = events.concat(value.events);
-                return template + string + value.source;
-            }
+            return combined + string + source;
+        }
 
-            /* if the value is an array of templates, merge them into this template */
-            else if (TemplateEngine.isTemplateArray(value)) {
-                let source = "";
+        /* else add the string with its value to this template */
+        else {
+            return combined + string + value;
+        }
+    }, "").replace(SELF_CLOSING_COMPONENTS, "<$1$2></$1>");
 
-                for (let fragment of value) {
-                    events = events.concat(fragment.events);
-                    source += fragment.source;
-                }
+    return { source, data };
+}
 
-                return template + string + source;
-            }
+/* compile the template into a DOM tree */
+export function compileTemplate({ source, data }) {
+    const template = document.createElement("template");
+    template.innerHTML = source;
 
-            /* if the value is an array, iterate through it and append it to the template */
-            else if (Array.isArray(value)) {
-                let source = "";
+    /* if there is no data to process, just return the DOM tree */
+    if (data.length == 0) return template.content;
 
-                for (let item of value) {
-                    source += item;
-                }
+    const walker = document.createTreeWalker(template.content, 1);
 
-                return template + string + source;
-            }
+    let currentNode;
+    let index = 0;
 
-            /* else add the string with its value to this template */
-            else {
-                return template + string + value;
-            }
-        }, "").replace(/<([a-z]+-[a-z]+)([^/>]*)\/>/g, "<$1$2></$1>");
+    /* walk through the DOM tree, and process attributes */
+    while ((currentNode = walker.nextNode())) {
+        if (currentNode.hasAttributes()) {
+            const attributes = currentNode.attributes;
+            const length = attributes.length - 1;
 
-        return { source, events };
-    }
+            /* walk through the attributes in reverse because we collected them in reverse */
+            for (let i = length; i >= 0; --i) {
+                const attribute = attributes[i];
 
-    /* process the template object into a dom tree */
-    static processTemplate({ source, events }) {
-        const template = document.createElement("template");
-        template.innerHTML = source;
+                /* if its an attribute binding, process further */
+                if (attribute.value == "{{a}}") {
+                    const prop = data[index++];
 
-        if (events.length > 0) {
-            const walker = document.createTreeWalker(template.content, 1);
+                    /* if the prop starts with "on", bind it as an event */
+                    if (prop.name.startsWith("on")) {
+                        currentNode.addEventListener(prop.name.slice(2), prop.value);
+                        currentNode.removeAttribute(prop.name);
+                    }
 
-            let currentNode;
-            let index = 0;
+                    /* else record it as a property if its a component */
+                    else {
+                        currentNode.props = currentNode.props ?? {};
+                        currentNode.props[prop.name] = prop.value;
 
-            /* walk through the dom tree and bind any event attributes */
-            while ((currentNode = walker.nextNode())) {
-                if (currentNode.hasAttributes()) {
-                    const length = currentNode.attributes.length - 1;
-
-                    for (let i = length; i >= 0; --i) {
-                        const attribute = currentNode.attributes[i];
-
-                        /* if the attribute has an event marker, bind the event and remove the attribute */
-                        if (attribute.value == "{{e}}") {
-                            currentNode.addEventListener(attribute.localName.slice(2), events[index++]);
-                            currentNode.removeAttribute(attribute.localName);
+                        if (typeof prop.value != "string") {
+                            currentNode.removeAttribute(prop.name);
                         }
                     }
+                } 
+                
+                /* else record it as a property if its a component */
+                else {
+                    currentNode.props = currentNode.props ?? {};
+                    currentNode.props[attribute.localName] = attribute.value;
                 }
             }
         }
-
-        return template.content;
     }
 
-    /* check if an object is a template */
-    static isTemplate(value) {
-        return (
-            typeof value == "object" &&
-            value.source &&
-            value.events
-        );
-    }
+    /* return the processed DOM tree */
+    return template.content;
+}
 
-    /* check if an object is an array of templates */
-    static isTemplateArray(value) {
-        return (
-            Array.isArray(value) &&
-            TemplateEngine.isTemplate(value[0])
-        );
-    }
+/* check if an object is a template */
+function isTemplate(value) {
+    return (
+        typeof value == "object" &&
+        value.source &&
+        value.data
+    );
+}
+
+/* check if an object is an array of templates */
+function isTemplateArray(value) {
+    return (Array.isArray(value) && isTemplate(value));
 }

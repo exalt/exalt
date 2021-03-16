@@ -1,16 +1,16 @@
-import { TemplateEngine } from "./runtime/template-engine";
-import { Reactive } from "./reactive";
+import { createTemplate } from "./runtime/template-engine";
+import { createReactiveObject } from "./reactive";
 
-/* create a template object using a template literal */
+/* create a template object using a tagged template literal */
 export function html(strings, ...values) {
-    return TemplateEngine.createTemplate(strings, values);
+    return createTemplate(strings, values);
 }
 
 /* create a state context */
 export function createContext(context) {
     context._components = [];
 
-    return Reactive.createReactiveObject(context, (key, value) => {
+    return createReactiveObject(context, (key, value) => {
         for (let callback of context._components) {
             callback(key, value);
         }
