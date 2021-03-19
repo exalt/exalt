@@ -38,8 +38,8 @@
     "@babel/eslint-parser": "^7.13.10",
     "@rollup/plugin-json": "^4.1.0",
     "esbuild": "^0.8.57",
-    "eslint": "^7.21.0",
-    "rollup": "^2.41.1",
+    "eslint": "^7.22.0",
+    "rollup": "^2.42.0",
     "rollup-plugin-esbuild": "^2.6.1"
   }
 }

@@ -48,8 +48,8 @@
     "@babel/core": "^7.13.10",
     "@babel/eslint-parser": "^7.13.10",
     "esbuild": "^0.8.57",
-    "eslint": "^7.21.0",
-    "rollup": "^2.41.1",
+    "eslint": "^7.22.0",
+    "rollup": "^2.42.0",
     "rollup-plugin-esbuild": "^2.6.1"
   }
 }
