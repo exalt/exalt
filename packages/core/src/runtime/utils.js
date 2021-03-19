@@ -1,4 +1,4 @@
-import { Reconciler } from "./reconciler";
+
 
 /* calculates the options and the defaults for the component */
 export function getComponentOptions(component) {
