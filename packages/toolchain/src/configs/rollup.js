@@ -124,7 +124,7 @@ export default function getRollupConfig({ config, options }) {
         plugins.push(
             html({
                 title: config.name,
-                publicPath: "/",
+                publicPath: options.publicPath,
                 template: renderHTML
             })
         );
