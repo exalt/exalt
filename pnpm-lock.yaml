@@ -1,9 +1,9 @@
 importers:
   .:
     devDependencies:
-      pnpm: 5.18.7
+      pnpm: 5.18.8
     specifiers:
-      pnpm: ^5.18.7
+      pnpm: ^5.18.8
   packages/cli:
     devDependencies:
       '@babel/core': 7.13.10
@@ -1304,13 +1304,13 @@ packages:
       node: '>=8.6'
     resolution:
       integrity: sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
-  /pnpm/5.18.7:
+  /pnpm/5.18.8:
     dev: true
     engines:
       node: '>=10.16'
     hasBin: true
     resolution:
-      integrity: sha512-7LSLQSeskkDtzAuq8DxEcVNWlqFd0ppWPT6Z4+TiS8SjxGCRSpnCeDVzwliAPd0hedl6HuUiSnDPgmg/kHUVXw==
+      integrity: sha512-MO0XZoJfZFn6KjhcDpS03P9MeKx3xzgoXJcIcTjJ29/pKeS1O5x/SeLjzsCsAbkPLrv6JdY5uotIz7LRKEe88w==
   /prelude-ls/1.2.1:
     dev: true
     engines:
