@@ -10,9 +10,9 @@ export function createTemplate(strings, values) {
         let match;
 
         /* if we find an attribute binding, collect the data and place a marker */
-        if ((match = string.match(/ ([A-Za-z]*)="?$/))) {
+        if ((match = string.match(/ ([A-Za-z]*)=$/))) {
             data.push({ name: match[1], value: value });
-            return combined + string + "{{a}}";
+            return combined + string + `"{{a}}"`;
         }
 
         /* if we find a template, merge it into this template */
@@ -58,9 +58,6 @@ export function compileTemplate({ source, data }) {
     const template = document.createElement("template");
     template.innerHTML = source;
 
-    /* if there is no data to process, just return the DOM tree */
-    if (data.length == 0) return template.content;
-
     const walker = document.createTreeWalker(template.content, 1);
 
     let currentNode;
@@ -86,7 +83,7 @@ export function compileTemplate({ source, data }) {
                         currentNode.removeAttribute(prop.name);
                     }
 
-                    /* else record it as a property if its a component */
+                    /* else record it as a property on the element */
                     else {
                         currentNode.props = currentNode.props ?? {};
                         currentNode.props[prop.name] = prop.value;
@@ -97,7 +94,7 @@ export function compileTemplate({ source, data }) {
                     }
                 }
 
-                /* else record it as a property if its a component */
+                /* else record it as a property on the element */
                 else {
                     currentNode.props = currentNode.props ?? {};
                     currentNode.props[attribute.localName] = attribute.value;
