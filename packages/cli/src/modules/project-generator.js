@@ -21,12 +21,12 @@ export class ProjectGenerator {
             : path.join(__dirname, "../templates/application");
 
         this.devDependencies = [
-            "@exalt/toolchain@0.1.x",
-            "@exalt/cli@0.1.x"
+            "@exalt/toolchain@latest",
+            "@exalt/cli@latest"
         ];
 
         this.dependencies = [
-            "@exalt/core@0.1.x"
+            "@exalt/core@latest"
         ];
     }
 
