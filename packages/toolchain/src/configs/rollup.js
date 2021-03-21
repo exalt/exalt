@@ -101,7 +101,8 @@ export default function getRollupConfig({ config, options }) {
             options: {
                 shouldMinify: () => options.minify,
                 minifyOptions: {
-                    keepClosingSlash: true
+                    keepClosingSlash: true,
+                    removeAttributeQuotes: true
                 }
             }
         }),
