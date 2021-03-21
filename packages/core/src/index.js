@@ -1,5 +1,5 @@
 import { createTemplate } from "./runtime/template-engine";
-import { createReactiveObject } from "./reactive";
+import { createReactiveObject } from "./runtime/reactive";
 
 /* create a template object using a tagged template literal */
 export function html(strings, ...values) {

@@ -95,8 +95,8 @@ export function compileTemplate({ source, data }) {
                             currentNode.removeAttribute(prop.name);
                         }
                     }
-                } 
-                
+                }
+
                 /* else record it as a property if its a component */
                 else {
                     currentNode.props = currentNode.props ?? {};
@@ -121,5 +121,5 @@ function isTemplate(value) {
 
 /* check if an object is an array of templates */
 function isTemplateArray(value) {
-    return (Array.isArray(value) && isTemplate(value));
+    return (Array.isArray(value) && isTemplate(value[0]));
 }

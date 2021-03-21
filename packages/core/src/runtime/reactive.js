@@ -1,21 +1,31 @@
+/* an object to use as the foundation for reactive objects */
+class ReactiveObject {
+
+    /* merge an object into this reactive object */
+    set(obj) {
+        this.prototype = Object.assign(this, obj);
+    }
+}
+
 /* create a reactive object */
 export function createReactiveObject(base, callback) {
     /* 
         we need to merge the object seperately to make sure
         nested properties are made reactive
     */
-    const proxy = new Proxy({}, handleMutation(callback));
-    proxy.prototype = Object.assign(this, base);
+    const proxy = new Proxy(new ReactiveObject(), handleMutation(callback));
+    proxy.set(base);
 
     return proxy;
 }
 
 /* create a reactive array */
 export function createReactiveArray(base, callback) {
-    return new Proxy(base, handleMutation(callback));
+    return new Proxy(base, handleMutation(callback, true));
 }
 
-function handleMutation(callback) {
+/* handle the mutation on a proxy */
+function handleMutation(callback, isArrayMode = false) {
     return {
         set: (target, key, value) => {
             /* prevent redundant state updates */
@@ -38,7 +48,7 @@ function handleMutation(callback) {
             target[key] = value;
 
             /* if the value is an array, we should still run the callback */
-            if (Array.isArray(value)) callback(key, value);
+            if (isArrayMode) callback(key, value);
             return true;
         }
     };

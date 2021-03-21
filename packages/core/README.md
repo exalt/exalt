@@ -119,7 +119,7 @@ Component.create({ name: "x-clock" }, Clock);
 
 Attributes are passed into a component like any other html element. When an attribute changes, the component is automatically updated.
 
-Attributes can be accessed using the `attribs` property. The attributes are also passed into the `render` method for easy destructuring.
+Attributes can be accessed using the `props` property. The attributes are also passed into the `render` method for easy destructuring.
 
 **Example:**
 ```js
@@ -177,11 +177,23 @@ Component.create({ name: "hello-world" }, HelloWorld);
 
 Exalt provides a tagged template function for creating templates. This is similar to JSX but its entirely native to the web. You can write standard HTML inside them and use JavaScript expressions through placeholders indicated by curly braces prefixed with a dollar sign.
 
-The `html` function provides an easier way to bind events to elements. You can just pass in a function to a standard or custom event attribute and the template engine will bind the event for you.
+The `html` function provides an easier way to bind events to elements and pass data to components, You can just pass any data you want as an attribute and it will process it for you.
+Events are functions bound to attributes with the "on" prefix, these can be any native dom events or custom events.
 
 **Example:**
 ```js
 html`<button onclick=${() => alert("I was clicked!")}>Click Me!</button>`;
+```
+
+**Example:**
+```js
+
+const items = [
+    { id: Math.random(), value: "1" },
+    { id: Math.random(), value: "2" }
+];
+
+html`<list-view items=${items} />`;
 ```
 
 ---

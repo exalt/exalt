@@ -4,9 +4,6 @@ declare class State {
     private prototype: any;
 
     set(state: object): void;
-    static createReactiveObject(obj: object, callback): object;
-    static createState(callback: UpdateCallback): State;
-    static createArrayProxy(array: Array<any>, callback: UpdateCallback): Array<any>;
 }
 
 declare interface ComponentOptions {
@@ -20,27 +17,23 @@ declare interface Template {
     data: Array<any>
 }
 
-declare interface Attributes {
-    [key: string]: string;
-}
+declare abstract class Component<P, S> extends HTMLElement {
 
-declare abstract class Component<A, S extends State> extends HTMLElement {
-
-    private _observer: MutationObserver;
     private _styles: string;
 
-    attribs: A;
+    props: P;
     state: S;
     root: ShadowRoot | HTMLElement;
 
     private connectedCallback(): void;
     private disconnectedCallback(): void;
     private _requestUpdate(updateAttribs?: boolean): UpdateCallback;
+    private _parseRefs(): void;
 
     createRef(): HTMLElement | null;
     useContext(context: object): void;
 
-    abstract render(attribs?: A): Template | void;
+    abstract render(props?: P): Template | void;
 
     mount(): void;
     unmount(): void;
@@ -54,4 +47,4 @@ declare function html(string: TemplateStringsArray, ...values: Array<any>): Temp
 
 declare function createContext(context: object): object;
 
-export { State, Template, Attributes, Component, html, createContext };
+export { State, Template, Component, html, createContext };

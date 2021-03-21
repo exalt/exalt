@@ -1,5 +1,5 @@
-import { createReactiveObject } from "./reactive";
-import { getComponentOptions, render } from "./runtime/utils";
+import { createReactiveObject } from "./runtime/reactive";
+import { reconcile } from "./runtime/reconciler";
 
 /* Component class for building reusable pieces of a UI */
 export class Component extends HTMLElement {
@@ -8,7 +8,7 @@ export class Component extends HTMLElement {
         super();
 
         /* get the options specified in the component creation */
-        const { useShadow, styles } = getComponentOptions(this.constructor);
+        const { useShadow, styles } = this.constructor._options;
 
         this._styles = styles.join("");
         this._refCount = 0;
@@ -20,41 +20,47 @@ export class Component extends HTMLElement {
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
 
+        /* make the props passed in through the template engine reactive */
         this.props = createReactiveObject(this.props, this._requestUpdate());
 
-        
-        if(this.state) {
+        /* if state was defined, make it reactive */
+        if (this.state) {
             this.state = createReactiveObject(this.state, this._requestUpdate());
         }
 
         /* render the component */
-        render(this.render(this.props), this._styles, this.root);
+        reconcile(this.render(this.props), this.root, { styles: this._styles });
 
         /* collect all the refs */
-        if(this._refCount > 0) {
-            this.root.querySelectorAll("[ref]").forEach((node) => {
-                this[node.getAttribute("ref")] = node;
-                node.removeAttribute("ref");
-            });
-        }
+        this._parseRefs();
 
         this.mount();
     }
 
-    /* nataive lifecycle callback, gets called whenever a component is removed from the dom */
+    /* native lifecycle callback, gets called whenever a component is removed from the dom */
     disconnectedCallback() {
         this.unmount();
-        this._observer.disconnect();
     }
 
     /* request an update function callback */
     _requestUpdate() {
         return (key, value) => {
             if (this.shouldUpdate(key, value)) {
-                render(this.render(this.props), this._styles, this.root);
+                reconcile(this.render(this.props), this.root, { styles: this._styles });
+                this._parseRefs();
                 this.onUpdate(key, value);
             }
         };
+    }
+
+    /* collect all the refs */
+    _parseRefs() {
+        if (this._refCount > 0) {
+            this.root.querySelectorAll("[ref]").forEach((node) => {
+                this[node.getAttribute("ref")] = node;
+                node.removeAttribute("ref");
+            });
+        }
     }
 
     /* create a reference to a node in the template */
@@ -85,7 +91,8 @@ export class Component extends HTMLElement {
 
     /* define the component with the default CustomElementRegistry */
     static create(options, component) {
-        component._options = options;
+        const defaults = { styles: [], useShadow: true };
+        component._options = { ...defaults, ...options };
 
         if (!options.name) {
             console.error("Exalt: ComponentOptions.name is required.");

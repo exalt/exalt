@@ -32,6 +32,7 @@ function walk(newNode, oldNode) {
     else {
         diff(newNode, oldNode);
 
+        /* if the node has children and not a shadow root, diff them */
         if (!newNode.shadowRoot && newNode.childNodes.length > 0) {
             diffChildren(newNode, oldNode);
         }
@@ -42,7 +43,7 @@ function walk(newNode, oldNode) {
 
 /* find an update the differences between two nodes */
 function diff(newNode, oldNode) {
-    /* check if the nodes are equal inlcuding checking props */
+    if (isEqualNode(newNode, oldNode)) return;
 
     let nodeType = newNode.nodeType;
     let nodeName = newNode.nodeName;
@@ -58,38 +59,206 @@ function diff(newNode, oldNode) {
     }
 
     if (nodeName == "INPUT") updateInput(newNode, oldNode);
-    else if (nodeName == "OPTION") updateAttribute(newNode, oldNode);
+    else if (nodeName == "OPTION") updateAttribute(newNode, oldNode, "selected");
     else if (nodeName == "TEXTAREA") updateTextarea(newNode, oldNode);
 }
 
+/* find and update the differences between two nodes attributes */
 function diffAttributes(newNode, oldNode) {
+    const newAttributes = newNode.attributes;
+    const oldAttributes = oldNode.attributes;
 
+    let length = newAttributes.length - 1;
+
+    for (let i = length; i >= 0; --i) {
+        const { localName, value, namespaceURI } = newAttributes[i];
+
+        if (namespaceURI) {
+            if (oldNode.getAttributeNS(namespaceURI, localName) == value) {
+                oldNode.setAttributeNS(namespaceURI, localName, value);
+            }
+        } else {
+            if (!oldNode.hasAttribute(localName)) oldNode.setAttribute(localName, value);
+            else {
+                if (oldNode.getAttribute(localName) != value) {
+                    if (value == "null" || value == "undefined") oldNode.removeAttribute(localName);
+                    else oldNode.setAttribute(localName, value);
+                }
+            }
+        }
+    }
+
+    length = oldAttributes.length - 1;
+
+    for (let i = length; i >= 0; --i) {
+        const attribute = oldAttributes[i];
+
+        if (attribute.specified) {
+            const { localName, namespaceURI } = attribute;
+
+            if (namespaceURI) {
+                if (!newNode.hasAttributeNS(namespaceURI, localName)) {
+                    oldNode.removeAttributeNS(namespaceURI, localName);
+                }
+            } else {
+                if (!newNode.hasAttribute(localName)) {
+                    oldNode.removeAttribute(localName);
+                }
+            }
+        }
+    }
 }
 
+/* find and update the differences between two nodes props */
 function diffProps(newNode, oldNode) {
+    const newProps = newNode.props;
+    const oldProps = oldNode.props;
 
+    if (newProps && oldProps) {
+        const newKeys = Object.keys(newProps);
+        for (let name of newKeys) {
+            if (oldProps[name] != newProps[name]) {
+                oldNode.props[name] = newProps[name];
+            }
+        }
+    }
 }
 
+/* find and update the differences between two nodes children */
 function diffChildren(newNode, oldNode) {
+    if (isEqualNode(newNode, oldNode)) return;
 
+    let offset = 0;
+
+    for (let i = 0; ; i++) {
+        const oldChild = oldNode.childNodes[i];
+        const newChild = newNode.childNodes[i - offset];
+
+        /* if both nodes are empty, do nothing */
+        if (!oldChild && !newChild) break;
+
+        /* if there is no new child, remove the old child */
+        else if (!newChild) {
+            oldNode.removeChild(oldChild);
+            i--;
+        }
+
+        /* if there is no old child, add the new child */
+        else if (!oldChild) {
+            oldNode.appendChild(newChild);
+            offset++;
+        }
+
+        /* if both nodes are the same, see if they need to be updated */
+        else if (isSameNode(newChild, oldChild)) {
+            const morphed = walk(newChild, oldChild);
+
+            if (morphed != oldChild) {
+                oldNode.replaceChild(morphed, oldChild);
+                offset++;
+            }
+        }
+
+        /* if both nodes do not share an ID or placeholder, try to reorder them */
+        else {
+            let oldMatch = null;
+
+            const length = oldNode.childNodes.length;
+
+            for (let j = i; j < length; j++) {
+                if (isSameNode(oldNode.childNodes[j], newChild)) {
+                    oldMatch = oldNode.childNodes[i];
+                    break;
+                }
+            }
+
+            if (oldMatch) {
+                const morphed = walk(newChild, oldChild);
+
+                if (morphed != oldMatch) {
+                    oldNode.replaceChild(morphed, oldChild);
+                    offset++;
+                }
+            }
+
+            else if (!newChild.id && !oldChild.id) {
+                const morphed = walk(newChild, oldChild);
+
+                if (morphed != oldChild) {
+                    oldNode.replaceChild(morphed, oldChild);
+                    offset++;
+                }
+            }
+
+            else {
+                oldNode.insertBefore(newChild, oldChild);
+                offset++;
+            }
+        }
+    }
 }
 
+/* update an attribute */
 function updateAttribute(newNode, oldNode, name) {
+    if (newNode[name] != oldNode[name]) {
+        oldNode[name] = newNode[name];
 
+        if (newNode[name]) oldNode.setAttribute(name, "");
+        else oldNode.removeAttribute(name);
+    }
 }
 
-function updateInput(newNode, oldNode, name) {
+/* update an input element */
+function updateInput(newNode, oldNode) {
+    const newValue = newNode.value;
+    const oldValue = oldNode.value;
 
+    updateAttribute(newNode, oldNode, "checked");
+    updateAttribute(newNode, oldNode, "disabled");
+
+    if (newNode.indeterminate != oldNode.indeterminate) {
+        oldNode.indeterminate = newNode.indeterminate;
+    }
+
+    if (oldNode.type == "file") return;
+
+    if (newValue != oldValue) {
+        oldNode.setAttribute("value", newValue);
+        oldNode.value = newValue;
+    }
+
+    if (newValue == "null") {
+        oldNode.value = "";
+        oldNode.removeAttribute("value");
+    }
+
+    if (!newNode.hasAttribute("value")) oldNode.removeAttribute("value");
+    else if (oldNode.type == "range") oldNode.value == newValue;
 }
 
+/* update a text area element */
 function updateTextarea(newNode, oldNode) {
+    const newValue = newNode.value;
 
+    if (newValue != oldNode.value) {
+        oldNode.value = newValue;
+    }
+
+    if (oldNode.firstChild && oldNode.firstChild.nodeValue != newValue) {
+        oldNode.firstChild.nodeValue = newValue;
+    }
 }
 
+/* determine if two nodes are the same */
 function isSameNode(a, b) {
-
+    if (a.id) return (a.id == b.id);
+    if (a.tagName != b.tagName) return false;
+    if (a.nodeType == 3) return (a.nodeValue == b.nodeValue);
+    return false;
 }
 
+/* determine if two DOM trees are equal */
+// eslint-disable-next-line no-unused-vars
 function isEqualNode(a, b) {
-    
+    return false;
 }
