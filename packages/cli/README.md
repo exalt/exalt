@@ -36,6 +36,7 @@ exalt create [project-name] <options>
 
 You can run a development server by using the `serve` command.
 This will run your project in development mode and watch your files for changes.
+When a file is changed your app is automatically rebuilt and your page will refresh.
 
 ### Building a Project for Production
 
@@ -44,19 +45,35 @@ This will build the project and place the files into the `dist` directory.
 
 ### Running your Production App
 
-You can run the production build of your project using the `start` command.
+After building your app for production, you can run it using the `start` command.
 This will run your app on a simple http server capable of serving a single page app or static files.
 
 ---
 
 ## Building your own toolchain
 
-If the default toolchain does not fit your needs, you can create your own using the exalt toolchain api.
+We try to make sure that the default toolchain meets the needs of most projects.
+In cases where it fails to meet your project requirements, we offer an easy solution to build your own toolchain.
 
-The API requires that you export a default function and that function recieves an object containing a `config` property and an `options` property. The config option is the set of options that are controlled by the cli and the platforms your building for. The options property is all the options passed in using `toolchainOptions` in exalt.json or passed in via cli flag.
+A toolchain is a file that default exports a function that returns an object of command functions.
+This function recieves an object with two properties as its only agrument. These properties are `config` and `options`
 
-The default function must export an object containing functions per cli command.
-The available commands to hook into are `serve`, `start`, and `build`.
+The commands that are availble for toolchains to control are `serve`, `start`, and `build`.
+
+### Config Property
+
+The config property is controlled by the platform your targeting, the cli, and your config file.
+The config property includes these properties.
+
+- name: string - the project name.
+- input: string | object - the entry files to compile.
+- format: string - the output format. (defined by the platform)
+- dest: string - the output destination. (defined by the platform)
+
+### Options Property
+
+The options property is controlled by the `toolchainOptions` property in your config file.
+Any options inside toolchainOptions are designed to modify the behavior of the active toolchain.
 
 **Example:**
 ```js
