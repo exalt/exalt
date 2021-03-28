@@ -49,6 +49,31 @@ This will run your app on a simple http server capable of serving a single page 
 
 ---
 
+## Building your own toolchain
+
+If the default toolchain does not fit your needs, you can create your own using the exalt toolchain api.
+
+The API requires that you export a default function and that function recieves an object containing a `config` property and an `options` property. The config option is the set of options that are controlled by the cli and the platforms your building for. The options property is all the options passed in using `toolchainOptions` in exalt.json or passed in via cli flag.
+
+The default function must export an object containing functions per cli command.
+The available commands to hook into are `serve`, `start`, and `build`.
+
+**Example:**
+```js
+export default ({ config, options }) => {
+
+    return {
+        serve: () => {},
+        start: () => {},
+        build: () => {}
+    };
+};
+```
+
+NOTE: If you make use of ESM module syntax such as `export` and `import`, you must first compile it to commonjs format.
+
+---
+
 ## Reporting Issues
 
 If you are having trouble getting something to work with exalt or run into any problems, you can create a new [issue](https://github.com/OutwalkStudios/exalt/issues).
