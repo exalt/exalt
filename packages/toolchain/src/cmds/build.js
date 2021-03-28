@@ -7,17 +7,17 @@ export async function build({ config, settings }) {
     const rollupConfig = createRollupConfig(config, settings);
 
     try {
-        console.log(`${color.cyan}info${color.reset} - Creating an optimized production build...`);
+        console.log(`${color.cyan}info${color.reset} - creating an optimized production build...`);
 
         const bundle = await rollup.rollup(rollupConfig);
         await bundle.write(rollupConfig.output);
 
         if (!settings.library) {
-            console.log(`${color.cyan}info${color.reset} - Copying assets...`);
+            console.log(`${color.cyan}info${color.reset} - copying assets...`);
             copyAssets("public", config.dest);
         }
 
-        console.log(`${color.cyan}info${color.reset} - Compiled successfully`);
+        console.log(`${color.cyan}info${color.reset} - compiled successfully`);
 
     } catch (error) {
         logError(`Exalt StackTrace: ${error.message}`);
