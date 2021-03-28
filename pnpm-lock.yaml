@@ -48,7 +48,7 @@ importers:
       rollup: 2.43.0
       rollup-plugin-esbuild: 2.6.1_esbuild@0.8.57+rollup@2.43.0
       rollup-plugin-html-literals: 1.1.3_rollup@2.43.0
-      rollup-plugin-import-css: 2.0.0_rollup@2.43.0
+      rollup-plugin-import-css: 2.0.1_rollup@2.43.0
       rollup-plugin-import-folder: 1.0.2_rollup@2.43.0
       rollup-plugin-livereload: 2.0.0
       rollup-plugin-serve: 1.1.0
@@ -70,7 +70,7 @@ importers:
       rollup: ^2.43.0
       rollup-plugin-esbuild: ^2.6.1
       rollup-plugin-html-literals: ^1.1.3
-      rollup-plugin-import-css: ^2.0.0
+      rollup-plugin-import-css: ^2.0.1
       rollup-plugin-import-folder: ^1.0.2
       rollup-plugin-livereload: ^2.0.0
       rollup-plugin-serve: ^1.1.0
@@ -1396,7 +1396,7 @@ packages:
       rollup: ^1.x.x||^2.x.x
     resolution:
       integrity: sha512-6G3PfhpF9AeN3xCeYdxgFwMU2LUr3kuJ6/sMTTVZT4GQWdYQS58FUCDenEIpkuiEfCSnNn3F7MLDO+llqtbFOQ==
-  /rollup-plugin-import-css/2.0.0_rollup@2.43.0:
+  /rollup-plugin-import-css/2.0.1_rollup@2.43.0:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.43.0
       rollup: 2.43.0
@@ -1404,7 +1404,7 @@ packages:
     peerDependencies:
       rollup: ^2.x.x
     resolution:
-      integrity: sha512-Em0PjoAHP9M7zoA9fjBQ/yanfJz0kGgjU2dSv4ly9jkQ1NGqSGK+mCgkMdHbuZpX/mMoMwn0ctVQkeGaaZ/Zaw==
+      integrity: sha512-aY8VsOVHAB8RVyNmZP6Np4NeZvMeNc0U7nBMl1q5QX2QIAHSn0veQaW2T1JyzqLY+rLjICb3oEhmHWScZmbd2Q==
   /rollup-plugin-import-folder/1.0.2_rollup@2.43.0:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.43.0

@@ -13,93 +13,37 @@ import { color } from "../utils/logging";
 import path from "path";
 import fs from "fs";
 
-export default function getRollupConfig({ config, options }) {
+export function createRollupConfig(config, settings) {
 
-    /* override config options when building a library */
-    if (options.library) {
+    /* override the config options when building a library */
+    if (settings.library) {
         config.dest = "dist";
         config.format = "esm";
     }
 
-    /* parse the alias paths into the expected format */
-    const getAliasPaths = (paths) => {
-        if (!paths) return null;
-
-        const keys = Object.keys(paths);
-
-        return keys.map((key) => {
-            return {
-                find: key,
-                replacement: path.resolve(process.cwd(), paths[key])
-            };
-        });
-    };
-
-    /* render the html template */
-    const renderHTML = ({ files, publicPath, title }) => {
-        try {
-            let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
-
-            const scripts = [];
-            const links = [];
-
-            for (let file of files.js) {
-                scripts.push(`<script src="${publicPath + file.fileName}"></script>`);
-            }
-
-            if(files.css) {
-                for (let file of files.css) {
-                    links.push(`<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
-                }
-            }
-
-            const mapping = {
-                "title": title,
-                "links": links.join("\n"),
-                "scripts": scripts.join("\n")
-            };
-
-            const keys = Object.keys(mapping);
-
-            for (let key of keys) {
-                html = html.replace(new RegExp(`{{${key}}}`, "g"), mapping[key]);
-            }
-
-            return html;
-        } catch {
-            throw new Error(`Failed to find an index.html file in the "public" directory`);
-        }
-
-    };
-
     const plugins = [
         /* resolve modules from node_modules */
-        resolve({
-            mainFields: ["browser", "module", "main"]
-        }),
+        resolve({ browser: true }),
 
-        /* import commonjs modules as es modules */
+        /* resolve commonjs modules as es modules */
         commonjs(),
 
-        /* import json files as es modules */
+        /* resolve json files as es modules */
         json(),
 
         /* map aliases to relative file paths */
-        alias({ entries: getAliasPaths(options.paths) }),
+        alias({ entries: parseAliasPaths(settings.paths) }),
 
-        /* import folder components */
+        /* resolve folder components */
         folder(),
 
-        /* import css */
-        css({
-            output: "index.css",
-            minify: options.minify
-        }),
+        /* resolve css files */
+        css({ minify: settings.minify }),
 
         /* minify tagged template literals */
         template({
             options: {
-                shouldMinify: () => options.minify,
+                shouldMinify: () => settings.minify,
                 minifyOptions: {
                     keepClosingSlash: true,
                     removeAttributeQuotes: true
@@ -109,41 +53,39 @@ export default function getRollupConfig({ config, options }) {
 
         /* transpile and minify the source code */
         esbuild({
-            target: options.target,
-            minify: options.minify,
-            sourceMap: options.sourcemap,
-            loaders: {
-                ".json": "json"
-            }
+            target: settings.target,
+            minify: settings.minify,
+            sourceMap: settings.sourcemap
         })
     ];
 
-    /* if the project is not a library add app specific plugins */
-    if (!options.library) {
+    /* if the project is not a library, add app specific plugins */
+    if (!settings.library) {
 
         /* generate the html files */
         plugins.push(
             html({
                 title: config.name,
-                publicPath: options.publicPath,
+                publicPath: settings.publicPath,
                 template: renderHTML
             })
         );
 
-        /* if we are in a development environment, run the development server */
+        /* if we are in a development environment, run the dev server */
         if (process.env.NODE_ENV == "development") {
             plugins.push(
                 serve({
-                    open: options.devServer.open,
-                    port: options.devServer.port,
-                    headers: options.devServer.headers,
+                    open: settings.open,
+                    port: settings.port,
+                    headers: settings.headers,
                     contentBase: config.dest,
                     historyApiFallback: true,
                     verbose: false,
                     onListening: () => {
-                        console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${options.devServer.port}/${color.reset}`);
+                        console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${settings.port}/${color.reset}`);
                     }
                 }),
+
                 livereload({
                     watch: config.dest,
                     verbose: false
@@ -162,7 +104,52 @@ export default function getRollupConfig({ config, options }) {
         ? { dir: config.dest, format: "esm" }
         : { file: `${config.dest}/index.js`, format: config.format, name: "bundle" };
 
-    rollupConfig.output.sourcemap = options.sourcemap;
+    rollupConfig.output.sourcemap = settings.sourcemap;
 
     return rollupConfig;
+}
+
+/* map the paths config option to a format that rollup can understand */
+function parseAliasPaths(paths) {
+    if (!paths) return null;
+
+    const keys = Object.keys(paths);
+
+    return keys.map((key) => {
+        return { find: key, replacement: path.resolve(process.cwd(), paths[key]) };
+    });
+}
+
+/* render the custom html output */
+function renderHTML({ files, publicPath, title }) {
+    let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
+
+    const scripts = [];
+    const links = [];
+
+    if (files.js) {
+        for (let file of files.js) {
+            scripts.push(`\t<script src="${publicPath + file.fileName}"></script>`);
+        }
+    }
+
+    if (files.css) {
+        for (let file of files.css) {
+            links.push(`\t<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
+        }
+    }
+
+    const titleTag = /<title>.*<\/title>/i.exec(html);
+    const headTag = /<\/head>/i.exec(html);
+    const bodyTag = /<\/body>/i.exec(html);
+
+    if (!titleTag && !headTag && !bodyTag) {
+        throw new Error(`public/index.html is missing required tags! (head, body, title)`);
+    }
+
+    html = html.replace(titleTag[0], `<title>${title}</title>`);
+    html = html.replace(headTag[0], `${links.join("\n")}\n` + headTag[0]);
+    html = html.replace(bodyTag[0], `${scripts.join("\n")}\n` + bodyTag[0]);
+
+    return html;
 }

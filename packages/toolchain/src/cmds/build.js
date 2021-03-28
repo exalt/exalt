@@ -1,32 +1,30 @@
 import rollup from "rollup";
-import getRollupConfig from "../configs/rollup";
-import { defaultOptions } from "../configs/default";
+import { createRollupConfig } from "../configs/rollup";
 import { color, logError } from "../utils/logging";
 import { copyAssets } from "../utils/file-system";
 
-export async function build({ config, options }) {
-    const buildOptions = { ...defaultOptions, ...options };
-    const rollupConfig = getRollupConfig({ config, options: buildOptions });
+export async function build({ config, settings }) {
+    const rollupConfig = createRollupConfig(config, settings);
 
     try {
         console.log(`${color.cyan}info${color.reset} - Creating an optimized production build...`);
-        
+
         const bundle = await rollup.rollup(rollupConfig);
         await bundle.write(rollupConfig.output);
 
-        if(!options.library) {
+        if (!settings.library) {
             console.log(`${color.cyan}info${color.reset} - Copying assets...`);
             copyAssets("public", config.dest);
         }
-        
+
         console.log(`${color.cyan}info${color.reset} - Compiled successfully`);
+
     } catch (error) {
-        
-        logError(`\nExalt StackTrace: ${error.message}`);
+        logError(`Exalt StackTrace: ${error.message}`);
         if (error.loc) {
             logError(`File: ${error.id}`);
             logError(`Line: ${error.loc.line}, Column: ${error.loc.column}`);
-            if (error.frame) { console.log(error.frame); }
+            if (error.frame) console.log(error.frame);
         }
     }
 }

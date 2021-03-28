@@ -4,7 +4,7 @@ import { builtinModules } from "module";
 
 export default {
     input: "src/index.js",
-    output: { file: "dist/toolchain.js", format: "cjs", banner: "/* Copyright (c) 2021 Outwalk Studios */" },
+    output: { file: "dist/toolchain.js", format: "cjs", banner: "/* Copyright (c) 2021 Outwalk Studios */", exports: "default" },
     plugins: [
         esbuild({
             minify: true,

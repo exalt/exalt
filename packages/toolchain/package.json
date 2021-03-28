@@ -42,7 +42,7 @@
         "rollup": "^2.43.0",
         "rollup-plugin-esbuild": "^2.6.1",
         "rollup-plugin-html-literals": "^1.1.3",
-        "rollup-plugin-import-css": "^2.0.0",
+        "rollup-plugin-import-css": "^2.0.1",
         "rollup-plugin-import-folder": "^1.0.2",
         "rollup-plugin-livereload": "^2.0.0",
         "rollup-plugin-serve": "^1.1.0"
