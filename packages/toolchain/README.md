@@ -30,19 +30,33 @@ To make this toolchain the active toolchain for @exalt/cli, set it as the value 
 
 ## What Does This Toolchain Do?
 
-This toolchain powers the build process for @exalt/cli.
+This toolchain enables the following features for @exalt/cli:
+- JavaScript & Typescript bundling, transpilation, and minification.
+- Import aliasing.
+- Live reloading development server.
+- Generation of HTML based on output files.
+- Support for importing css files.
+- Support for importing json files.
+- Support for folder components.
 
-This toolchain also offers some extra options:
+
+This toolchain offers some options to configure this functionality.
 
 #### Options:
 - library (default: false) - sets the project to be compiled as a library.
-- target (default: "es2015") - sets the javascript version to be transpiled to.
+- target (default: "es2015") - sets the JavaScript version to be transpiled to.
 - minify (default: false) - determines whether or not the build should be minified.
-- sourcemap (default: false) - determines whether or not sourcemaps should be generated for the build.
+- sourcemap (default: false) - determines whether or not sourcemaps should be generated.
 - paths (default: {}) - object that maps aliases to file paths.
 - open (default: true) - tells the cli whether or not to launch your app or not.
 - port (default: 3000) - sets the web server port.
 - headers (default: {}) - sets headers to be sent with each request/response.
+
+---
+
+## TypeScript Support
+
+This toolchain uses esbuild behind the scenes, this means that typescript support is ready out of the box. All you need to do is change your files to have a `.ts` file extension and make sure your `input` field is updated in exalt.json. The toolchain will then automatically compile your code down to JavaScript.
 
 ---
 
