@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "description": "Exalt - The core framework",
+  "description": "Exalt - The framework runtime",
   "main": "dist/core.cjs.js",
   "module": "dist/core.esm.js",
   "types": "types/core.d.ts",

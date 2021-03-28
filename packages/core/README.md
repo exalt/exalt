@@ -1,6 +1,6 @@
 # Exalt Core
 
-The core framework
+The framework runtime.
 
 ![Actions](https://github.com/OutwalkStudios/exalt/workflows/build/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/OutwalkStudios/exalt/blob/main/LICENSE)
@@ -21,16 +21,16 @@ npm install @exalt/core
 
  Table of Contents
 -----------------
-- [Components](#components)
-- [Templates](#templates)
-- [State Management + Context API](#state-management)
+- [Building Components](#building-components)
+- [Writing Templates](#writing-templates)
+- [Global State Management](#global-state-management)
 
 ---
 
-## Components
+## Building Components
 
-Components are independent, reusable pieces of HTML. Exalt Components are built on Web Components and they can be used anywhere that valid HTML can be used.
-With components you can define your own html tags, hook into the components lifecycle and manage component state.
+Exalt Components are a small wrapper over native Web Components. This means they work as valid HTML elements and can be used anywhere HTML can be used, including other frameworks.
+You can use components to build independent and reusable pieces of your application. Components allow you to define your own html tags and hook into the component lifecycle.
 
 <strong>NOTICE:</strong>
 - Component names are required to have a hypen in order not to conflict with standard HTML elements.
@@ -53,6 +53,28 @@ export class HelloWorld extends Component {
 }
 
 Component.create({ name: "hello-world" }, HelloWorld);
+```
+
+### Styling your component
+
+You can apply css to your component in a variety of ways.
+When using the ShadowDOM we suggest importing your css as a string and passing it to the `styles` component options.
+
+**Example:**
+```js
+import { Component, html } from "@exalt/core";
+import styles from "./hello-world.css";
+
+export class HelloWorld extends Component {
+
+    render() {
+        return html`
+            <h1>Hello World!</h1>
+        `;
+    }
+}
+
+Component.create({ name: "hello-world", styles: [styles] }, HelloWorld);
 ```
 
 ### Lifecycle
@@ -83,11 +105,13 @@ export class HelloWorld extends Component {
 
 Component.create({ name: "hello-world" }, HelloWorld);
 ```
+
 ### State
 
 Components have access to state and attributes for updating the DOM.
 
-When making use of state, users can initialize a state object and have its properties mutated directly. This example displays the current time and updates the time every second.
+When making use of state, users can initialize a state object and have its properties mutated directly.
+This example displays the current time and updates the time every second.
 
 **Example:**
 ```js
@@ -118,7 +142,6 @@ Component.create({ name: "x-clock" }, Clock);
 ### Attributes
 
 Attributes are passed into a component like any other html element. When an attribute changes, the component is automatically updated.
-
 Attributes can be accessed using the `props` property. The attributes are also passed into the `render` method for easy destructuring.
 
 **Example:**
@@ -173,11 +196,11 @@ Component.create({ name: "hello-world" }, HelloWorld);
 ```
 ---
 
-## Templates
+## Writing Templates
 
 Exalt provides a tagged template function for creating templates. This is similar to JSX but its entirely native to the web. You can write standard HTML inside them and use JavaScript expressions through placeholders indicated by curly braces prefixed with a dollar sign.
 
-The `html` function provides an easier way to bind events to elements and pass data to components, You can just pass any data you want as an attribute and it will process it for you.
+The `html` function provides an easier way to bind events to elements and pass data to components, You can pass any data you want as an attribute and it will process it for you.
 Events are functions bound to attributes with the "on" prefix, these can be any native dom events or custom events.
 
 **Example:**
@@ -198,9 +221,9 @@ html`<list-view items=${items} />`;
 
 ---
 
-## State Management
+## Global State Management
 
-Exalt Components have the state property for updating the component it belongs to, but i cases where components need to share state, Exalt provides a global state solution via a context api. You can create a context and then tell individial components to listen to changes on the context.
+Exalt Components have the state property for updating the component it belongs to, but in cases where components need to share state, Exalt provides a global state solution via a context api. You can create a context and then tell individial components to listen to changes on the context using the `contexts` component option.
 
 **Example:**
 ```js
@@ -211,13 +234,6 @@ const context = createContext({ count: 0 });
 
 export class Counter extends Component {
 
-    constructor() {
-        super();
-
-        /* listen for changes on the context */
-        super.useContext(context);
-    }
-
     render() {
         return html`
             <button onclick=${() => context.count++}>Clicked: ${context.count}</button>
@@ -226,7 +242,7 @@ export class Counter extends Component {
 
 }
 
-Component.create({ name: "x-counter" }, Counter);
+Component.create({ name: "x-counter", contexts: [context] }, Counter);
 ```
 
 ---
