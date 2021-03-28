@@ -10,10 +10,10 @@ export default async function serve(args) {
     try {
         const config = loadConfig();
         const toolchain = await loadToolchain(config);
-        const options = loadOptions({ ...config, ...args });
+        const options = loadOptions(config, args);
 
         /* run the toolchain */
-        toolchain.serve(options);
+        toolchain(options).serve();
 
     } catch (error) {
         logError(error.message);

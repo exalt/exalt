@@ -30,7 +30,7 @@ To make this toolchain the active toolchain for @exalt/cli, set it as the value 
 
 ## What Does This Toolchain Do?
 
-This toolchain powers the development commands for @exalt/cli.
+This toolchain powers the build process for @exalt/cli.
 
 This toolchain also offers some extra options:
 
@@ -40,9 +40,6 @@ This toolchain also offers some extra options:
 - minify (default: false) - determines whether or not the build should be minified.
 - sourcemap (default: false) - determines whether or not sourcemaps should be generated for the build.
 - paths (default: {}) - object that maps aliases to file paths.
-- devServer (default: null) - settings for the dev server.
-
-#### devServer Options
 - open (default: true) - tells the cli whether or not to launch your app or not.
 - port (default: 3000) - sets the web server port.
 - headers (default: {}) - sets headers to be sent with each request/response.

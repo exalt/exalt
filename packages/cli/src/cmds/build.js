@@ -10,10 +10,10 @@ export default async function build(args) {
     try {
         const config = loadConfig();
         const toolchain = await loadToolchain(config);
-        const options = loadOptions({ ...config, ...args });
+        const options = loadOptions(config, args);
 
         /* run the toolchain */
-        toolchain.build(options);
+        toolchain(options).build();
 
     } catch (error) {
         logError(error.message);
