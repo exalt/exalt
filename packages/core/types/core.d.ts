@@ -1,6 +1,6 @@
 declare type UpdateCallback = (key?: string | number | symbol, value?: any) => void;
 
-declare class State {
+declare class ReactiveObject {
     private prototype: any;
 
     set(state: object): void;
@@ -8,8 +8,9 @@ declare class State {
 
 declare interface ComponentOptions {
     name: string,
-    styles?: Array<string>,
     useShadow?: boolean;
+    styles?: Array<string>,
+    contexts?: Array<ReactiveObject>
 }
 
 declare interface Template {
@@ -31,7 +32,6 @@ declare abstract class Component<P, S> extends HTMLElement {
     private _parseRefs(): void;
 
     createRef(): HTMLElement | null;
-    useContext(context: object): void;
 
     abstract render(props?: P): Template | void;
 
@@ -47,4 +47,4 @@ declare function html(string: TemplateStringsArray, ...values: Array<any>): Temp
 
 declare function createContext(context: object): object;
 
-export { State, Template, Component, html, createContext };
+export { ReactiveObject, Template, Component, html, createContext };
