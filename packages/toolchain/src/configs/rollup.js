@@ -106,6 +106,8 @@ export function createRollupConfig(config, settings) {
 
     rollupConfig.output.sourcemap = settings.sourcemap;
 
+    if(settings.library) rollupConfig.external = ["@exalt/core"];
+
     return rollupConfig;
 }
 
