@@ -20,14 +20,14 @@ export class ProjectGenerator {
             ? path.join(__dirname, "../templates/library")
             : path.join(__dirname, "../templates/application");
 
+        this.dependencies = [];
         this.devDependencies = [
             "@exalt/toolchain@0.2.x",
             "@exalt/cli@0.2.x"
         ];
 
-        this.dependencies = [
-            "@exalt/core@0.2.x"
-        ];
+        if (this.library) this.devDependencies.push("@exalt/core@0.2.x");
+        else this.dependencies.push("@exalt/core@0.2.x");
     }
 
     /* generate the project */
