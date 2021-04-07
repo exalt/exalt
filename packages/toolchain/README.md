@@ -2,8 +2,8 @@
 
 The build toolchain
 
-![Actions](https://github.com/OutwalkStudios/exalt/workflows/build/badge.svg)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/OutwalkStudios/exalt/blob/main/LICENSE)
+![Actions](https://github.com/exalt/exalt/workflows/build/badge.svg)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/exalt/exalt/blob/main/LICENSE)
 [![Donate](https://img.shields.io/badge/patreon-donate-green.svg)](https://www.patreon.com/outwalkstudios)
 [![Follow Us](https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg)](https://twitter.com/OutwalkStudios)
 
@@ -62,7 +62,7 @@ This toolchain uses esbuild behind the scenes, this means that typescript suppor
 
 ## Reporting Issues
 
-If you are having trouble getting something to work with exalt or run into any problems, you can create a new [issue](https://github.com/OutwalkStudios/exalt/issues).
+If you are having trouble getting something to work with exalt or run into any problems, you can create a new [issue](https://github.com/exalt/exalt/issues).
 
 If this framework does not fit your needs or is missing a feature you would like to see, let us know! We would greatly appreciate your feedback on it.
 
@@ -70,4 +70,4 @@ If this framework does not fit your needs or is missing a feature you would like
 
 ## License
 
-Exalt is licensed under the terms of the [**MIT**](https://github.com/OutwalkStudios/exalt/blob/main/LICENSE) license.
+Exalt is licensed under the terms of the [**MIT**](https://github.com/exalt/exalt/blob/main/LICENSE) license.

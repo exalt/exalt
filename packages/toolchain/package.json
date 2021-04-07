@@ -22,13 +22,13 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/OutwalkStudios/exalt.git",
+        "url": "https://github.com/exalt/exalt.git",
         "directory": "packages/toolchain"
     },
     "bugs": {
-        "url": "https://github.com/OutwalkStudios/exalt/issues"
+        "url": "https://github.com/exalt/exalt/issues"
     },
-    "homepage": "https://github.com/OutwalkStudios/exalt#readme",
+    "homepage": "https://github.com/exalt/exalt#readme",
     "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
     "license": "MIT",
     "dependencies": {
