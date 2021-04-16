@@ -87,9 +87,10 @@ export function compileTemplate({ source, data }) {
                     else {
                         currentNode.props = currentNode.props ?? {};
                         currentNode.props[prop.name] = prop.value;
+                        currentNode.removeAttribute(prop.name);
 
-                        if (typeof prop.value != "string") {
-                            currentNode.removeAttribute(prop.name);
+                        if (typeof prop.value == "string") {
+                            currentNode.setAttribute(prop.name, prop.value);
                         }
                     }
                 }
