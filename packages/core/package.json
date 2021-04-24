@@ -45,11 +45,11 @@
   "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.13.14",
+    "@babel/core": "^7.13.16",
     "@babel/eslint-parser": "^7.13.14",
-    "esbuild": "^0.11.5",
-    "eslint": "^7.23.0",
-    "rollup": "^2.44.0",
-    "rollup-plugin-esbuild": "^3.0.2"
+    "esbuild": "^0.11.14",
+    "eslint": "^7.25.0",
+    "rollup": "^2.45.2",
+    "rollup-plugin-esbuild": "^3.0.4"
   }
 }
