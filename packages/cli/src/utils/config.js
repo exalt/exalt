@@ -31,11 +31,9 @@ export async function loadToolchain(config) {
     };
 
     const toolchain = isFilePath(config.toolchain) ? path.join(process.cwd(), config.toolchain) : config.toolchain;
-    const toolchainPath = (path.isAbsolute(toolchain)) ? toolchain : path.join(process.cwd(), "node_modules", toolchain);
 
-    if (config.toolchain && fs.existsSync(toolchainPath)) {
-        const toolchainModule = await import(require.resolve(toolchain, { paths: [process.cwd()] }));
-
+    if (config.toolchain) {
+        const toolchainModule = await import(require.resolve(toolchain, { paths: module.paths }));
         return toolchainModule.default;
 
     } else {
