@@ -44,6 +44,11 @@ export function createTemplate(strings, values) {
             return combined + string + source;
         }
 
+        /* if the value is a boolean, dont render it (this is for conditional rendering) */
+        else if (typeof value == "boolean") {
+            return combined + string;
+        }
+
         /* else add the string with its value to this template */
         else {
             return combined + string + value;
