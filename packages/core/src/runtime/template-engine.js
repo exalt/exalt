@@ -89,8 +89,14 @@ export function compileTemplate({ source, data }) {
                         currentNode.props[prop.name] = prop.value;
                         currentNode.removeAttribute(prop.name);
 
+                        /* if the prop is a string, keep it as an attribute */
                         if (typeof prop.value == "string") {
                             currentNode.setAttribute(prop.name, prop.value);
+                        }
+
+                        /* if the prop is a boolean, keep it as a boolean attribute */
+                        else if (typeof prop.value == "boolean" && prop.value != false) {
+                            currentNode.setAttribute(prop.name, "");
                         }
                     }
                 }
