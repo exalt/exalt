@@ -11,7 +11,7 @@ export default ({ toolchainOptions, ...config }) => {
 
     return {
         serve: () => {
-            if(settings.library) {
+            if (settings.library) {
                 logError("The serve command does not support library builds!");
                 return;
             }
@@ -19,7 +19,7 @@ export default ({ toolchainOptions, ...config }) => {
             serve({ config, settings });
         },
         start: () => {
-            if(settings.library) {
+            if (settings.library) {
                 logError("The start command does not support library builds!");
                 return;
             }

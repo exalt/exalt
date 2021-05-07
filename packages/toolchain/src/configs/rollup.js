@@ -105,7 +105,7 @@ export function createRollupConfig(config, settings) {
         : { file: `${config.dest}/index.js`, format: config.format, name: "bundle" };
 
     rollupConfig.output.sourcemap = settings.sourcemap;
-    if(settings.library) rollupConfig.external = ["@exalt/core"];
+    if (settings.library) rollupConfig.external = ["@exalt/core"];
 
     return rollupConfig;
 }
