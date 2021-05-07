@@ -3,6 +3,7 @@
     "input": "src/index.js",
     "toolchain": "@exalt/toolchain",
     "toolchainOptions": {
-        "library": true
+        "library": true,
+        "exclude": ["@exalt/core"]
     }
 }

@@ -6,7 +6,7 @@ This project was bootstrapped using the [Exalt CLI](https://www.npmjs.com/packag
 
 ## Getting Started
 
-To get started with developing your new project, you have several npm scripts available.
+To get started with developing your new project, you have a build script available.
 
 - `npm run build` <br/>
 This command will build your library for production and output it to the `dist` directory.
