@@ -29,7 +29,7 @@ export class Component extends HTMLElement {
         this.props = createReactiveObject(this.props, this._requestUpdate());
 
         /* if a state property is declared make it reactive (this is for backwards compatibility) */
-        if(this.state) {
+        if (this.state) {
             this.state = createReactiveObject(this.state, this._requestUpdate());
         }
 
