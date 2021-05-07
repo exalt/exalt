@@ -5,9 +5,9 @@ import { build } from "./cmds/build";
 import { logError } from "./utils/logging";
 
 /* export the toolchain */
-export default ({ config, options }) => {
+export default ({ toolchainOptions, ...config }) => {
 
-    const settings = { ...defaultOptions, ...options };
+    const settings = { ...defaultOptions, ...toolchainOptions };
 
     return {
         serve: () => {
