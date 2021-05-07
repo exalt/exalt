@@ -1,6 +1,6 @@
 import { createDirectory, deleteDirectory, copyTemplate } from "../utils/file-system";
 import { logError } from "../utils/logging";
-import { spawn, exec } from "child_process";
+import { spawnSync, exec } from "child_process";
 import path from "path";
 import fs from "fs";
 
@@ -20,14 +20,11 @@ export class ProjectGenerator {
             ? path.join(__dirname, "../templates/library")
             : path.join(__dirname, "../templates/application");
 
-        this.dependencies = [];
-        this.devDependencies = [
-            "@exalt/toolchain@0.2.x",
-            "@exalt/cli@0.2.x"
+        this.dependencies = [
+            { name: "@exalt/toolchain@0.2.x", dev: true },
+            { name: "@exalt/cli@0.2.x", dev: true },
+            { name: "@exalt/core@0.2.x", dev: this.library }
         ];
-
-        if (this.library) this.devDependencies.push("@exalt/core@0.2.x");
-        else this.dependencies.push("@exalt/core@0.2.x");
     }
 
     /* generate the project */
@@ -52,30 +49,14 @@ export class ProjectGenerator {
             return;
         }
 
-        /* if the skip-install flag is not present, install the project dependencies */
-        if (!this.skipInstall) {
-            console.log("Installing dependencies, this could take a while.\n");
-
-            try {
-                await this.installDependencies();
-                await this.installDevDependencies();
-            } catch (error) {
-                logError(error.message);
-                deleteDirectory(this.dest);
-                return;
-            }
-        }
-
-        /* if the skip-git flag is not present, initialize a git repository */
-        if (!this.skipGit) {
-            console.log("Intitalizing Git Repository...\n");
-
-            try {
-                await this.intitializeGitRepository();
-            } catch (error) {
-                logError(error.message);
-                deleteDirectory(this.dest);
-            }
+        /* initialize the project depending on what the cli flags allow */
+        try {
+            if (!this.skipInstall) await this.installDependencies();
+            if (!this.skipGit) await this.intitializeGitRepository();
+        } catch (error) {
+            logError(error.message);
+            deleteDirectory(this.dest);
+            return;
         }
 
         this.printStartMessage();
@@ -84,54 +65,47 @@ export class ProjectGenerator {
     /* install project dependencies */
     installDependencies() {
         return new Promise((resolve, reject) => {
-            const npm = /^win/.test(process.platform) ? "npm.cmd" : "npm";
+            console.log("Installing dependencies, this could take a while.\n");
 
-            const thread = spawn(npm, ["install", "--save"].concat(this.dependencies), {
-                cwd: this.dest,
-                stdio: ["ignore", 1, 2]
-            });
+            const command = /^win/.test(process.platform) ? "npm.cmd" : "npm";
+            const dependencies = this.dependencies.filter(({ dev }) => (!dev)).map(({ name }) => name);
+            const devDependencies = this.dependencies.filter(({ dev }) => (dev)).map(({ name }) => name);
 
-            thread.on("close", (code) => {
-                if (code == 0) resolve();
-                else reject(new Error("Failed to install project dependencies!"));
-            });
-        });
-    }
+            /* spawn the child process and handle errors */
+            const spawnProcess = (command, args) => {
+                const { status, error } = spawnSync(command, args, { cwd: this.dest, stdio: "inherit" });
+                if (status != 0) throw new Error("Failed to install project dependencies!");
+                if (error) throw error;
+            };
 
-    /* install project devDependencies */
-    installDevDependencies() {
-        return new Promise((resolve, reject) => {
-            const npm = /^win/.test(process.platform) ? "npm.cmd" : "npm";
-
-            const thread = spawn(npm, ["install", "--save-dev"].concat(this.devDependencies), {
-                cwd: this.dest,
-                stdio: ["ignore", 1, 2]
-            });
-
-            thread.on("close", (code) => {
-                if (code == 0) resolve();
-                else reject(new Error("Failed to install project dependencies!"));
-            });
+            try {
+                spawnProcess(command, ["install", "--save"].concat(dependencies));
+                spawnProcess(command, ["install", "--save-dev"].concat(devDependencies));
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 
     /* intitialize a git repository */
     intitializeGitRepository() {
         return new Promise((resolve, reject) => {
-            const thread = exec("git init", { cwd: this.dest }, (error) => {
-                if (error) reject(error);
-            });
+            console.log("\nIntitalizing Git Repository...\n");
 
-            thread.on("close", (code) => {
-                if (code == 0) resolve();
-                else reject(new Error("Failed to initialize the git repository!"));
-            });
+            try {
+                exec("git init", { cwd: this.dest });
+                resolve();
+            } catch {
+                reject(new Error("Failed to initialize the git repository!"));
+            }
+
         });
     }
 
     /* print the startup message when a project is done being generated */
     printStartMessage() {
-        console.log(`Successfully created ${this.name}\n`);
+        console.log(`\nSuccessfully created ${this.name}\n`);
         console.log("----------------------------------");
         console.log("Get started with your new project!\n");
         console.log(` > cd ./${path.relative(process.cwd(), this.dest)}`);
