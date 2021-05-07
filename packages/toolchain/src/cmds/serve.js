@@ -1,7 +1,7 @@
 import rollup from "rollup";
 import { createRollupConfig } from "../configs/rollup";
 import { color, logError } from "../utils/logging";
-import { copyAssets } from "../utils/file-system";
+import { copyFolder } from "../utils/file-system";
 
 export async function serve({ config, settings }) {
     const rollupConfig = createRollupConfig(config, settings);
@@ -12,7 +12,7 @@ export async function serve({ config, settings }) {
     watcher.on("event", (event) => {
         switch (event.code) {
             case "BUNDLE_END":
-                copyAssets("public", config.dest);
+                copyFolder("public", config.dest);
                 console.log(`${color.cyan}info${color.reset} - compiled successfully`);
                 break;
 

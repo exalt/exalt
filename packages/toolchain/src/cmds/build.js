@@ -1,7 +1,7 @@
 import rollup from "rollup";
 import { createRollupConfig } from "../configs/rollup";
 import { color, logError } from "../utils/logging";
-import { copyAssets } from "../utils/file-system";
+import { copyFolder } from "../utils/file-system";
 
 export async function build({ config, settings }) {
     const rollupConfig = createRollupConfig(config, settings);
@@ -13,8 +13,7 @@ export async function build({ config, settings }) {
         await bundle.write(rollupConfig.output);
 
         if (!settings.library) {
-            console.log(`${color.cyan}info${color.reset} - copying assets...`);
-            copyAssets("public", config.dest);
+            copyFolder("public", config.dest);
         }
 
         console.log(`${color.cyan}info${color.reset} - compiled successfully`);

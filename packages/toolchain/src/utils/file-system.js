@@ -34,13 +34,3 @@ export function copyFile(file, dest, filter = {}) {
         fs.writeFileSync(path.join(dest, newFile), fs.readFileSync(file));
     }
 }
-
-/* copy the project assets to the build directory */
-export function copyAssets(src, dest) {
-    copyFolder(src, dest);
-
-    const fragments = dest.split("/");
-    fragments.pop();
-    
-    copyFile("exalt.json", fragments.join("/"));
-}
