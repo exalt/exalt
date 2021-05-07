@@ -66,7 +66,6 @@ export class Component extends HTMLElement {
         if (this._refCount > 0) {
             this.root.querySelectorAll("[ref]").forEach((node) => {
                 this[node.getAttribute("ref")] = node;
-                node.removeAttribute("ref");
             });
         }
     }
