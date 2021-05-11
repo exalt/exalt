@@ -6,7 +6,7 @@ import folder from "rollup-plugin-import-folder";
 import css from "rollup-plugin-import-css";
 import template from "rollup-plugin-html-literals";
 import esbuild from "rollup-plugin-esbuild";
-import html from "@rollup/plugin-html";
+import html, { makeHtmlAttributes } from "@rollup/plugin-html";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
 import { color } from "../utils/logging";
@@ -122,7 +122,7 @@ function parseAliasPaths(paths) {
 }
 
 /* render the custom html output */
-function renderHTML({ files, publicPath, title }) {
+function renderHTML({ attributes, files, publicPath, title }) {
     let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
 
     const scripts = [];
@@ -130,13 +130,15 @@ function renderHTML({ files, publicPath, title }) {
 
     if (files.js) {
         for (let file of files.js) {
-            scripts.push(`\t<script src="${publicPath + file.fileName}"></script>`);
+            const attribs = makeHtmlAttributes(attributes.script);
+            scripts.push(`\t<script${attribs} src="${publicPath + file.fileName}"></script>`);
         }
     }
 
     if (files.css) {
         for (let file of files.css) {
-            links.push(`\t<link rel="stylesheet" href="${publicPath + file.fileName}" />`);
+            const attribs = makeHtmlAttributes(attributes.link);
+            links.push(`\t<link${attribs} rel="stylesheet" href="${publicPath + file.fileName}" />`);
         }
     }
 
