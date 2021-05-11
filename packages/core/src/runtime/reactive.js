@@ -21,7 +21,7 @@ export function processReactiveProperties(obj, callback) {
         }
 
         /* if the value is an object, turn it into a reactive object */
-        else if (typeof value == "object") {
+        else if (Object.getPrototypeOf(value) == Object.prototype) {
             value = createReactiveObject(value, callback);
             Object.defineProperty(obj, key, {
                 get: () => value,
@@ -73,7 +73,7 @@ function mutate(callback, isArrayMode = false) {
             }
 
             /* if the property does not exist, and the value is an object, make it reactive */
-            if (typeof value == "object") {
+            if (Object.getPrototypeOf(value) == Object.prototype) {
                 target[key] = createReactiveObject(value, callback);
                 return true;
             }
