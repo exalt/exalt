@@ -55,29 +55,26 @@ This will run your app on a simple http server capable of serving a single page 
 We try to make sure that the default toolchain meets the needs of most projects.
 In cases where it fails to meet your project requirements, we offer an easy solution to build your own toolchain.
 
-A toolchain is a file that default exports a function that returns an object of command functions.
-This function recieves an object with two properties as its only agrument. These properties are `config` and `options`
+A toolchain is a file that exports a default function that returns an object of command functions.
+This function recieves the config object consiting of `name`, `input`, `format`, `dest` and `toolchainOptions`
 
 The commands that are availble for toolchains to control are `serve`, `start`, and `build`.
 
-### Config Property
+### Config Properties
 
-The config property is controlled by the platform your targeting, the cli, and your config file.
+The config properties is controlled by the cli and your config file.
 The config property includes these properties.
 
 - name: string - the project name.
 - input: string | object - the entry files to compile.
-- format: string - the output format. (defined by the platform)
-- dest: string - the output destination. (defined by the platform)
+- format: string - the output format.
+- dest: string - the output destination.
+- toolchainOptions: object - the options to customize the toolchain
 
-### Options Property
-
-The options property is controlled by the `toolchainOptions` property in your config file.
-Any options inside toolchainOptions are designed to modify the behavior of the active toolchain.
 
 **Example:**
 ```js
-export default ({ config, options }) => {
+export default ({ toolchainOptions, ...config }) => {
 
     return {
         serve: () => {},

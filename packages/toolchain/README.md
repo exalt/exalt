@@ -48,6 +48,7 @@ This toolchain offers some options to configure this functionality.
 - minify (default: false) - determines whether or not the build should be minified.
 - sourcemap (default: false) - determines whether or not sourcemaps should be generated.
 - paths (default: {}) - object that maps aliases to file paths.
+- publicPath (default: "/") - the asset path to append to the beginning of all asset paths.
 - open (default: true) - tells the cli whether or not to launch your app or not.
 - port (default: 3000) - sets the web server port.
 - headers (default: {}) - sets headers to be sent with each request/response.
