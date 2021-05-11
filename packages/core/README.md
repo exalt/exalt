@@ -110,7 +110,8 @@ Component.create({ name: "hello-world" }, HelloWorld);
 
 Components have access to state and attributes for updating the DOM.
 
-When making use of state, users can initialize a state object and have its properties mutated directly.
+When making use of state, users can initialize a reactive property using `super.reactive()`.
+This function will take the value and make the property reactive so that whenever its changed, the view automatically updates.
 This example displays the current time and updates the time every second.
 
 **Example:**
@@ -119,16 +120,16 @@ import { Component, html } from "@exalt/core";
 
 export class Clock extends Component {
 
-    state = { date: new Date() };
+    date = super.reactive(new Date());
 
     render() {
         return html`
-            <h1>Current Time: ${this.state.date}</h1>
+            <h1>Current Time: ${this.date}</h1>
         `;
     }
 
     mount() {
-        this.timer = setInterval(() => this.state.date = new Date(), 1000);
+        this.timer = setInterval(() => this.date = new Date(), 1000);
     }
 
     unmount() {
