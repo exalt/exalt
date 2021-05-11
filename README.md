@@ -34,6 +34,9 @@ npm install -g @exalt/cli
 
 You can read more on the Exalt CLI's [README](https://github.com/OutwalkStudios/exalt/tree/main/packages/cli#readme).
 
+When using VSCode you can get intellisense and auto completion for templates using
+the [Exalt VSCode Extension](https://marketplace.visualstudio.com/items?itemName=jleeson.vscode-exalt).
+
 ---
 
 ## Getting Started
