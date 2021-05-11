@@ -12,6 +12,7 @@ export class Component extends HTMLElement {
 
         this._styles = styles.join("");
         this._refCount = 0;
+        this._reactiveCount = 0;
 
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
@@ -34,7 +35,9 @@ export class Component extends HTMLElement {
         }
 
         /* process any reactive properties that were defined */
-        processReactiveProperties(this, this._requestUpdate());
+        if (this._reactiveCount > 0) {
+            processReactiveProperties(this, this._requestUpdate());
+        }
 
         /* render the component */
         reconcile(this.render(this.props), this.root, { styles: this._styles });
@@ -72,6 +75,7 @@ export class Component extends HTMLElement {
 
     /* create a reactive property */
     reactive(value) {
+        this._reactiveCount++;
         return createReactiveProperty(value);
     }
 
