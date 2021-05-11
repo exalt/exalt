@@ -16,6 +16,7 @@ declare abstract class Component<P> extends HTMLElement {
 
     private _styles: string;
     private _refCount: number;
+    private _reactiveCount: number;
 
     props: P;
     root: ShadowRoot | HTMLElement;
