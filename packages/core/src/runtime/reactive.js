@@ -64,6 +64,7 @@ function mutate(callback, isArrayMode = false) {
             /* if the property exists, it should be updated */
             if (target[key] != undefined) {
                 callback(key, target[key] = value);
+                return true;
             }
 
             /* if the property does not exist, and the value is an array, make it reactive */
@@ -83,6 +84,12 @@ function mutate(callback, isArrayMode = false) {
 
             /* if the value is an array, we should still run the callback */
             if (isArrayMode) callback(key, value);
+            return true;
+        },
+
+        deleteProperty: (target, key, value) => {
+            delete target[key];
+            callback(key, value);
             return true;
         }
     };
