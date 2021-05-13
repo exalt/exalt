@@ -48,10 +48,7 @@ export function createReactiveObject(value, callback) {
 
 /* create a reactive array */
 export function createReactiveArray(value, callback) {
-    const proxy = new Proxy([], mutate(callback, true));
-    /* we merge the value with the proxy to ensure than nested values become reactive */
-    proxy.push(...value);
-    return proxy;
+    return new Proxy(value, mutate(callback, true));
 }
 
 /* handle the mutation of an object or array wrapped in a proxy */
