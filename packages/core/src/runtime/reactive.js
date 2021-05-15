@@ -41,14 +41,18 @@ export function processReactiveProperties(obj, callback) {
 
 /* create a reactive object */
 export function createReactiveObject(value, callback) {
-    const proxy = new Proxy({}, mutate(callback));
     /* we merge the value with the proxy to ensure than nested values become reactive */
-    return Object.assign(proxy, value);
+    return Object.assign(new Proxy({}, mutate(callback)), value);
 }
 
 /* create a reactive array */
 export function createReactiveArray(value, callback) {
-    return new Proxy(value, mutate(callback, true));
+    /* we map nested properties to their reactive equivalents */
+    return new Proxy(value.map((item) => {
+        if (Array.isArray(item)) return createReactiveArray(item, callback);
+        if (Object.getPrototypeOf(item) == Object.prototype) return createReactiveObject(item, callback);
+        return item;
+    }), mutate(callback, true));
 }
 
 /* handle the mutation of an object or array wrapped in a proxy */
@@ -66,14 +70,12 @@ function mutate(callback, isArrayMode = false) {
 
             /* if the property does not exist, and the value is an array, make it reactive */
             if (Array.isArray(value)) {
-                target[key] = createReactiveArray(value, callback);
-                return true;
+                return (target[key] = createReactiveArray(value, callback));
             }
 
             /* if the property does not exist, and the value is an object, make it reactive */
             if (Object.getPrototypeOf(value) == Object.prototype) {
-                target[key] = createReactiveObject(value, callback);
-                return true;
+                return (target[key] = createReactiveObject(value, callback));
             }
 
             /* the property does not exist, so we create it */
