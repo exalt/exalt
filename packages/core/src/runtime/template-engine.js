@@ -84,8 +84,13 @@ export function compileTemplate({ source, data }) {
 
                     /* if the prop starts with "on", bind it as an event */
                     if (prop.name.startsWith("on")) {
-                        currentNode.addEventListener(prop.name.slice(2), prop.value);
+                        const event = prop.name.slice(2);
+
+                        currentNode._listeners = currentNode._listeners ?? {};
+                        currentNode._listeners[event] = prop.value;
                         currentNode.removeAttribute(prop.name);
+
+                        currentNode.addEventListener(event, eventWrapper);
                     }
 
                     /* else record it as a property on the element */
@@ -131,4 +136,9 @@ function isTemplate(value) {
 /* check if an object is an array of templates */
 function isTemplateArray(value) {
     return (Array.isArray(value) && isTemplate(value[0]));
+}
+
+/* wrap the event to access its _listeners property */
+function eventWrapper(event) {
+    this._listeners[event.type](event);
 }
