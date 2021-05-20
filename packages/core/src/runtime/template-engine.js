@@ -114,7 +114,7 @@ export function compileTemplate({ source, data }) {
                 /* else record it as a property on the element */
                 else {
                     currentNode.props = currentNode.props ?? {};
-                    currentNode.props[attribute.localName] = attribute.value;
+                    currentNode.props[attribute.localName] = (attribute.value == "") ? true : attribute.value;
                 }
             }
         }
