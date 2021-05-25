@@ -21,7 +21,7 @@ export function processReactiveProperties(obj, callback) {
         }
 
         /* if the value is an object, turn it into a reactive object */
-        else if (value != null && Object.getPrototypeOf(value) == Object.prototype) {
+        else if (isObject(value)) {
             value = createReactiveObject(value, callback);
             Object.defineProperty(obj, key, {
                 get: () => value,
@@ -50,7 +50,7 @@ export function createReactiveArray(value, callback) {
     /* we map nested properties to their reactive equivalents */
     return new Proxy(value.map((item) => {
         if (Array.isArray(item)) return createReactiveArray(item, callback);
-        if (item != null && Object.getPrototypeOf(item) == Object.prototype) return createReactiveObject(item, callback);
+        if (isObject(item)) return createReactiveObject(item, callback);
         return item;
     }), mutate(callback, true));
 }
@@ -69,12 +69,12 @@ function mutate(callback, isArrayMode = false) {
             }
 
             /* if the property does not exist, and the value is an array, make it reactive */
-            if (Array.isArray(value)) {
+            if (Array.isArray(value) && !key[0] == "_") {
                 return (target[key] = createReactiveArray(value, callback));
             }
 
             /* if the property does not exist, and the value is an object, make it reactive */
-            if (value != null && Object.getPrototypeOf(value) == Object.prototype) {
+            if (isObject(value) && !key[0] == "_") {
                 return (target[key] = createReactiveObject(value, callback));
             }
 
@@ -92,4 +92,9 @@ function mutate(callback, isArrayMode = false) {
             return true;
         }
     };
+}
+
+/* check if an object is an object literal */
+function isObject(value) {
+    return (value != null && Object.getPrototypeOf(value) == Object.prototype);
 }
