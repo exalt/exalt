@@ -1,5 +1,5 @@
 import serve from "app-serve";
-import { color, logError } from "../utils/logging";
+import { color, log, logError } from "../utils/logging";
 import fs from "fs";
 
 export function start({ config, settings }) {
@@ -16,7 +16,7 @@ export function start({ config, settings }) {
             historyApiFallback: true,
             verbose: false,
             onListening: () => {
-                console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${settings.port}/${color.reset}`);
+                log(`server started at ${color.green}http://localhost:${settings.port}/${color.reset}`);
             }
         });
     } catch (error) {

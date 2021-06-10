@@ -9,7 +9,7 @@ import esbuild from "rollup-plugin-esbuild";
 import html, { makeHtmlAttributes } from "@rollup/plugin-html";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
-import { color } from "../utils/logging";
+import { color, log } from "../utils/logging";
 import path from "path";
 import fs from "fs";
 
@@ -82,7 +82,7 @@ export function createRollupConfig(config, settings) {
                     historyApiFallback: true,
                     verbose: false,
                     onListening: () => {
-                        console.log(`${color.cyan}info${color.reset} - server started at ${color.green}http://localhost:${settings.port}/${color.reset}`);
+                        log(`server started at ${color.green}http://localhost:${settings.port}/${color.reset}`);
                     }
                 }),
 

@@ -1,6 +1,6 @@
 import rollup from "rollup";
 import { createRollupConfig } from "../configs/rollup";
-import { color, logError } from "../utils/logging";
+import { log, logError} from "../utils/logging";
 import { copyFolder } from "../utils/file-system";
 
 export async function serve({ config, settings }) {
@@ -13,15 +13,15 @@ export async function serve({ config, settings }) {
         switch (event.code) {
             case "BUNDLE_END":
                 copyFolder("public", config.dest);
-                console.log(`${color.cyan}info${color.reset} - compiled successfully`);
+                log("compiled successfully");
                 break;
 
             case "ERROR":
-                logError(`Exalt StackTrace: ${event.error.message}`);
+                logError(`Exalt StackTrace: ${event.error.message.slice(0, event.error.message.indexOf(" in"))}`);
                 if (event.error.loc) {
                     logError(`File: ${event.error.id}`);
                     logError(`Line: ${event.error.loc.line}, Column: ${event.error.loc.column}`);
-                    if (event.error.frame) console.log(event.error.frame);
+                    if (event.error.frame) logError(event.error.frame);
                 }
                 break;
 

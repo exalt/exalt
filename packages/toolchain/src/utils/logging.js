@@ -27,6 +27,11 @@ export const color = {
     bgWhite: "\x1b[47m"
 };
 
+/* log a message to the console */
+export function log(message) {
+    console.log(`${color.cyan}[exalt]${color.reset} - ${message}`);
+}
+
 /* log an error */
 export function logError(message) {
     console.error(`${color.red}${message}${color.reset}`);
