@@ -12,7 +12,7 @@ export async function serve({ config, settings }) {
     watcher.on("event", (event) => {
         switch (event.code) {
             case "BUNDLE_END":
-                copyFolder("public", config.dest);
+                copyFolder("public", config.dest, true);
                 log("compiled successfully");
                 break;
 

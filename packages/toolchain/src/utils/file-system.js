@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 /* copy folder to another folder */
-export function copyFolder(src, dest) {
+export function copyFolder(src, dest, copyOnce = false) {
     const filesToCreate = fs.readdirSync(src);
 
     for (let file of filesToCreate) {
@@ -11,6 +11,8 @@ export function copyFolder(src, dest) {
         const originalPath = path.join(src, file);
         const newPath = path.join(dest, file);
         const stats = fs.statSync(originalPath);
+
+        if (copyOnce && fs.existsSync(newPath)) continue;
 
         if (stats.isFile()) {
             fs.writeFileSync(newPath, fs.readFileSync(originalPath));
