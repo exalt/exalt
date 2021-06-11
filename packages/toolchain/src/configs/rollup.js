@@ -45,8 +45,10 @@ export function createRollupConfig(config, settings) {
             options: {
                 shouldMinify: () => settings.minify,
                 minifyOptions: {
+                    caseSensitive: true,
                     keepClosingSlash: true,
-                    removeAttributeQuotes: true
+                    removeAttributeQuotes: true,
+                    collapseBooleanAttributes: true
                 }
             }
         }),
