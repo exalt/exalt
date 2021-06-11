@@ -1,5 +1,5 @@
 /* REGEX rule to enable the use of self closing components */
-const SELF_CLOSING_COMPONENTS = /<([a-z]+-[a-z]+)(.*)\/>/g;
+const SELF_CLOSING_COMPONENTS = /<([a-z]+-[a-z]+)([^>]*)\/>/g;
 
 /* parse a template literal into a template object */
 export function createTemplate(strings, values) {
