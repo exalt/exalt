@@ -29,7 +29,7 @@ export const color = {
 
 /* log a message to the console */
 export function log(message) {
-    console.log(`${color.cyan}[exalt]${color.reset} - ${message}`);
+    console.log(`${color.cyan}info${color.reset} - ${message}`);
 }
 
 /* log an error */
