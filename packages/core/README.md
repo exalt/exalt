@@ -224,26 +224,26 @@ html`<list-view items=${items} />`;
 
 ## Global State Management
 
-Exalt Components have the state property for updating the component it belongs to, but in cases where components need to share state, Exalt provides a global state solution via a context api. You can create a context and then tell individial components to listen to changes on the context using the `contexts` component option.
+Exalt Components have reactive properties for updating the component it belongs to, but in cases where components need to share state, Exalt provides a global state solution via a store api. You can create a store and then tell individial components to listen to changes on the store using the `stores` component option.
 
 **Example:**
 ```js
-import { Component, html, createContext } from "@exalt/core";
+import { Component, html, createStore } from "@exalt/core";
 
-/* create the context */
-const context = createContext({ count: 0 });
+/* create the store */
+const store = createStore({ count: 0 });
 
 export class Counter extends Component {
 
     render() {
         return html`
-            <button onclick=${() => context.count++}>Clicked: ${context.count}</button>
+            <button onclick=${() => store.count++}>Clicked: ${store.count}</button>
         `;
     }
 
 }
 
-Component.create({ name: "x-counter", contexts: [context] }, Counter);
+Component.create({ name: "x-counter", stores: [store] }, Counter);
 ```
 
 ---

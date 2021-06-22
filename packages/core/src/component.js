@@ -8,7 +8,7 @@ export class Component extends HTMLElement {
         super();
 
         /* get the options specified in the component creation */
-        const { useShadow, styles, contexts } = this.constructor._options;
+        const { useShadow, styles, stores } = this.constructor._options;
 
         this._styles = styles.join("");
         this._refCount = 0;
@@ -17,9 +17,9 @@ export class Component extends HTMLElement {
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
 
-        /* subscribe to all the contexts */
-        for (let context of contexts) {
-            context._components.push(this._requestUpdate());
+        /* subscribe to all the stores */
+        for (let store of stores) {
+            store._components.push(this._requestUpdate());
         }
     }
 
@@ -102,7 +102,7 @@ export class Component extends HTMLElement {
 
     /* define the component with the default CustomElementRegistry */
     static create(options, component) {
-        const defaults = { useShadow: true, styles: [], contexts: [] };
+        const defaults = { useShadow: true, styles: [], stores: [] };
         component._options = { ...defaults, ...options };
 
         if (!options.name) {

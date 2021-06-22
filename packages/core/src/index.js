@@ -6,12 +6,12 @@ export function html(strings, ...values) {
     return createTemplate(strings, values);
 }
 
-/* create a state context */
-export function createContext(context) {
-    context._components = [];
+/* create a reactive store */
+export function createStore(store) {
+    store._components = [];
 
-    return createReactiveObject(context, (key, value) => {
-        for (let callback of context._components) {
+    return createReactiveObject(store, (key, value) => {
+        for (let callback of store._components) {
             callback(key, value);
         }
     });
