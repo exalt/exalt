@@ -45,12 +45,24 @@ export class Component extends HTMLElement {
         /* collect all the refs */
         this._parseRefs();
 
-        this.mount();
+        this.mount && this.mount();
     }
 
     /* native lifecycle callback, gets called whenever a component is removed from the dom */
     disconnectedCallback() {
-        this.unmount();
+        this.unmount && this.unmount();
+    }
+
+    /* override the setAttribute method to hook into props */
+    setAttribute(name, value) {
+        super.setAttribute(name, value);
+        this.props[name] = (value == "") ? true : value;
+    }
+
+    /* override the removeAttribute method to hook into props */
+    removeAttribute(name) {
+        super.removeAttribute(name);
+        delete this.props[name];
     }
 
     /* request an update function callback */
@@ -59,7 +71,7 @@ export class Component extends HTMLElement {
             if (this.shouldUpdate(key, value)) {
                 reconcile(this.render(this.props), this.root, { styles: this._styles });
                 this._parseRefs();
-                this.onUpdate(key, value);
+                this.onUpdate && this.onUpdate(key, value);
             }
         };
     }
@@ -86,16 +98,7 @@ export class Component extends HTMLElement {
     }
 
     /* renders the component dom tree by returning a template */
-    render() { }
-
-    /* lifecycle method called when a component is successfully mounted */
-    mount() { }
-
-    /* lifecycle method called when a component is successfully unmounted */
-    unmount() { }
-
-    /* lifecycle method called when a component is updated */
-    onUpdate() { }
+    render() { return null; }
 
     /* lifecycle method called when a component is about to be updated to prevent undesired updates */
     shouldUpdate() { return true; }
