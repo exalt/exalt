@@ -29,11 +29,6 @@ export class Component extends HTMLElement {
         /* make the props passed in through the template engine reactive */
         this.props = createReactiveObject(this.props, this._requestUpdate());
 
-        /* if a state property is declared make it reactive (this is for backwards compatibility) */
-        if (this.state) {
-            this.state = createReactiveObject(this.state, this._requestUpdate());
-        }
-
         /* process any reactive properties that were defined */
         if (this._reactiveCount > 0) {
             processReactiveProperties(this, this._requestUpdate());
