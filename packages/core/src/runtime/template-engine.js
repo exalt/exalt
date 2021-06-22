@@ -83,15 +83,15 @@ export function compileTemplate({ source, data }) {
 
                 /* if its an attribute binding, process further */
                 if (attribute.value == "{{a}}") {
-                    const prop = data[index++];
+                    const { name, value } = data[index++];
 
                     /* if the prop starts with "on", bind it as an event */
-                    if (prop.name.startsWith("on")) {
-                        const event = prop.name.slice(2);
+                    if (name[0] == "o" && name[1] == "n") {
+                        const event = name.slice(2);
 
                         currentNode._listeners = currentNode._listeners ?? {};
-                        currentNode._listeners[event] = prop.value;
-                        currentNode.removeAttribute(prop.name);
+                        currentNode._listeners[event] = value;
+                        currentNode.removeAttribute(name);
 
                         currentNode.addEventListener(event, eventWrapper);
                     }
@@ -99,17 +99,17 @@ export function compileTemplate({ source, data }) {
                     /* if the node is a component, record it as a prop on the element */
                     else if (currentNode.nodeName.includes("-")) {
                         currentNode.props = currentNode.props ?? {};
-                        currentNode.props[prop.name] = prop.value;
-                        currentNode.removeAttribute(prop.name);
+                        currentNode.props[name] = value;
+                        currentNode.removeAttribute(name);
 
                         /* if the prop is a string, keep it as an attribute */
-                        if (typeof prop.value == "string") {
-                            currentNode.setAttribute(prop.name, prop.value);
+                        if (typeof value == "string") {
+                            currentNode.setAttribute(name, value);
                         }
 
                         /* if the prop is a boolean, keep it as a boolean attribute */
-                        else if (typeof prop.value == "boolean" && prop.value != false) {
-                            currentNode.setAttribute(prop.name, "");
+                        else if (typeof value == "boolean" && value != false) {
+                            currentNode.setAttribute(name, "");
                         }
                     }
                 }
