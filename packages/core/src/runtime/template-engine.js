@@ -63,6 +63,9 @@ export function compileTemplate({ source, data }) {
     const template = document.createElement("template");
     template.innerHTML = source;
 
+    /* if there is no data to process, return the template */
+    if(data.length == 0) return template.content;
+
     const walker = document.createTreeWalker(template.content, 1);
 
     let currentNode;
@@ -93,8 +96,8 @@ export function compileTemplate({ source, data }) {
                         currentNode.addEventListener(event, eventWrapper);
                     }
 
-                    /* else record it as a property on the element */
-                    else {
+                    /* if the node is a component, record it as a prop on the element */
+                    else if (currentNode.nodeName.includes("-")) {
                         currentNode.props = currentNode.props ?? {};
                         currentNode.props[prop.name] = prop.value;
                         currentNode.removeAttribute(prop.name);
@@ -109,12 +112,6 @@ export function compileTemplate({ source, data }) {
                             currentNode.setAttribute(prop.name, "");
                         }
                     }
-                }
-
-                /* else record it as a property on the element */
-                else {
-                    currentNode.props = currentNode.props ?? {};
-                    currentNode.props[attribute.localName] = (attribute.value == "") ? true : attribute.value;
                 }
             }
         }
