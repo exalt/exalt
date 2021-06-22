@@ -20,19 +20,7 @@ export function copyFolder(src, dest, copyOnce = false) {
             if (!fs.existsSync(newPath)) {
                 fs.mkdirSync(newPath, { recursive: true });
             }
-            copyFolder(originalPath, newPath);
+            copyFolder(originalPath, newPath, copyOnce);
         }
-    }
-}
-
-/* copy files to another folder */
-export function copyFile(file, dest, filter = {}) {
-    let newFile = file;
-    if (filter[file]) newFile = filter[file];
-
-    const stats = fs.statSync(file);
-
-    if (stats.isFile()) {
-        fs.writeFileSync(path.join(dest, newFile), fs.readFileSync(file));
     }
 }
