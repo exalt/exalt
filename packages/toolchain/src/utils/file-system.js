@@ -19,7 +19,7 @@ export function copyFolder(src, dest, copyOnce = false) {
             if (!fs.existsSync(newPath)) {
                 fs.mkdirSync(newPath, { recursive: true });
             }
-            copyFolder(originalPath, newPath);
+            copyFolder(originalPath, newPath, copyOnce);
         }
     }
 }
