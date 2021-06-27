@@ -116,9 +116,7 @@ export function createRollupConfig(config, settings) {
 function parseAliasPaths(paths) {
     if (!paths) return null;
 
-    const keys = Object.keys(paths);
-
-    return keys.map((key) => {
+    return Object.keys(paths).map((key) => {
         return { find: key, replacement: path.resolve(process.cwd(), paths[key]) };
     });
 }
