@@ -19,11 +19,7 @@ export async function build({ config, settings }) {
         log("compiled successfully");
 
     } catch (error) {
-        logError(`Exalt StackTrace: ${error.message}`);
-        if (error.loc) {
-            logError(`File: ${error.id}`);
-            logError(`Line: ${error.loc.line}, Column: ${error.loc.column}`);
-            if (error.frame) logError(error.frame);
-        }
+        logError(error.message);
+        if(error.frame) console.log(error.frame);
     }
 }

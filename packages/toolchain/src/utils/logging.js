@@ -34,10 +34,10 @@ export function log(message) {
 
 /* log an error */
 export function logError(message) {
-    console.error(`${color.red}${message}${color.reset}`);
+    console.error(`${color.red}[exalt]${color.reset} - ${message}`);
 }
 
 /* log a warning */
 export function logWarning(message) {
-    console.error(`${color.yellow}${message}${color.reset}`);
+    console.error(`${color.yellow}[exalt]${color.reset} - ${message}`);
 }
