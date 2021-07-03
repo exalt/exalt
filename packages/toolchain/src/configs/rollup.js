@@ -7,6 +7,7 @@ import css from "rollup-plugin-import-css";
 import template from "rollup-plugin-html-literals";
 import esbuild from "rollup-plugin-esbuild";
 import html, { makeHtmlAttributes } from "@rollup/plugin-html";
+import watch from "rollup-plugin-watch";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
 import { color, log } from "../utils/logging";
@@ -70,7 +71,8 @@ export function createRollupConfig(config, settings) {
                 title: config.name,
                 publicPath: settings.publicPath,
                 template: renderHTML
-            })
+            }),
+            watch({ dir: "public" })
         );
 
         /* if we are in a development environment, run the dev server */
