@@ -1,39 +1,35 @@
-/* create a reactive property */
-export function createReactiveProperty(value) {
-    return { _reactive: true, value: value };
-}
-
 /* process the reactive properties and make them reactive */
 export function processReactiveProperties(obj, callback) {
-    /* collect all the reactive properties */
-    const keys = Object.getOwnPropertyNames(obj).filter((key) => (obj[key] && obj[key]._reactive));
 
-    for (let key of keys) {
-        let value = obj[key].value;
+    const names = Object.getOwnPropertyNames(obj);
+
+    for (let index of obj._reactive) {
+        let name = names[index];
+        let value = obj[name];
 
         /* if the value is an array, turn it into a reactive array */
         if (Array.isArray(value)) {
             value = createReactiveArray(value, callback);
-            Object.defineProperty(obj, key, {
+            Object.defineProperty(obj, name, {
                 get: () => value,
-                set: (newValue) => { callback(key, value = createReactiveArray(newValue, callback)); }
+                set: (newValue) => { callback(name, value = createReactiveArray(newValue, callback)); }
             });
         }
 
         /* if the value is an object, turn it into a reactive object */
         else if (isObject(value)) {
             value = createReactiveObject(value, callback);
-            Object.defineProperty(obj, key, {
+            Object.defineProperty(obj, name, {
                 get: () => value,
-                set: (newValue) => { callback(key, value = Object.assign(value, newValue)); }
+                set: (newValue) => { callback(name, value = Object.assign(value, newValue)); }
             });
         }
 
         /* if the value is a primitive, make it reactive */
         else {
-            Object.defineProperty(obj, key, {
+            Object.defineProperty(obj, name, {
                 get: () => value,
-                set: (newValue) => { callback(key, value = newValue); }
+                set: (newValue) => { callback(name, value = newValue); }
             });
         }
     }

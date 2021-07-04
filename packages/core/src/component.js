@@ -1,4 +1,4 @@
-import { createReactiveObject, createReactiveProperty, processReactiveProperties } from "./runtime/reactive";
+import { createReactiveObject, processReactiveProperties } from "./runtime/reactive";
 import { reconcile } from "./runtime/reconciler";
 
 /* Component class for building reusable pieces of a UI */
@@ -12,7 +12,7 @@ export class Component extends HTMLElement {
 
         this._styles = styles.join("");
         this._refCount = 0;
-        this._reactiveCount = 0;
+        this._reactive = [];
 
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
@@ -29,13 +29,13 @@ export class Component extends HTMLElement {
         /* make the props passed in through the template engine reactive */
         this.props = createReactiveObject(this.props, this._requestUpdate());
 
-        /* process any reactive properties that were defined */
-        if (this._reactiveCount > 0) {
-            processReactiveProperties(this, this._requestUpdate());
-        }
-
         /* render the component */
         reconcile(this.render(this.props), this.root, { styles: this._styles });
+
+        /* process any reactive properties that were defined */
+        if (this._reactive.length > 0) {
+            processReactiveProperties(this, this._requestUpdate());
+        }
 
         /* collect all the refs */
         this._parseRefs();
@@ -82,8 +82,8 @@ export class Component extends HTMLElement {
 
     /* create a reactive property */
     reactive(value) {
-        this._reactiveCount++;
-        return createReactiveProperty(value);
+        this._reactive.push(Object.getOwnPropertyNames(this).length);
+        return value;
     }
 
     /* create a reference to a node in the template */
