@@ -96,8 +96,8 @@ export function compileTemplate({ source, data }) {
                         currentNode.addEventListener(event, eventWrapper);
                     }
 
-                    /* if the node is a component, record it as a prop on the element */
-                    else if (currentNode.nodeName.includes("-")) {
+                    /* else record it as a prop on the element */
+                    else {
                         currentNode.props = currentNode.props ?? {};
                         currentNode.props[name] = value;
                         currentNode.removeAttribute(name);
