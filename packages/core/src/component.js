@@ -1,4 +1,4 @@
-import { createReactiveObject, processReactiveProperties } from "./runtime/reactive";
+import { createReactiveObject, createReactiveProperties } from "./runtime/reactive";
 import { reconcile } from "./runtime/reconciler";
 
 /* Component class for building reusable pieces of a UI */
@@ -11,31 +11,27 @@ export class Component extends HTMLElement {
         const { useShadow, styles, stores } = this.constructor._options;
 
         this._styles = styles.join("");
-        this._refCount = 0;
         this._reactive = [];
+        this._refs = false;
 
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
 
         /* subscribe to all the stores */
-        for (let store of stores) {
-            store._components.push(this._requestUpdate());
-        }
+        stores.forEach((store) => store._components.push(this._requestUpdate()));
     }
 
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
 
-        /* make the props passed in through the template engine reactive */
-        this.props = createReactiveObject(this.props, this._requestUpdate());
-
         /* render the component */
         reconcile(this.render(this.props), this.root, { styles: this._styles });
 
+        /* make the props passed in through the template engine reactive */
+        this.props = createReactiveObject(this.props, this._requestUpdate());
+
         /* process any reactive properties that were defined */
-        if (this._reactive.length > 0) {
-            processReactiveProperties(this, this._requestUpdate());
-        }
+        createReactiveProperties(this, this._requestUpdate());
 
         /* collect all the refs */
         this._parseRefs();
@@ -73,7 +69,7 @@ export class Component extends HTMLElement {
 
     /* collect all the refs */
     _parseRefs() {
-        if (this._refCount > 0) {
+        if (this._refs) {
             this.root.querySelectorAll("[ref]").forEach((node) => {
                 this[node.getAttribute("ref")] = node;
             });
@@ -88,12 +84,12 @@ export class Component extends HTMLElement {
 
     /* create a reference to a node in the template */
     createRef() {
-        this._refCount++;
+        this._refs = true;
         return null;
     }
 
     /* renders the component dom tree by returning a template */
-    render() { return null; }
+    render() { }
 
     /* lifecycle method called when a component is about to be updated to prevent undesired updates */
     shouldUpdate() { return true; }

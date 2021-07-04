@@ -1,5 +1,6 @@
-/* process the reactive properties and make them reactive */
-export function processReactiveProperties(obj, callback) {
+/* create reactive properties on an object */
+export function createReactiveProperties(obj, callback) {
+    if (obj?._reactive.length == 0) return;
 
     const names = Object.getOwnPropertyNames(obj);
 
