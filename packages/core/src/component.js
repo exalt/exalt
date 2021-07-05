@@ -24,10 +24,16 @@ export class Component extends HTMLElement {
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
 
+        /* if there are attributes, make them accessible via props */
+        this.props = this.props ?? {};
+        if (this.hasAttributes()) {
+            Array.from(this.attributes).forEach((attribute) => this.props[attribute.localName] = attribute.value);
+        }
+
         /* render the component */
         reconcile(this.render(this.props), this.root, { styles: this._styles });
 
-        /* make the props passed in through the template engine reactive */
+        /* make the props object reactive */
         this.props = createReactiveObject(this.props, this._requestUpdate());
 
         /* process any reactive properties that were defined */
@@ -42,18 +48,6 @@ export class Component extends HTMLElement {
     /* native lifecycle callback, gets called whenever a component is removed from the dom */
     disconnectedCallback() {
         this.unmount && this.unmount();
-    }
-
-    /* override the setAttribute method to hook into props */
-    setAttribute(name, value) {
-        super.setAttribute(name, value);
-        this.props[name] = (value == "") ? true : value;
-    }
-
-    /* override the removeAttribute method to hook into props */
-    removeAttribute(name) {
-        super.removeAttribute(name);
-        delete this.props[name];
     }
 
     /* request an update function callback */
