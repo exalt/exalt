@@ -10,6 +10,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "pnpm": "^5.18.9"
+    "pnpm": "^6.9.1"
   }
 }

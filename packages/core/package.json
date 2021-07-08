@@ -47,9 +47,9 @@
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/eslint-parser": "^7.14.7",
-    "esbuild": "^0.12.14",
+    "esbuild": "^0.12.15",
     "eslint": "^7.30.0",
-    "rollup": "^2.52.7",
+    "rollup": "^2.52.8",
     "rollup-plugin-esbuild": "^4.5.0"
   }
 }
