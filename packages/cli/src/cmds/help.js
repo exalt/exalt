@@ -9,7 +9,7 @@ const helpMap = {
         ${color.cyan}-h, --help${color.reset} ........ Logs the help menu.
     Commands:
         ${color.cyan}create${color.reset} [project-name] <options> ........ Creates a new project.
-        ${color.cyan}serve${color.reset} <options> ........ Starts the application in development mode.
+        ${color.cyan}dev${color.reset} <options> ........ Starts the application in development mode.
         ${color.cyan}start${color.reset} <options> ........ Starts the application in production mode.
         ${color.cyan}build${color.reset} <options> ........ Builds the project for production.
 
@@ -28,8 +28,8 @@ const helpMap = {
         ${color.cyan}--skip-git${color.reset} ........ Skip initializing a git repository for the project.
     `,
 
-    serve: `
-    Usage: ${color.cyan}exalt serve <options>${color.reset}
+    dev: `
+    Usage: ${color.cyan}exalt dev <options>${color.reset}
     - Starts the application in development mode.
     `,
 
