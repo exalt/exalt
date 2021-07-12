@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "exalt serve",
+        "dev": "exalt dev",
         "build": "exalt build",
         "start": "exalt start"
     }
