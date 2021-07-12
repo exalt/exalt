@@ -39,7 +39,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "esbuild": "^0.12.15",
     "eslint": "^7.30.0",
-    "rollup": "^2.52.8",
+    "rollup": "^2.53.1",
     "rollup-plugin-esbuild": "^4.5.0"
   }
 }
