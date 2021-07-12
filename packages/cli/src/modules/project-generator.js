@@ -1,5 +1,5 @@
 import { createDirectory, deleteDirectory, copyTemplate } from "../utils/file-system";
-import { logError } from "../utils/logging";
+import { color, logError } from "../utils/logging";
 import { spawnSync, exec } from "child_process";
 import path from "path";
 import fs from "fs";
@@ -38,6 +38,12 @@ export class ProjectGenerator {
             }
         }
 
+        /* make sure the name is lowercase */
+        if(this.name != this.name.toLowerCase()) {
+            logError("due to npm naming restrictions, your project name must be lowercase.");
+            return;
+        }
+
         console.log(`Creating ${this.name}...\n`);
 
         /* Start copying template files to the destination */
@@ -65,7 +71,12 @@ export class ProjectGenerator {
     /* install project dependencies */
     installDependencies() {
         return new Promise((resolve, reject) => {
-            console.log("Installing dependencies, this could take a while.\n");
+
+            /* let the user know which framework dependencies we are installing */
+            console.log("Installing dependencies: ");
+            for(let { name } of this.dependencies) {
+                console.log(`${color.cyan} - ${name.substring(0, name.length - 6)}${color.reset}`);
+            }
 
             const command = /^win/.test(process.platform) ? "npm.cmd" : "npm";
             const dependencies = this.dependencies.filter(({ dev }) => (!dev)).map(({ name }) => name);
@@ -108,16 +119,16 @@ export class ProjectGenerator {
         console.log(`\nSuccessfully created ${this.name}\n`);
         console.log("----------------------------------");
         console.log("Get started with your new project!\n");
-        console.log(` > cd ./${path.relative(process.cwd(), this.dest)}`);
+        console.log(`${color.cyan} > cd ./${path.relative(process.cwd(), this.dest)} ${color.reset}`);
 
         if (this.skipInstall) {
-            console.log(` > npm install`);
+            console.log(`${color.cyan} > npm install${color.reset}`);
         }
 
         if (this.library) {
-            console.log(" > npm run build");
+            console.log(`${color.cyan} > npm run build${color.reset}`);
         } else {
-            console.log(" > npm run dev");
+            console.log(`${color.cyan} > npm run dev${color.reset}`);
         }
 
         console.log("----------------------------------");
