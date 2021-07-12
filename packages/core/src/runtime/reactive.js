@@ -66,12 +66,12 @@ function mutate(callback, isArrayMode = false) {
             }
 
             /* if the property does not exist, and the value is an array, make it reactive */
-            if (Array.isArray(value) && !key[0] == "_") {
+            if (Array.isArray(value) && key[0] != "_") {
                 return (target[key] = createReactiveArray(value, callback));
             }
 
             /* if the property does not exist, and the value is an object, make it reactive */
-            if (isObject(value) && !key[0] == "_") {
+            if (isObject(value) && key[0] != "_") {
                 return (target[key] = createReactiveObject(value, callback));
             }
 
