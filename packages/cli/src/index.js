@@ -3,7 +3,7 @@ import { logError } from "./utils/logging";
 import version from "./cmds/version";
 import help from "./cmds/help";
 import create from "./cmds/create";
-import serve from "./cmds/serve";
+import dev from "./cmds/dev";
 import start from "./cmds/start";
 import build from "./cmds/build";
 
@@ -19,7 +19,7 @@ const commands = {
     "version": version,
     "help": help,
     "create": create,
-    "serve": serve,
+    "dev": dev,
     "start": start,
     "build": build
 };
