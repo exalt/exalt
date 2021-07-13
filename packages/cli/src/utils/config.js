@@ -43,17 +43,11 @@ export async function loadToolchain(config) {
 
 /* load the options from the config */
 export function loadOptions(config, args) {
-    const configOptions = {
+    const toolchainOptions = config.toolchainOptions ?? {};
+    
+    return {
         name: config.name,
         input: config.input,
-        format: "iife",
-        dest: (process.env.NODE_ENV == "production") ? "dist" : ".exalt"
-    };
-
-    const toolchainOptions = config.toolchainOptions ?? {};
-
-    return {
-        ...configOptions,
         toolchainOptions: { ...toolchainOptions, ...args }
     };
 }
