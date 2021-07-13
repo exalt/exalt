@@ -21,9 +21,9 @@ export class ProjectGenerator {
             : path.join(__dirname, "../templates/application");
 
         this.dependencies = [
-            { name: "@exalt/toolchain@0.3.x", dev: true },
-            { name: "@exalt/cli@0.3.x", dev: true },
-            { name: "@exalt/core@0.3.x", dev: this.library }
+            { name: "@exalt/toolchain@0.4.x", dev: true },
+            { name: "@exalt/cli@0.4.x", dev: true },
+            { name: "@exalt/core@0.4.x", dev: this.library }
         ];
     }
 
@@ -40,7 +40,7 @@ export class ProjectGenerator {
 
         /* make sure the name is lowercase */
         if(this.name != this.name.toLowerCase()) {
-            logError("due to npm naming restrictions, your project name must be lowercase.");
+            logError("Due to npm naming restrictions, your project name must be lowercase.");
             return;
         }
 
