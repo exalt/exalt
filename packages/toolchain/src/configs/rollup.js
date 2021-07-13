@@ -17,7 +17,7 @@ import fs from "fs";
 export function createRollupConfig(config, settings) {
 
     config.format = "iife";
-    config.dest = (process.env.node_ENV == "production") ? "dist" : ".exalt";
+    config.dest = (process.env.NODE_ENV == "production") ? "dist" : ".exalt";
 
     /* override the config options */
     if (settings.library || settings.codesplitting || typeof config.input != "string") {
