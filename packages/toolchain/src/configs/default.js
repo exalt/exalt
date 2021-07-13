@@ -2,6 +2,7 @@
 export const defaultOptions = {
     library: false,
     target: "es2015",
+    codesplitting: false,
     minify: (process.env.NODE_ENV == "production") ? true : false,
     sourcemap: false,
     paths: null,

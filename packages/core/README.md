@@ -23,19 +23,25 @@ npm install @exalt/core
 -----------------
 - [Building Components](#building-components)
 - [Writing Templates](#writing-templates)
-- [Global State Management](#global-state-management)
+- [Store API](#store-api)
 
 ---
 
 ## Building Components
 
 Exalt Components are a small wrapper over native Web Components. This means they work as valid HTML elements and can be used anywhere HTML can be used, including other frameworks.
-You can use components to build independent and reusable pieces of your application. Components allow you to define your own html tags and hook into the component lifecycle.
+You can use components to build independent and reusable pieces of your application. Components allow you to define your own html tags and hook into the component state and lifecycle.
 
-<strong>NOTICE:</strong>
-- Component names are required to have a hypen in order not to conflict with standard HTML elements.
-- Components must be registered with an element name before being used.
-- By default components make use of the [ShadowDOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM), this can be disabled by using the `useShadow` option in `Component.create`.
+Component names must have a hypen in the name as required by the custom elements standard. Something to keep in mind is that by default in order to provide encapsulation, components make use of
+the [ShadowDOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM).
+When using CSS frameworks such as bootstrap or tailwind, its important to disable the shadow dom in order for global styles to affect the components.
+
+In order to make a component usable, it first needs to be created with `Component.create`, this function provides a few options to customize your component.
+
+**Options**
+- useShadow: boolean - tells the component whether or not to use ShadowDOM.
+- styles: string[] - set the styles to be used in the component.
+- stores: object[] - tells the component to react to changes in the provided stores.
 
 The simplest way to create a component is to create a class that extends `Component` and return a template in the render method.
 
@@ -137,7 +143,7 @@ export class Clock extends Component {
     }
 }
 
-Component.create({ name: "x-clock" }, Clock);
+Component.create({ name: "my-clock" }, Clock);
 ```
 
 ### Attributes
@@ -161,7 +167,7 @@ export class SayHello extends Component {
 Component.create({ name: "say-hello" }, SayHello);
 ```
 
-the component would be available as:
+the component could then be used as:
 
 ```html
 <say-hello name="John Doe" />
@@ -222,28 +228,28 @@ html`<list-view items=${items} />`;
 
 ---
 
-## Global State Management
+## Store API
 
-Exalt Components have the state property for updating the component it belongs to, but in cases where components need to share state, Exalt provides a global state solution via a context api. You can create a context and then tell individial components to listen to changes on the context using the `contexts` component option.
+Exalt Components have reactive properties for updating the component it belongs to, but in cases where components need to share state, Exalt provides a global state solution via a store api. You can create a store and then tell individial components to listen to changes on the store using the `stores` component option.
 
 **Example:**
 ```js
-import { Component, html, createContext } from "@exalt/core";
+import { Component, html, createStore } from "@exalt/core";
 
-/* create the context */
-const context = createContext({ count: 0 });
+/* create the store */
+const store = createStore({ count: 0 });
 
 export class Counter extends Component {
 
     render() {
         return html`
-            <button onclick=${() => context.count++}>Clicked: ${context.count}</button>
+            <button onclick=${() => store.count++}>Clicked: ${store.count}</button>
         `;
     }
 
 }
 
-Component.create({ name: "x-counter", contexts: [context] }, Counter);
+Component.create({ name: "x-counter", stores: [store] }, Counter);
 ```
 
 ---

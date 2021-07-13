@@ -1,4 +1,4 @@
-import { createReactiveObject, createReactiveProperty, processReactiveProperties } from "./runtime/reactive";
+import { createReactiveObject, createReactiveProperties } from "./runtime/reactive";
 import { reconcile } from "./runtime/reconciler";
 
 /* Component class for building reusable pieces of a UI */
@@ -8,49 +8,46 @@ export class Component extends HTMLElement {
         super();
 
         /* get the options specified in the component creation */
-        const { useShadow, styles, contexts } = this.constructor._options;
+        const { useShadow, styles, stores } = this.constructor._options;
 
         this._styles = styles.join("");
-        this._refCount = 0;
-        this._reactiveCount = 0;
+        this._reactive = [];
+        this._refs = false;
 
         /* create the component root */
         this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
 
-        /* subscribe to all the contexts */
-        for (let context of contexts) {
-            context._components.push(this._requestUpdate());
-        }
+        /* subscribe to all the stores */
+        stores.forEach((store) => store._components.push(this._requestUpdate()));
     }
 
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
 
-        /* make the props passed in through the template engine reactive */
-        this.props = createReactiveObject(this.props, this._requestUpdate());
-
-        /* if a state property is declared make it reactive (this is for backwards compatibility) */
-        if (this.state) {
-            this.state = createReactiveObject(this.state, this._requestUpdate());
-        }
-
-        /* process any reactive properties that were defined */
-        if (this._reactiveCount > 0) {
-            processReactiveProperties(this, this._requestUpdate());
+        /* if there are attributes, make them accessible via props */
+        this.props = this.props ?? {};
+        if (this.hasAttributes()) {
+            Array.from(this.attributes).forEach((attribute) => this.props[attribute.localName] = attribute.value);
         }
 
         /* render the component */
         reconcile(this.render(this.props), this.root, { styles: this._styles });
 
+        /* make the props object reactive */
+        this.props = createReactiveObject(this.props, this._requestUpdate());
+
+        /* process any reactive properties that were defined */
+        createReactiveProperties(this, this._requestUpdate());
+
         /* collect all the refs */
         this._parseRefs();
 
-        this.mount();
+        this.mount && this.mount();
     }
 
     /* native lifecycle callback, gets called whenever a component is removed from the dom */
     disconnectedCallback() {
-        this.unmount();
+        this.unmount && this.unmount();
     }
 
     /* request an update function callback */
@@ -59,14 +56,14 @@ export class Component extends HTMLElement {
             if (this.shouldUpdate(key, value)) {
                 reconcile(this.render(this.props), this.root, { styles: this._styles });
                 this._parseRefs();
-                this.onUpdate(key, value);
+                this.onUpdate && this.onUpdate(key, value);
             }
         };
     }
 
     /* collect all the refs */
     _parseRefs() {
-        if (this._refCount > 0) {
+        if (this._refs) {
             this.root.querySelectorAll("[ref]").forEach((node) => {
                 this[node.getAttribute("ref")] = node;
             });
@@ -75,34 +72,25 @@ export class Component extends HTMLElement {
 
     /* create a reactive property */
     reactive(value) {
-        this._reactiveCount++;
-        return createReactiveProperty(value);
+        this._reactive.push(Object.getOwnPropertyNames(this).length);
+        return value;
     }
 
     /* create a reference to a node in the template */
     createRef() {
-        this._refCount++;
+        this._refs = true;
         return null;
     }
 
     /* renders the component dom tree by returning a template */
     render() { }
 
-    /* lifecycle method called when a component is successfully mounted */
-    mount() { }
-
-    /* lifecycle method called when a component is successfully unmounted */
-    unmount() { }
-
-    /* lifecycle method called when a component is updated */
-    onUpdate() { }
-
     /* lifecycle method called when a component is about to be updated to prevent undesired updates */
     shouldUpdate() { return true; }
 
     /* define the component with the default CustomElementRegistry */
     static create(options, component) {
-        const defaults = { useShadow: true, styles: [], contexts: [] };
+        const defaults = { useShadow: true, styles: [], stores: [] };
         component._options = { ...defaults, ...options };
 
         if (!options.name) {

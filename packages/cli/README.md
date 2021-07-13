@@ -34,7 +34,7 @@ exalt create [project-name] <options>
 
 ### Running a Development Server
 
-You can run a development server by using the `serve` command.
+You can run a development server by using the `dev` command.
 This will run your project in development mode and watch your files for changes.
 When a file is changed your app is automatically rebuilt and your page will refresh.
 
@@ -56,28 +56,26 @@ We try to make sure that the default toolchain meets the needs of most projects.
 In cases where it fails to meet your project requirements, we offer an easy solution to build your own toolchain.
 
 A toolchain is a file that exports a default function that returns an object of command functions.
-This function recieves the config object consiting of `name`, `input`, `format`, `dest` and `toolchainOptions`
+This function recieves the config object consiting of `name`, `input` and `toolchainOptions`
 
-The commands that are availble for toolchains to control are `serve`, `start`, and `build`.
+The commands that are availble for toolchains to control are `dev`, `start`, and `build`.
 
 ### Config Properties
 
-The config properties is controlled by the cli and your config file.
+The config properties is controlled by your config file.
 The config property includes these properties.
 
 - name: string - the project name.
-- input: string | object - the entry files to compile.
-- format: string - the output format.
-- dest: string - the output destination.
+- input: string | object | array - the entry files to compile.
 - toolchainOptions: object - the options to customize the toolchain
 
 
 **Example:**
 ```js
-export default ({ toolchainOptions, ...config }) => {
+export default ({ name, input, toolchainOptions }) => {
 
     return {
-        serve: () => {},
+        dev: () => {},
         start: () => {},
         build: () => {}
     };

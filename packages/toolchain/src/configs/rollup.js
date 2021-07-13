@@ -7,19 +7,68 @@ import css from "rollup-plugin-import-css";
 import template from "rollup-plugin-html-literals";
 import esbuild from "rollup-plugin-esbuild";
 import html, { makeHtmlAttributes } from "@rollup/plugin-html";
+import watch from "rollup-plugin-watch";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
-import { color, log } from "../utils/logging";
+import { color, log, logWarning } from "../utils/logging";
 import path from "path";
 import fs from "fs";
 
 export function createRollupConfig(config, settings) {
 
-    /* override the config options when building a library */
-    if (settings.library) {
-        config.dest = "dist";
+    config.format = "iife";
+    config.dest = (process.env.node_ENV == "production") ? "dist" : ".exalt";
+
+    /* override the config options */
+    if (settings.library || settings.codesplitting || typeof config.input != "string") {
         config.format = "esm";
     }
+
+    /* map the paths config option to a format that rollup can understand */
+    const parseAliasPaths = (paths) => {
+        if (!paths) return null;
+
+        return Object.keys(paths).map((key) => {
+            return { find: key, replacement: path.resolve(process.cwd(), paths[key]) };
+        });
+    };
+
+    /* render the custom html output */
+    const renderHTML = ({ attributes, files, publicPath, title }) => {
+        let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
+
+        const scripts = [];
+        const links = [];
+
+        if (files.js) {
+            for (let file of files.js) {
+                const attribs = makeHtmlAttributes(attributes.script);
+                scripts.push(`\t<script${attribs} src="${publicPath + file.fileName}"></script>`);
+                if (settings.codesplitting) break;
+            }
+        }
+
+        if (files.css) {
+            for (let file of files.css) {
+                const attribs = makeHtmlAttributes(attributes.link);
+                links.push(`\t<link${attribs} rel="stylesheet" href="${publicPath + file.fileName}" />`);
+            }
+        }
+
+        const titleTag = /<title>.*<\/title>/i.exec(html);
+        const headTag = /<\/head>/i.exec(html);
+        const bodyTag = /<\/body>/i.exec(html);
+
+        if (!titleTag && !headTag && !bodyTag) {
+            throw new Error(`public/index.html is missing required tags! (head, body, title)`);
+        }
+
+        html = html.replace(titleTag[0], `<title>${title}</title>`);
+        html = html.replace(headTag[0], `${links.join("\n")}\n` + headTag[0]);
+        html = html.replace(bodyTag[0], `${scripts.join("\n")}\n` + bodyTag[0]);
+
+        return html;
+    };
 
     const plugins = [
         /* resolve modules from node_modules */
@@ -64,13 +113,14 @@ export function createRollupConfig(config, settings) {
     /* if the project is not a library, add app specific plugins */
     if (!settings.library) {
 
-        /* generate the html files */
+        /* generate the html file and watch the public directory */
         plugins.push(
             html({
                 title: config.name,
                 publicPath: settings.publicPath,
                 template: renderHTML
-            })
+            }),
+            watch({ dir: "public" })
         );
 
         /* if we are in a development environment, run the dev server */
@@ -99,62 +149,28 @@ export function createRollupConfig(config, settings) {
     /* construct the rollup config */
     const rollupConfig = {
         input: config.input,
-        plugins: plugins
+        plugins: plugins,
+        external: (settings.library) ? settings.external : null
     };
 
-    rollupConfig.output = (typeof config.input != "string")
-        ? { dir: config.dest, format: "esm" }
-        : { file: `${config.dest}/index.js`, format: config.format, name: "bundle" };
+    if (!settings.library && settings.external != undefined) {
+        logWarning(`the "external" toolchain option is only supported in library builds!`);
+    }
 
-    rollupConfig.output.sourcemap = settings.sourcemap;
-    if (settings.library) rollupConfig.external = ["@exalt/core"];
+    if (typeof config.input != "string" || settings.codesplitting) {
+        rollupConfig.output = {
+            dir: config.dest,
+            format: "esm",
+            sourcemap: settings.sourcemap
+        };
+    } else {
+        rollupConfig.output = {
+            file: `${config.dest}/index.js`,
+            format: config.format,
+            name: "bundle",
+            sourcemap: settings.sourcemap
+        };
+    }
 
     return rollupConfig;
-}
-
-/* map the paths config option to a format that rollup can understand */
-function parseAliasPaths(paths) {
-    if (!paths) return null;
-
-    const keys = Object.keys(paths);
-
-    return keys.map((key) => {
-        return { find: key, replacement: path.resolve(process.cwd(), paths[key]) };
-    });
-}
-
-/* render the custom html output */
-function renderHTML({ attributes, files, publicPath, title }) {
-    let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
-
-    const scripts = [];
-    const links = [];
-
-    if (files.js) {
-        for (let file of files.js) {
-            const attribs = makeHtmlAttributes(attributes.script);
-            scripts.push(`\t<script${attribs} src="${publicPath + file.fileName}"></script>`);
-        }
-    }
-
-    if (files.css) {
-        for (let file of files.css) {
-            const attribs = makeHtmlAttributes(attributes.link);
-            links.push(`\t<link${attribs} rel="stylesheet" href="${publicPath + file.fileName}" />`);
-        }
-    }
-
-    const titleTag = /<title>.*<\/title>/i.exec(html);
-    const headTag = /<\/head>/i.exec(html);
-    const bodyTag = /<\/body>/i.exec(html);
-
-    if (!titleTag && !headTag && !bodyTag) {
-        throw new Error(`public/index.html is missing required tags! (head, body, title)`);
-    }
-
-    html = html.replace(titleTag[0], `<title>${title}</title>`);
-    html = html.replace(headTag[0], `${links.join("\n")}\n` + headTag[0]);
-    html = html.replace(bodyTag[0], `${scripts.join("\n")}\n` + bodyTag[0]);
-
-    return html;
 }
