@@ -3,7 +3,7 @@ import { createRollupConfig } from "../configs/rollup";
 import { log, logError} from "../utils/logging";
 import { copyFolder } from "../utils/file-system";
 
-export async function serve({ config, settings }) {
+export async function dev({ config, settings }) {
     const rollupConfig = createRollupConfig(config, settings);
     rollupConfig.watch = { exclude: "node_modules/**" };
 

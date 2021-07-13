@@ -1,5 +1,5 @@
 import { defaultOptions } from "./configs/default";
-import { serve } from "./cmds/serve";
+import { dev } from "./cmds/dev";
 import { start } from "./cmds/start";
 import { build } from "./cmds/build";
 import { logError } from "./utils/logging";
@@ -10,13 +10,13 @@ export default ({ toolchainOptions, ...config }) => {
     const settings = { ...defaultOptions, ...toolchainOptions };
 
     return {
-        serve: () => {
+        dev: () => {
             if (settings.library) {
-                logError("The serve command does not support library builds!");
+                logError("The dev command does not support library builds!");
                 return;
             }
 
-            serve({ config, settings });
+            dev({ config, settings });
         },
         start: () => {
             if (settings.library) {
