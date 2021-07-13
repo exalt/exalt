@@ -1,20 +1,20 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/OutwalkStudios/exalt/main/resources/exalt_logo.svg" alt="Exalt" width="400px" height="300px" />
+    <img src="https://raw.githubusercontent.com/exalt/exalt/main/resources/exalt_logo.svg" alt="Exalt" width="400px" height="300px" />
 </div>
 
 <div align="center">
     <p><strong>A JavaScript framework for building universal apps.</strong></p>
     <p>Build responsive web apps for desktop and mobile platforms.</p>
     <a href="#">
-        <img src="https://github.com/OutwalkStudios/exalt/workflows/build/badge.svg" alt="Current build status of Exalt">
+        <img src="https://github.com/exalt/exalt/workflows/build/badge.svg" alt="Current build status of Exalt">
     </a>
-    <a href="https://github.com/OutwalkStudios/exalt/blob/main/LICENSE">
+    <a href="https://github.com/exalt/exalt/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Exalt is released under the MIT license">
     </a>
     <a href="https://www.patreon.com/outwalkstudios">
         <img src="https://img.shields.io/badge/patreon-donate-green.svg" alt="Donate on Patreon">
     </a>
-    <a href="https://twitter.com/OutwalkStudios">
+    <a href="https://twitter.com/exaltjs">
         <img src="https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg" alt="Follow us on Twitter">
     </a>
 </div>
@@ -32,7 +32,7 @@ To install the Exalt CLI, run the following command:
 npm install -g @exalt/cli
 ```
 
-You can read more on the Exalt CLI's [README](https://github.com/OutwalkStudios/exalt/tree/main/packages/cli#readme).
+You can read more on the Exalt CLI's [README](https://github.com/exalt/exalt/tree/main/packages/cli#readme).
 
 When using VSCode you can get intellisense and auto completion for templates using
 the [Exalt VSCode Extension](https://marketplace.visualstudio.com/items?itemName=jleeson.vscode-exalt).
@@ -55,14 +55,14 @@ The CLI will create a new project with the supplied name, install all the requir
 ### Run The Application
 
 The Exalt CLI comes with a built in development server.
-Running the `serve` command will launch a web server, watch your files, and build the app as you make changes.
+Running the `dev` command will launch a web server, watch your files, and build the app as you make changes.
 
 ```
 # Navigate to the project folder
 cd <app-name>
 
 # Launch the development server
-exalt serve
+exalt dev
 ```
 
 ---
@@ -86,7 +86,7 @@ exalt serve
 
 ## Reporting Issues
 
-If you are having trouble getting something to work with exalt or run into any problems, you can create a new [issue](https://github.com/OutwalkStudios/exalt/issues).
+If you are having trouble getting something to work with exalt or run into any problems, you can create a new [issue](https://github.com/exalt/exalt/issues).
 
 If this framework does not fit your needs or is missing a feature you would like to see, let us know! We would greatly appreciate your feedback on it.
 
@@ -94,4 +94,4 @@ If this framework does not fit your needs or is missing a feature you would like
 
 ## License
 
-Exalt is licensed under the terms of the [**MIT**](https://github.com/OutwalkStudios/exalt/blob/main/LICENSE) license.
+Exalt is licensed under the terms of the [**MIT**](https://github.com/exalt/exalt/blob/main/LICENSE) license.

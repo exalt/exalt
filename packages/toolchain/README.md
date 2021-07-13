@@ -38,6 +38,7 @@ This toolchain enables the following features for @exalt/cli:
 - Support for importing css files.
 - Support for importing json files.
 - Support for folder components.
+- Code Splitting.
 
 
 This toolchain offers some options to configure this functionality.
@@ -45,6 +46,7 @@ This toolchain offers some options to configure this functionality.
 #### Options:
 - library (default: false) - sets the project to be compiled as a library.
 - target (default: "es2015") - sets the JavaScript version to be transpiled to.
+- codesplitting (default: false) - specifies whether or not to use a code splitting build.
 - minify (default: false) - determines whether or not the build should be minified.
 - sourcemap (default: false) - determines whether or not sourcemaps should be generated.
 - paths (default: {}) - object that maps aliases to file paths.
