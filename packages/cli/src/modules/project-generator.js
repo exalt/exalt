@@ -40,7 +40,7 @@ export class ProjectGenerator {
 
         /* make sure the name is lowercase */
         if(this.name != this.name.toLowerCase()) {
-            logError("Due to npm naming restrictions, your project name must be lowercase.");
+            logError("due to npm naming restrictions, your project name must be lowercase.");
             return;
         }
 
