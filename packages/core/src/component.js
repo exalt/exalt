@@ -27,7 +27,11 @@ export class Component extends HTMLElement {
         /* if there are attributes, make them accessible via props */
         this.props = this.props ?? {};
         if (this.hasAttributes()) {
-            Array.from(this.attributes).forEach((attribute) => this.props[attribute.localName] = attribute.value);
+            /* make sure to not override the existing props */
+            const keys = Object.keys(this.props);
+            Array.from(this.attributes)
+                .filter(({ localName }) => !keys.includes(localName))
+                .forEach(({ localName, value }) => this.props[localName] = value);
         }
 
         /* render the component */
