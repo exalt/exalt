@@ -1,6 +1,6 @@
 {
   "name": "@exalt/core",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "publishConfig": {
     "access": "public"
   },
@@ -45,11 +45,11 @@
   "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.14.6",
+    "@babel/core": "^7.14.8",
     "@babel/eslint-parser": "^7.14.7",
     "esbuild": "^0.12.15",
-    "eslint": "^7.30.0",
-    "rollup": "^2.53.1",
+    "eslint": "^7.31.0",
+    "rollup": "^2.54.0",
     "rollup-plugin-esbuild": "^4.5.0"
   }
 }
