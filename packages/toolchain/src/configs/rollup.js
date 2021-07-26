@@ -1,3 +1,4 @@
+import babel from "@rollup/plugin-babel";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -71,6 +72,12 @@ export function createRollupConfig(config, settings) {
     };
 
     const plugins = [
+        babel({
+            babelHelpers: "bundled",
+            plugins: [
+                ["@babel/plugin-proposal-decorators", { "legacy": true }]
+            ]
+        }),
         /* resolve modules from node_modules */
         resolve({ browser: true }),
 
