@@ -1,5 +1,5 @@
-/* REGEX rule to enable the use of self closing components */
-const SELF_CLOSING_COMPONENTS = /<([a-z]+-[a-z]+)([^>]*)\/>/g;
+/* REGEX rule to enable the use of self closing tags */
+const SELF_CLOSING_TAGS = /<([a-z|-]+)([^>]*)\/>/g;
 
 /* parse a template literal into a template object */
 export function createTemplate(strings, values) {
@@ -53,7 +53,7 @@ export function createTemplate(strings, values) {
         else {
             return combined + string + value;
         }
-    }, "").replace(SELF_CLOSING_COMPONENTS, "<$1$2></$1>");
+    }, "").replace(SELF_CLOSING_TAGS, "<$1$2></$1>");
 
     return { source, data };
 }
