@@ -6,8 +6,8 @@ export function reconcile(template, container, options = {}) {
     template = template ?? { source: "", data: [] };
 
     /* if styles are provided, inject them into the template */
-    if (options.styles) {
-        template.source += `<style>${options.styles}</style>`;
+    for(let style of options.styles) {
+        template.source += `<style>${style}</style>`;
     }
 
     /* compile the template into a DOM node */
@@ -43,8 +43,6 @@ function walk(newNode, oldNode) {
 
 /* find an update the differences between two nodes */
 function diff(newNode, oldNode) {
-    if (isEqualNode(newNode, oldNode)) return;
-
     let nodeType = newNode.nodeType;
     let nodeName = newNode.nodeName;
 
@@ -139,8 +137,6 @@ function diffEvents(newNode, oldNode) {
 
 /* find and update the differences between two nodes children */
 function diffChildren(newNode, oldNode) {
-    if (isEqualNode(newNode, oldNode)) return;
-
     let offset = 0;
 
     for (let i = 0; ; i++) {
@@ -267,11 +263,5 @@ function isSameNode(a, b) {
     if (a.id) return (a.id == b.id);
     if (a.tagName != b.tagName) return false;
     if (a.nodeType == 3) return (a.nodeValue == b.nodeValue);
-    return false;
-}
-
-/* determine if two DOM trees are equal */
-// eslint-disable-next-line no-unused-vars
-function isEqualNode(a, b) {
     return false;
 }

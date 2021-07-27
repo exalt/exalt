@@ -8,17 +8,18 @@ export class Component extends HTMLElement {
         super();
 
         /* get the options specified in the component creation */
-        const { useShadow, styles, stores } = this.constructor._options;
+        const defaultOptions = { shadow: false, styles: [], connect: [] };
+        const { shadow, styles, connect } = { ...defaultOptions, ...this.constructor.options ?? {} };
 
-        this._styles = styles.join("");
+        this._styles = styles;
         this._reactive = [];
         this._refs = false;
 
         /* create the component root */
-        this.root = (useShadow) ? this.attachShadow({ mode: "open" }) : this;
+        this.root = (shadow) ? this.attachShadow({ mode: "open" }) : this;
 
         /* subscribe to all the stores */
-        stores.forEach((store) => store._components.push(this._requestUpdate()));
+        connect.forEach((store) => store._components.push(this._requestUpdate()));
     }
 
     /* native lifecycle callback, gets called whenever a component is added to the dom */
@@ -91,17 +92,4 @@ export class Component extends HTMLElement {
 
     /* lifecycle method called when a component is about to be updated to prevent undesired updates */
     shouldUpdate() { return true; }
-
-    /* define the component with the default CustomElementRegistry */
-    static create(options, component) {
-        const defaults = { useShadow: true, styles: [], stores: [] };
-        component._options = { ...defaults, ...options };
-
-        if (!options.name) {
-            console.error("Exalt: ComponentOptions.name is required.");
-            return;
-        }
-
-        window.customElements.define(options.name, component);
-    }
 }

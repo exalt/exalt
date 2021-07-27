@@ -5,8 +5,7 @@
     "access": "public"
   },
   "description": "Exalt - The framework runtime",
-  "main": "dist/core.cjs.js",
-  "module": "dist/core.esm.js",
+  "main": "dist/index.js",
   "types": "types/core.d.ts",
   "scripts": {
     "build": "rollup -c",
@@ -27,11 +26,8 @@
     "types"
   ],
   "exports": {
-    ".": {
-      "require": "./dist/core.cjs.js",
-      "import": "./dist/core.esm.js",
-      "default": "./dist/core.esm.js"
-    }
+    ".": "./dist/index.js",
+    "./decorators": "./dist/decorators.js"
   },
   "repository": {
     "type": "git",
