@@ -72,11 +72,12 @@ export class ProjectGenerator {
     installDependencies() {
         return new Promise((resolve, reject) => {
 
-            /* let the user know which framework dependencies we are installing */
+            /* let the user know which framework dependencies we are being installed */
             console.log("Installing dependencies: ");
             for(let { name } of this.dependencies) {
                 console.log(`${color.cyan} - ${name.substring(0, name.length - 6)}${color.reset}`);
             }
+            console.log("\n");
 
             const command = /^win/.test(process.platform) ? "npm.cmd" : "npm";
             const dependencies = this.dependencies.filter(({ dev }) => (!dev)).map(({ name }) => name);
