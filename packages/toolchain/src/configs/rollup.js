@@ -75,7 +75,7 @@ export function createRollupConfig(config, settings) {
         babel({
             babelHelpers: "bundled",
             plugins: [
-                ["@babel/plugin-proposal-decorators", { "legacy": true }]
+                ["@babel/plugin-proposal-decorators", { legacy: true }]
             ]
         }),
         /* resolve modules from node_modules */
