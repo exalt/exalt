@@ -2,6 +2,7 @@
 
 ![build](https://github.com/exalt/exalt/workflows/build/badge.svg)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/exalt/exalt/blob/main/LICENSE)
+[![Donate](https://img.shields.io/badge/patreon-donate-green.svg)](https://www.patreon.com/outwalkstudios)
 [![twitter](https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg)](https://twitter.com/exaltjs)
 
 Exalt is a JavaScript framework for developing websites, apps and component libraries.
@@ -44,8 +45,7 @@ This extension provides support for syntax highlighting, auto completion, and in
 
 ### Create a new Project
 
-You can create a new project by running the `create` command and supplying the project name.
-This will generate your new project, install the required dependencies, and initialize a new git repository. By default `@exalt/toolchain` is used to power your projects build pipeline. This can be changed using the `toolchain` option in your exalt.json file.
+You can create a new project by running the `create` command and supplying the project name. This will generate your new project, install the required dependencies, and initialize a new git repository. By default `@exalt/toolchain` is used to power your projects build pipeline. This can be changed using the `toolchain` option in your exalt.json file.
 
 ```
 exalt create <app-name>
@@ -53,7 +53,7 @@ exalt create <app-name>
 
 ### Run The Application
 
-While using the default toolchain, the `dev` command will launch a web server, watch your files, and build the app as you make changes. As soon as the initial build is complete it will open your app in your default web browser.
+While using the default toolchain, the `dev` command will launch a web server, watch your files, and build the app as you make changes. As soon as the initial build is complete it will open your app in your default web browser. Any builds after this will refresh the page.
 
 ```
 # Navigate to the project folder

@@ -5,7 +5,7 @@ The framework runtime.
 ![Actions](https://github.com/exalt/exalt/workflows/build/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/exalt/exalt/blob/main/LICENSE)
 [![Donate](https://img.shields.io/badge/patreon-donate-green.svg)](https://www.patreon.com/outwalkstudios)
-[![Follow Us](https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg)](https://twitter.com/OutwalkStudios)
+[![Follow Us](https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg)](https://twitter.com/exaltjs)
 
 ---
 
@@ -29,25 +29,40 @@ npm install @exalt/core
 
 ## Building Components
 
-Exalt Components are a small wrapper over native Web Components. This means they work as valid HTML elements and can be used anywhere HTML can be used, including other frameworks.
-You can use components to build independent and reusable pieces of your application. Components allow you to define your own html tags and hook into the component state and lifecycle.
+Exalt Components are a small wrapper over native Web Components. This means they work as valid HTML elements and can be used anywhere HTML can be used, including other frameworks. You can use components to build independent and reusable pieces of your application. Components allow you to define your own html tags and hook into the component state and lifecycle.
 
-Component names must have a hypen in the name as required by the custom elements standard. Something to keep in mind is that by default in order to provide encapsulation, components make use of
-the [ShadowDOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM).
-When using CSS frameworks such as bootstrap or tailwind, its important to disable the shadow dom in order for global styles to affect the components.
+Component names must have a hypen in the name as required by the custom elements standard. By Default exalt components do not make use of the [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) in order to maintain compatibility with global css frameworks and other libraries. This can easily be enabled using the component options.
 
-In order to make a component usable, it first needs to be created with `Component.create`, this function provides a few options to customize your component.
+In order to make a component usable, it needs to be defined with the CustomElementRegistry. Exalt Components also provide a static options object to allow for further customization. These two requirements can be done with or without decorators. 
 
 **Options**
-- useShadow: boolean - tells the component whether or not to use ShadowDOM.
+- shadow: boolean - tells the component whether or not to use ShadowDOM.
 - styles: string[] - set the styles to be used in the component.
-- stores: object[] - tells the component to react to changes in the provided stores.
+- connect: object[] - tells the component to react to changes in the provided stores.
 
 The simplest way to create a component is to create a class that extends `Component` and return a template in the render method.
 
 **Example:**
 ```js
 import { Component, html } from "@exalt/core";
+import { define } from "@exalt/core/decorators";
+
+@define("hello-world")
+export class HelloWorld extends Component {
+
+    render() {
+        return html`
+            <h1>Hello World!</h1>
+        `;
+    }
+}
+```
+
+Here is the same component without decorators.
+
+**Example:**
+```js
+import { Component, html } from "@exalt/core";
 
 export class HelloWorld extends Component {
 
@@ -58,19 +73,22 @@ export class HelloWorld extends Component {
     }
 }
 
-Component.create({ name: "hello-world" }, HelloWorld);
+window.customElements.define("hello-world", HelloWorld);
 ```
 
 ### Styling your component
 
 You can apply css to your component in a variety of ways.
-When using the ShadowDOM we suggest importing your css as a string and passing it to the `styles` component options.
+Using the component options you can specify styles to use as an array of strings.
 
 **Example:**
 ```js
 import { Component, html } from "@exalt/core";
+import { define, options } from "@exalt/core/decorators";
 import styles from "./hello-world.css";
 
+@define("hello-world")
+@options({ styles: [styles] })
 export class HelloWorld extends Component {
 
     render() {
@@ -79,8 +97,6 @@ export class HelloWorld extends Component {
         `;
     }
 }
-
-Component.create({ name: "hello-world", styles: [styles] }, HelloWorld);
 ```
 
 ### Lifecycle
@@ -90,7 +106,9 @@ In applications, you may want to run specific code at certain times in a compone
 **Example:**
 ```js
 import { Component, html } from "@exalt/core";
+import { define } from "@exalt/core/decorators";
 
+@define("hello-world")
 export class HelloWorld extends Component {
 
     /* render the components html */
@@ -108,8 +126,6 @@ export class HelloWorld extends Component {
     /* called when a component is about to be updated */
     shouldUpdate(key, value) {}
 }
-
-Component.create({ name: "hello-world" }, HelloWorld);
 ```
 
 ### State
@@ -123,7 +139,9 @@ This example displays the current time and updates the time every second.
 **Example:**
 ```js
 import { Component, html } from "@exalt/core";
+import { define } from "@exalt/core/decorators";
 
+@define("my-clock")
 export class Clock extends Component {
 
     date = super.reactive(new Date());
@@ -142,8 +160,6 @@ export class Clock extends Component {
         clearInterval(this.timer);
     }
 }
-
-Component.create({ name: "my-clock" }, Clock);
 ```
 
 ### Attributes
@@ -154,7 +170,9 @@ Attributes can be accessed using the `props` property. The attributes are also p
 **Example:**
 ```js
 import { Component, html } from "@exalt/core";
+import { define } from "@exalt/core/decorators";
 
+@define("say-hello")
 export class SayHello extends Component {
 
     render({ name }) {
@@ -163,8 +181,6 @@ export class SayHello extends Component {
         `;
     }
 }
-
-Component.create({ name: "say-hello" }, SayHello);
 ```
 
 the component could then be used as:
@@ -183,7 +199,9 @@ Simply use the components `createRef` method and then give an element the corres
 **Example:**
 ```js
 import { Component, html } from "@exalt/core";
+import { define } from "@exalt/core/decorators";
 
+@define("hello-world")
 export class HelloWorld extends Component {
 
     header = super.createRef();
@@ -198,8 +216,6 @@ export class HelloWorld extends Component {
         this.header.innerHTML = "Goodbye World!";
     }
 }
-
-Component.create({ name: "hello-world" }, HelloWorld);
 ```
 ---
 
@@ -207,7 +223,7 @@ Component.create({ name: "hello-world" }, HelloWorld);
 
 Exalt provides a tagged template function for creating templates. This is similar to JSX but its entirely native to the web. You can write standard HTML inside them and use JavaScript expressions through placeholders indicated by curly braces prefixed with a dollar sign.
 
-The `html` function provides an easier way to bind events to elements and pass data to components, You can pass any data you want as an attribute and it will process it for you.
+The `html` function provides an easier way to bind events to elements and pass data to components, You can pass any data you want as an attribute and exalt will process it for you.
 Events are functions bound to attributes with the "on" prefix, these can be any native dom events or custom events.
 
 **Example:**
@@ -230,26 +246,35 @@ html`<list-view items=${items} />`;
 
 ## Store API
 
-Exalt Components have reactive properties for updating the component it belongs to, but in cases where components need to share state, Exalt provides a global state solution via a store api. You can create a store and then tell individial components to listen to changes on the store using the `stores` component option.
+Exalt Components have reactive properties for updating the component it belongs to, but in cases where components need to share state, Exalt provides a global state solution via a store api. You can create a store and then tell individial components to listen to changes on the store using the `connect` component option. It is best practice to not manipulate the store directly and instead define functions inside the store.
 
 **Example:**
 ```js
 import { Component, html, createStore } from "@exalt/core";
+import { define, options } from "@exalt/core/decorators";
 
 /* create the store */
-const store = createStore({ count: 0 });
+const store = createStore({ 
+    count: 0,
 
+    setCount(count) {
+        store.count = count;
+    }
+});
+
+@define("my-counter")
+@options({ connect: [store] })
 export class Counter extends Component {
 
     render() {
+        const { count, setCount } = store;
+
         return html`
-            <button onclick=${() => store.count++}>Clicked: ${store.count}</button>
+            <button onclick=${() => setCount(count++)}>Clicked: ${count}</button>
         `;
     }
 
 }
-
-Component.create({ name: "x-counter", stores: [store] }, Counter);
 ```
 
 ---
