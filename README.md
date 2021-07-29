@@ -1,30 +1,31 @@
-<div align="center">
-    <img src="https://raw.githubusercontent.com/exalt/exalt/main/resources/exalt_logo.svg" alt="Exalt" width="400px" height="300px" />
-</div>
+# ![Exalt Logo](https://raw.githubusercontent.com/exalt/exalt/main/resources/exalt_banner.jpg)
 
-<div align="center">
-    <p><strong>A JavaScript framework for building universal apps.</strong></p>
-    <p>Build responsive web apps for desktop and mobile platforms.</p>
-    <a href="#">
-        <img src="https://github.com/exalt/exalt/workflows/build/badge.svg" alt="Current build status of Exalt">
-    </a>
-    <a href="https://github.com/exalt/exalt/blob/main/LICENSE">
-        <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Exalt is released under the MIT license">
-    </a>
-    <a href="https://www.patreon.com/outwalkstudios">
-        <img src="https://img.shields.io/badge/patreon-donate-green.svg" alt="Donate on Patreon">
-    </a>
-    <a href="https://twitter.com/exaltjs">
-        <img src="https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg" alt="Follow us on Twitter">
-    </a>
-</div>
+![build](https://github.com/exalt/exalt/workflows/build/badge.svg)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/exalt/exalt/blob/main/LICENSE)
+[![twitter](https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg)](https://twitter.com/exaltjs)
+
+Exalt is a JavaScript framework for developing websites, apps and component libraries.
+Exalt prioritizes bundle size and cross framework compatibilty by making use of Web Components. This means you can use Exalt components with your favorite libraries and frameworks.
+
+According to [webcomponents.dev](https://webcomponents.dev/blog/all-the-ways-to-make-a-web-component/#bundle-size-30) Exalt ranks first place on bundle size when minified!
+
+---
+
+## Documentation
+
+* [Installation](#installation)
+* [Getting Started](#getting-started)
+* [Ecosystem](#ecosystem)
+* [Core Documentation](https://github.com/exalt/exalt/tree/main/packages/core#readme)
+* [CLI Documentation](https://github.com/exalt/exalt/tree/main/packages/cli#readme)
+* [Toolchain Documentation](https://github.com/exalt/exalt/tree/main/packages/toolchain#readme)
+* [Supporting Development](#supporting-development)
 
 ---
 
 ## Installation
 
-To get started building applications in Exalt, the first step is to install the Exalt CLI.
-The CLI is used to create projects and handle ongoing tasks such as building for production and running a development server.
+Exalt is super easy to get up and running. First install the [Exalt CLI](https://github.com/exalt/exalt/tree/main/packages/cli#readme) globaly. This will give you access to the exalt commands that help you create and develop your project.
 
 To install the Exalt CLI, run the following command:
 
@@ -32,10 +33,10 @@ To install the Exalt CLI, run the following command:
 npm install -g @exalt/cli
 ```
 
-You can read more on the Exalt CLI's [README](https://github.com/exalt/exalt/tree/main/packages/cli#readme).
+When the Exalt CLI is used outside a project, it can only generate projects but when used inside a project folder, it can load the specified toolchain and power the development commands. This allows the cli to be used regardless of build requirements. If the default toolchain does not fit your needs you can [create your own](https://github.com/exalt/exalt/tree/main/packages/cli#building-your-own-toolchain).
 
-When using VSCode you can get intellisense and auto completion for templates using
-the [Exalt VSCode Extension](https://marketplace.visualstudio.com/items?itemName=jleeson.vscode-exalt).
+If you are using VSCode, you can get a better development experience by using the [Exalt VSCode Extension](https://marketplace.visualstudio.com/items?itemName=jleeson.vscode-exalt).
+This extension provides support for syntax highlighting, auto completion, and intellisense for exalt templates.
 
 ---
 
@@ -44,18 +45,15 @@ the [Exalt VSCode Extension](https://marketplace.visualstudio.com/items?itemName
 ### Create a new Project
 
 You can create a new project by running the `create` command and supplying the project name.
-If you want to create a component library, just pass the `--library` flag to the command.
+This will generate your new project, install the required dependencies, and initialize a new git repository. By default `@exalt/toolchain` is used to power your projects build pipeline. This can be changed using the `toolchain` option in your exalt.json file.
 
 ```
 exalt create <app-name>
 ```
 
-The CLI will create a new project with the supplied name, install all the required dependencies, initialize a git repository, and configure the project.
-
 ### Run The Application
 
-The Exalt CLI comes with a built in development server.
-Running the `dev` command will launch a web server, watch your files, and build the app as you make changes.
+While using the default toolchain, the `dev` command will launch a web server, watch your files, and build the app as you make changes. As soon as the initial build is complete it will open your app in your default web browser.
 
 ```
 # Navigate to the project folder
@@ -74,13 +72,15 @@ exalt dev
 | [@exalt/core](https://www.npmjs.com/package/@exalt/core)      | Core Framework |
 | [@exalt/cli](https://www.npmjs.com/package/@exalt/cli)        | Framework CLI |
 | [@exalt/toolchain](https://www.npmjs.com/package/@exalt/toolchain)      | Toolchain for JavaScript and TypeScript development |
+| [@exalt/router](https://www.npmjs.com/package/@exalt/router)        | A simple client side router for exalt apps |
 
 ---
 
-## Resources
-[Get Started Learning @exalt/core](https://github.com/OutwalkStudios/exalt/tree/main/packages/core#readme) - Learn the features provided by the core package. <br/>
-[Get Started Learning @exalt/cli](https://github.com/OutwalkStudios/exalt/tree/main/packages/cli#readme) - Learn the features provided by the cli package. <br/>
-[Get Started Learning @exalt/toolchain](https://github.com/OutwalkStudios/exalt/tree/main/packages/toolchain#readme) - Learn the features provided by the toolchain package. <br/>
+## Supporting Development
+
+Exalt is licensed under [MIT](https://github.com/exalt/exalt/blob/main/LICENSE) and is developed during the authors free time along with the support of contributors.
+
+If you are interested in supporting the project financially, to allow for more time the developers can focus on making Exalt better. You can sponsor the project on [Patreon](https://patreon.com/outwalkstudios) or [PayPal](http://paypal.me/outwalkstudios)
 
 ---
 
