@@ -3,9 +3,9 @@ const SELF_CLOSING_TAGS = /<([a-z|-]+)([^>]*)\/>/g;
 
 /* parse a template literal into a template object */
 export function createTemplate(strings, values) {
-    let data = [];
+    const data = [];
 
-    let source = strings.reduce((combined, string, index) => {
+    const source = strings.reduce((combined, string, index) => {
         const value = values[index] ?? "";
         let match;
 
@@ -17,7 +17,7 @@ export function createTemplate(strings, values) {
 
         /* if we find a template, merge it into this template */
         else if (isTemplate(value)) {
-            data = data.concat(value.data);
+            data.push(...value.data);
             return combined + string + value.source;
         }
 
@@ -26,7 +26,7 @@ export function createTemplate(strings, values) {
             let source = "";
 
             for (let part of value) {
-                data = data.concat(part.data);
+                data.push(...part.data);
                 source += part.source;
             }
 
@@ -85,32 +85,18 @@ export function compileTemplate({ source, data }) {
                 if (attribute.value == "{{a}}") {
                     const { name, value } = data[index++];
 
-                    /* if the prop starts with "on", bind it as an event */
-                    if (name[0] == "o" && name[1] == "n") {
-                        const event = name.slice(2);
+                    /* bind the attribute as a prop */
+                    currentNode.props = currentNode.props ?? {};
+                    currentNode.props[name] = value;
+                    currentNode.removeAttribute(name);
 
-                        currentNode._listeners = currentNode._listeners ?? {};
-                        currentNode._listeners[event] = value;
-                        currentNode.removeAttribute(name);
-
-                        currentNode.addEventListener(event, eventWrapper);
-                    }
-
-                    /* else record it as a prop on the element */
-                    else {
-                        currentNode.props = currentNode.props ?? {};
-                        currentNode.props[name] = value;
-                        currentNode.removeAttribute(name);
-
-                        /* if the prop is a string, keep it as an attribute */
-                        if (typeof value == "string") {
-                            currentNode.setAttribute(name, value);
-                        }
-
-                        /* if the prop is a boolean, keep it as a boolean attribute */
-                        else if (typeof value == "boolean" && value != false) {
-                            currentNode.setAttribute(name, "");
-                        }
+                    /* process the binding further depending on data type */
+                    if(name.startsWith("on") && typeof value == "function") {
+                        currentNode.addEventListener(name.slice(2), eventWrapper);
+                    } else if (typeof value == "string") {
+                        currentNode.setAttribute(name, value);
+                    } else if (typeof value == "boolean" && value != false) {
+                        currentNode.setAttribute(name, "");
                     }
                 }
             }
@@ -123,11 +109,7 @@ export function compileTemplate({ source, data }) {
 
 /* check if an object is a template */
 function isTemplate(value) {
-    return (
-        typeof value == "object" &&
-        value.source &&
-        value.data
-    );
+    return (typeof value == "object" && value.source != undefined && value.data != undefined);
 }
 
 /* check if an object is an array of templates */
@@ -137,5 +119,5 @@ function isTemplateArray(value) {
 
 /* wrap the event to access its _listeners property */
 function eventWrapper(event) {
-    this._listeners[event.type](event);
+    this.props[`on${event.type}`](event);
 }

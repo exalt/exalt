@@ -49,7 +49,6 @@ function diff(newNode, oldNode) {
     if (nodeType == 1) {
         diffAttributes(newNode, oldNode);
         diffProps(newNode, oldNode);
-        diffEvents(newNode, oldNode);
 
     } else if (nodeType == 3 || nodeType == 8) {
         if (oldNode.nodeValue != newNode.nodeValue) {
@@ -116,21 +115,11 @@ function diffProps(newNode, oldNode) {
     if (newProps && oldProps) {
         const newKeys = Object.keys(newProps);
         for (let name of newKeys) {
-            if (oldProps[name] != newProps[name]) {
+            if(name.startsWith("on") && typeof value == "function") {
+                oldNode.props[name] = newProps[name];
+            } else if (oldProps[name] != newProps[name]) {
                 oldNode.props[name] = newProps[name];
             }
-        }
-    }
-}
-/* find all events and update them to the new event */
-function diffEvents(newNode, oldNode) {
-    const newEvents = newNode._listeners;
-    const oldEvents = oldNode._listeners;
-
-    if(newEvents && oldEvents) {
-        const newKeys = Object.keys(newEvents);
-        for(let name of newKeys) {
-            oldNode._listeners[name] = newEvents[name];
         }
     }
 }
