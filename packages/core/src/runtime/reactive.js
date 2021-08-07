@@ -84,6 +84,8 @@ function mutate(callback, isArrayMode = false) {
         },
 
         deleteProperty: (target, key, value) => {
+            if(Array.isArray(target)) return true;
+            
             delete target[key];
             callback(key, value);
             return true;
