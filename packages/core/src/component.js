@@ -1,4 +1,4 @@
-import { createReactiveProperties } from "./runtime/reactive";
+import { createReactiveObject, createReactiveProperties } from "./runtime/reactive";
 import { reconcile } from "./runtime/reconciler";
 
 /* Component class for building reusable pieces of a UI */
@@ -39,7 +39,7 @@ export class Component extends HTMLElement {
         reconcile(this.render(this.props), this.root, this._styles);
 
         /* make the props object reactive */
-        this.props = this.reactive(this.props);
+        this.props = createReactiveObject(this.props, this._requestUpdate());
 
         /* process any reactive properties that were defined */
         createReactiveProperties(this, this._reactive, this._requestUpdate());

@@ -11,23 +11,26 @@ export function createReactiveProperties(obj, indices, callback) {
         /* if the value is an array, turn it into a reactive array */
         if (Array.isArray(value)) {
             value = createReactiveArray(value, callback);
-            defineReactiveProperty(obj, name, value, (newValue) => { 
-                callback(name, value = createReactiveArray(newValue, callback)); 
+            Object.defineProperty(obj, name, {
+                get: () => value,
+                set: (newValue) => { callback(name, value = createReactiveArray(newValue, callback)); }
             });
         }
 
         /* if the value is an object, turn it into a reactive object */
         else if (isObject(value)) {
             value = createReactiveObject(value, callback);
-            defineReactiveProperty(obj, name, value, (newValue) => { 
-                callback(name, value = Object.assign(value, newValue));
+            Object.defineProperty(obj, name, {
+                get: () => value,
+                set: (newValue) => { callback(name, value = Object.assign(value, newValue)); }
             });
         }
 
         /* if the value is a primitive, make it reactive */
         else {
-            defineReactiveProperty(obj, name, value, (newValue) => { 
-                callback(name, value = newValue);
+            Object.defineProperty(obj, name, {
+                get: () => value,
+                set: (newValue) => { callback(name, value = newValue); }
             });
         }
     }
@@ -88,14 +91,6 @@ function mutate(callback, isArrayMode = false) {
             return true;
         }
     };
-}
-
-/* define a reactive property */
-function defineReactiveProperty(obj, name, value, callback) {
-    Object.defineProperty(obj, name, {
-        get: () => value,
-        set: callback
-    });
 }
 
 /* check if an object is an object literal */

@@ -3,7 +3,11 @@
 /* define the component with the default CustomElementRegistry */
 export function define(options) {
     return (component) => {
-        if(typeof options == "object") component.options = options;
-        window.customElements.define(options.tag, component);
+        if(typeof options == "object") {
+            component.options = options;
+            window.customElements.define(options.tag, component);
+        } else {
+            window.customElements.define(options, component);
+        }
     };
 }
