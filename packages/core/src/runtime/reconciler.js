@@ -1,12 +1,12 @@
-import { compileTemplate } from "./template-engine";
+import { compileTemplate, isEventAttribute } from "./template-engine";
 
 /* diff an update the DOM */
-export function reconcile(template, container, options = {}) {
+export function reconcile(template, container, styles) {
     /* if the template is null, make it into an empty template */
     template = template ?? { source: "", data: [] };
 
     /* if styles are provided, inject them into the template */
-    for(let style of options.styles) {
+    for(let style of styles) {
         template.source += `<style>${style}</style>`;
     }
 
@@ -115,10 +115,13 @@ function diffProps(newNode, oldNode) {
     if (newProps && oldProps) {
         const newKeys = Object.keys(newProps);
         for (let name of newKeys) {
-            if(name.startsWith("on") && typeof value == "function") {
-                oldNode.props[name] = newProps[name];
-            } else if (oldProps[name] != newProps[name]) {
-                oldNode.props[name] = newProps[name];
+            const newProp = newProps[name];
+
+            if(isEventAttribute(name, newProp)) {
+                if(!oldNode.props[name]) oldNode.addEventListener(name.slice(2), newProp);
+                oldNode.props[name] = newProp;
+            } else if (oldProps[name] != newProp) {
+                oldNode.props[name] = newProp;
             }
         }
     }
@@ -223,11 +226,6 @@ function updateInput(newNode, oldNode) {
     if (newValue != oldValue) {
         oldNode.setAttribute("value", newValue);
         oldNode.value = newValue;
-    }
-
-    if (newValue == "null") {
-        oldNode.value = "";
-        oldNode.removeAttribute("value");
     }
 
     if (!newNode.hasAttribute("value")) oldNode.removeAttribute("value");

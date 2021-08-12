@@ -91,7 +91,7 @@ export function compileTemplate({ source, data }) {
                     currentNode.removeAttribute(name);
 
                     /* process the binding further depending on data type */
-                    if(name.startsWith("on") && typeof value == "function") {
+                    if(isEventAttribute(name, value)) {
                         currentNode.addEventListener(name.slice(2), eventWrapper);
                     } else if (typeof value == "string") {
                         currentNode.setAttribute(name, value);
@@ -107,9 +107,14 @@ export function compileTemplate({ source, data }) {
     return template.content;
 }
 
+/* check if an attribute is an event */
+export function isEventAttribute(name, value) {
+    return (name[0] == "o" && name[1] == "n" && typeof value == "function");
+}
+
 /* check if an object is a template */
 function isTemplate(value) {
-    return (typeof value == "object" && value.source != undefined && value.data != undefined);
+    return (value.source && value.data);
 }
 
 /* check if an object is an array of templates */

@@ -1,36 +1,33 @@
 /* create reactive properties on an object */
-export function createReactiveProperties(obj, callback) {
-    if (obj?._reactive.length == 0) return;
+export function createReactiveProperties(obj, indices, callback) {
+    if (indices.length == 0) return;
 
     const names = Object.getOwnPropertyNames(obj);
 
-    for (let index of obj._reactive) {
+    for (let index of indices) {
         let name = names[index];
         let value = obj[name];
 
         /* if the value is an array, turn it into a reactive array */
         if (Array.isArray(value)) {
             value = createReactiveArray(value, callback);
-            Object.defineProperty(obj, name, {
-                get: () => value,
-                set: (newValue) => { callback(name, value = createReactiveArray(newValue, callback)); }
+            defineReactiveProperty(obj, name, value, (newValue) => { 
+                callback(name, value = createReactiveArray(newValue, callback)); 
             });
         }
 
         /* if the value is an object, turn it into a reactive object */
         else if (isObject(value)) {
             value = createReactiveObject(value, callback);
-            Object.defineProperty(obj, name, {
-                get: () => value,
-                set: (newValue) => { callback(name, value = Object.assign(value, newValue)); }
+            defineReactiveProperty(obj, name, value, (newValue) => { 
+                callback(name, value = Object.assign(value, newValue));
             });
         }
 
         /* if the value is a primitive, make it reactive */
         else {
-            Object.defineProperty(obj, name, {
-                get: () => value,
-                set: (newValue) => { callback(name, value = newValue); }
+            defineReactiveProperty(obj, name, value, (newValue) => { 
+                callback(name, value = newValue);
             });
         }
     }
@@ -84,13 +81,21 @@ function mutate(callback, isArrayMode = false) {
         },
 
         deleteProperty: (target, key, value) => {
-            if(Array.isArray(target)) return true;
-            
+            if (Array.isArray(target)) return true;
+
             delete target[key];
             callback(key, value);
             return true;
         }
     };
+}
+
+/* define a reactive property */
+function defineReactiveProperty(obj, name, value, callback) {
+    Object.defineProperty(obj, name, {
+        get: () => value,
+        set: callback
+    });
 }
 
 /* check if an object is an object literal */

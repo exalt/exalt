@@ -1,4 +1,4 @@
-import { createReactiveObject, createReactiveProperties } from "./runtime/reactive";
+import { createReactiveProperties } from "./runtime/reactive";
 import { reconcile } from "./runtime/reconciler";
 
 /* Component class for building reusable pieces of a UI */
@@ -9,7 +9,7 @@ export class Component extends HTMLElement {
 
         /* get the options specified in the component creation */
         const defaultOptions = { shadow: false, styles: [], connect: [] };
-        const { shadow, styles, connect } = { ...defaultOptions, ...this.constructor.options ?? {} };
+        const { shadow, styles, connect } = Object.assign(defaultOptions, this.constructor.options || {});
 
         this._styles = styles;
         this._reactive = [];
@@ -36,13 +36,13 @@ export class Component extends HTMLElement {
         }
 
         /* render the component */
-        reconcile(this.render(this.props), this.root, { styles: this._styles });
+        reconcile(this.render(this.props), this.root, this._styles);
 
         /* make the props object reactive */
-        this.props = createReactiveObject(this.props, this._requestUpdate());
+        this.props = this.reactive(this.props);
 
         /* process any reactive properties that were defined */
-        createReactiveProperties(this, this._requestUpdate());
+        createReactiveProperties(this, this._reactive, this._requestUpdate());
 
         /* collect all the refs */
         this._parseRefs();
@@ -59,7 +59,7 @@ export class Component extends HTMLElement {
     _requestUpdate() {
         return (key, value) => {
             if (this.shouldUpdate(key, value)) {
-                reconcile(this.render(this.props), this.root, { styles: this._styles });
+                reconcile(this.render(this.props), this.root, this._styles);
                 this._parseRefs();
                 this.onUpdate && this.onUpdate(key, value);
             }

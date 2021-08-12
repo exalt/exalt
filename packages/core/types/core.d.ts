@@ -2,7 +2,6 @@ declare module "@exalt/core" {
     type UpdateCallback = (key?: string | number | symbol, value?: any) => void;
 
     interface ComponentProps {
-        children: string;
         [key: string]: any;
     }
 
@@ -45,13 +44,13 @@ declare module "@exalt/core" {
 
 declare module "@exalt/core/decorators" {
     interface ComponentOptions {
+        tag?: string,
         shadow?: boolean;
         styles?: string[];
         connect?: object[];
     }
 
-    function define(name: string): void;
-    function options(options: ComponentOptions): void;
+    function define(name: string | ComponentOptions): void;
 
-    export { ComponentOptions, define, options };
+    export { ComponentOptions, define };
 }
