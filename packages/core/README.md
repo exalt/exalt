@@ -36,6 +36,7 @@ Component names must have a hypen in the name as required by the custom elements
 In order to make a component usable, it needs to be defined with the CustomElementRegistry. Exalt Components also provide a static options object to allow for further customization. These two requirements can be done with or without decorators. 
 
 **Options**
+- tag: string - sets the component tag.
 - shadow: boolean - tells the component whether or not to use ShadowDOM.
 - styles: string[] - set the styles to be used in the component.
 - connect: object[] - tells the component to react to changes in the provided stores.
@@ -84,11 +85,10 @@ Using the component options you can specify styles to use as an array of strings
 **Example:**
 ```js
 import { Component, html } from "@exalt/core";
-import { define, options } from "@exalt/core/decorators";
+import { define } from "@exalt/core/decorators";
 import styles from "./hello-world.css";
 
-@define("hello-world")
-@options({ styles: [styles] })
+@define({ tag: "hello-world", styles: [styles] })
 export class HelloWorld extends Component {
 
     render() {
@@ -251,7 +251,7 @@ Exalt Components have reactive properties for updating the component it belongs 
 **Example:**
 ```js
 import { Component, html, createStore } from "@exalt/core";
-import { define, options } from "@exalt/core/decorators";
+import { define } from "@exalt/core/decorators";
 
 /* create the store */
 const store = createStore({ 
@@ -262,8 +262,7 @@ const store = createStore({
     }
 });
 
-@define("my-counter")
-@options({ connect: [store] })
+@define({ tag: "my-container", connect: [store] })
 export class Counter extends Component {
 
     render() {
