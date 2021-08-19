@@ -3,11 +3,15 @@
 /* define the component with the default CustomElementRegistry */
 export function define(options) {
     return (component) => {
+        let name;
+
         if(typeof options == "object") {
             component.options = options;
-            window.customElements.define(options.tag, component);
+            name = options.tag;
         } else {
-            window.customElements.define(options, component);
+            name = options;
         }
+
+        window.customElements.define(name, component);
     };
 }
