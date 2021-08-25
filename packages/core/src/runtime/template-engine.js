@@ -114,7 +114,7 @@ export function isEventAttribute(name, value) {
 
 /* check if an object is a template */
 function isTemplate(value) {
-    return (value.source && value.data);
+    return (typeof value == "object" && value.source && value.data);
 }
 
 /* check if an object is an array of templates */

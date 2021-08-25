@@ -32,7 +32,9 @@ export class Component extends HTMLElement {
             const keys = Object.keys(this.props);
             Array.from(this.attributes)
                 .filter(({ localName }) => !keys.includes(localName))
-                .forEach(({ localName, value }) => this.props[localName] = value);
+                .forEach(({ localName, value }) => {
+                    this.props[localName] = (value == "") ? true : value;
+                });
         }
 
         /* render the component */
