@@ -3,11 +3,13 @@ import { dev } from "./cmds/dev";
 import { start } from "./cmds/start";
 import { build } from "./cmds/build";
 import { logError } from "./utils/logging";
+import fs from "fs";
+import path from "path";
 
 /* export the toolchain */
 export default ({ toolchainOptions, ...config }) => {
-
     const settings = { ...defaultOptions, ...toolchainOptions };
+    settings.library = !(fs.existsSync(path.join(process.cwd(), "public", "index.html")));
 
     return {
         dev: () => {

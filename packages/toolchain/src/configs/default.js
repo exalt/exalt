@@ -1,13 +1,14 @@
+const production = (process.env.NODE_ENV == "production");
+
 /* default options */
 export const defaultOptions = {
-    library: false,
     target: "es2015",
-    codesplitting: false,
-    minify: (process.env.NODE_ENV == "production") ? true : false,
-    sourcemap: false,
-    paths: null,
     publicPath: "/",
-    open: (process.env.NODE_ENV == "development") ? true : false,
+    dest: "dist",
     port: 3000,
-    headers: {}
+    minify: production ? true : false,
+    open: production ? false : true,
+    legacy: false,
+    paths: undefined,
+    external: undefined
 };

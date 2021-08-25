@@ -1,51 +1,61 @@
-import babel from "@rollup/plugin-babel";
+import esbuild from "rollup-plugin-esbuild";
+import template from "rollup-plugin-html-literals";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import alias from "@rollup/plugin-alias";
 import folder from "rollup-plugin-import-folder";
 import css from "rollup-plugin-import-css";
-import template from "rollup-plugin-html-literals";
-import esbuild from "rollup-plugin-esbuild";
 import html, { makeHtmlAttributes } from "@rollup/plugin-html";
 import watch from "rollup-plugin-watch";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
-import { color, log, logWarning } from "../utils/logging";
+import { color, log } from "../utils/logging";
 import path from "path";
 import fs from "fs";
 
+
 export function createRollupConfig(config, settings) {
+    const production = (process.env.NODE_ENV == "production");
 
-    config.format = "iife";
-    config.dest = (process.env.NODE_ENV == "production") ? "dist" : ".exalt";
-
-    /* override the config options */
-    if (settings.library || settings.codesplitting || typeof config.input != "string") {
-        config.format = "esm";
+    if (settings.legacy && typeof config.input != "string") {
+        throw new Error("Code splitting is not supported in legacy builds!");
     }
 
-    /* map the paths config option to a format that rollup can understand */
-    const parseAliasPaths = (paths) => {
-        if (!paths) return null;
+    if (settings.legacy && settings.external != undefined) {
+        throw new Error(`The "external" toolchain option is not supported in legacy builds!`);
+    }
+
+    if(settings.legacy && settings.library) {
+        throw new Error("Libraries are not supported in legacy builds!");
+    }
+
+    /* format the paths config to be compatible with @rollup/plugin-alias */
+    const formatAliasPaths = (paths) => {
+        if (!paths) return undefined;
 
         return Object.keys(paths).map((key) => {
             return { find: key, replacement: path.resolve(process.cwd(), paths[key]) };
         });
     };
 
-    /* render the custom html output */
-    const renderHTML = ({ attributes, files, publicPath, title }) => {
+    /* generate an html template using the template hook in @rollup/plugin-html */
+    const generateHTML = ({ attributes, files, publicPath, title }) => {
         let html = fs.readFileSync(path.join(process.cwd(), "public", "index.html"), "utf8");
 
         const scripts = [];
         const links = [];
 
+        if (settings.legacy) {
+            const source = "https://unpkg.com/@webcomponents/webcomponentsjs@2.6.0/webcomponents-loader.js";
+            scripts.push(`\t<script src="${source}"></script>`);
+        }
+
         if (files.js) {
             for (let file of files.js) {
                 const attribs = makeHtmlAttributes(attributes.script);
                 scripts.push(`\t<script${attribs} src="${publicPath + file.fileName}"></script>`);
-                if (settings.codesplitting) break;
+                if (!settings.legacy) break;
             }
         }
 
@@ -71,34 +81,30 @@ export function createRollupConfig(config, settings) {
         return html;
     };
 
-    const plugins = [
-        babel({
-            babelHelpers: "bundled",
-            plugins: [
-                ["@babel/plugin-proposal-decorators", { legacy: true }]
-            ]
-        }),
-        /* resolve modules from node_modules */
-        resolve({ browser: true }),
+    const generateOutputOptions = () => {
+        if (settings.legacy) {
+            return {
+                file: `${settings.dest}/index.js`,
+                format: "iife",
+                name: "bundle"
+            };
+        }
 
-        /* resolve commonjs modules as es modules */
-        commonjs(),
+        return { dir: settings.dest, format: "esm" };
+    };
 
-        /* resolve json files as es modules */
-        json(),
+    return {
+        input: config.input,
+        output: generateOutputOptions(),
+        external: settings.external,
+        plugins: [
+            esbuild({
+                target: settings.target,
+                minify: settings.minify,
+                loaders: { ".js": "ts" }
+            }),
 
-        /* map aliases to relative file paths */
-        alias({ entries: parseAliasPaths(settings.paths) }),
-
-        /* resolve folder components */
-        folder(),
-
-        /* resolve css files */
-        css({ minify: settings.minify }),
-
-        /* minify tagged template literals */
-        template({
-            options: {
+            template({
                 shouldMinify: () => settings.minify,
                 minifyOptions: {
                     caseSensitive: true,
@@ -106,78 +112,38 @@ export function createRollupConfig(config, settings) {
                     removeAttributeQuotes: true,
                     collapseBooleanAttributes: true
                 }
-            }
-        }),
+            }),
 
-        /* transpile and minify the source code */
-        esbuild({
-            target: settings.target,
-            minify: settings.minify,
-            sourceMap: settings.sourcemap
-        })
-    ];
+            resolve({ browser: true }),
 
-    /* if the project is not a library, add app specific plugins */
-    if (!settings.library) {
+            commonjs(),
 
-        /* generate the html file and watch the public directory */
-        plugins.push(
-            html({
+            json(),
+
+            alias({ entries: formatAliasPaths(settings.paths) }),
+
+            folder(),
+
+            css({ minify: settings.minify }),
+
+            !settings.library && html({
                 title: config.name,
                 publicPath: settings.publicPath,
-                template: renderHTML
+                template: generateHTML
             }),
-            watch({ dir: "public" })
-        );
 
-        /* if we are in a development environment, run the dev server */
-        if (process.env.NODE_ENV == "development") {
-            plugins.push(
-                serve({
-                    open: settings.open,
-                    port: settings.port,
-                    headers: settings.headers,
-                    contentBase: config.dest,
-                    historyApiFallback: true,
-                    verbose: false,
-                    onListening: () => {
-                        log(`server started at ${color.green}http://localhost:${settings.port}/${color.reset}`);
-                    }
-                }),
+            !settings.library && watch({ dir: "public" }),
 
-                livereload({
-                    watch: config.dest,
-                    verbose: false
-                })
-            );
-        }
-    }
+            !production && serve({
+                open: settings.open,
+                port: settings.port,
+                contentBase: settings.dest,
+                historyApiFallback: true,
+                verbose: false,
+                onListening: () => log(`server started at ${color.green}http://localhost:${settings.port}/${color.reset}`)
+            }),
 
-    /* construct the rollup config */
-    const rollupConfig = {
-        input: config.input,
-        plugins: plugins,
-        external: (settings.library) ? settings.external : null
+            !production && livereload({ watch: settings.dest, verbose: false })
+        ],
     };
-
-    if (!settings.library && settings.external != undefined) {
-        logWarning(`the "external" toolchain option is only supported in library builds!`);
-    }
-
-    if (typeof config.input != "string" || settings.codesplitting) {
-        rollupConfig.output = {
-            dir: config.dest,
-            format: "esm",
-            sourcemap: settings.sourcemap
-        };
-    } else {
-        rollupConfig.output = {
-            file: `${config.dest}/index.js`,
-            format: config.format,
-            name: "bundle",
-            sourcemap: settings.sourcemap
-        };
-    }
-
-    return rollupConfig;
 }

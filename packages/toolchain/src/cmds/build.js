@@ -12,9 +12,7 @@ export async function build({ config, settings }) {
         const bundle = await rollup.rollup(rollupConfig);
         await bundle.write(rollupConfig.output);
 
-        if (!settings.library) {
-            copyFolder("public", config.dest);
-        }
+        if (!settings.library) copyFolder("public", settings.dest);
 
         log("compiled successfully");
 

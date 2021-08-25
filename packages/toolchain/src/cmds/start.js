@@ -2,8 +2,8 @@ import serve from "app-serve";
 import { color, log, logError } from "../utils/logging";
 import fs from "fs";
 
-export function start({ config, settings }) {
-    if (!fs.existsSync(config.dest)) {
+export function start({ settings }) {
+    if (!fs.existsSync(settings.dest)) {
         logError("Failed to find a production build!");
         return;
     }
@@ -11,8 +11,7 @@ export function start({ config, settings }) {
     try {
         serve({
             port: settings.port,
-            headers: settings.headers,
-            contentBase: config.dest,
+            contentBase: settings.dest,
             historyApiFallback: true,
             verbose: false,
             onListening: () => {

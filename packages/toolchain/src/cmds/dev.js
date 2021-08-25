@@ -12,7 +12,7 @@ export async function dev({ config, settings }) {
     watcher.on("event", (event) => {
         switch (event.code) {
             case "BUNDLE_END":
-                copyFolder("public", config.dest, true);
+                copyFolder("public", settings.dest, true);
                 log("compiled successfully");
                 break;
 
