@@ -34,12 +34,12 @@
   "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.14.8",
-    "@babel/eslint-parser": "^7.14.7",
+    "@babel/core": "^7.15.5",
+    "@babel/eslint-parser": "^7.15.4",
     "@rollup/plugin-json": "^4.1.0",
-    "esbuild": "^0.12.15",
-    "eslint": "^7.31.0",
-    "rollup": "^2.54.0",
+    "esbuild": "^0.12.25",
+    "eslint": "^7.32.0",
+    "rollup": "^2.56.3",
     "rollup-plugin-esbuild": "^4.5.0"
   }
 }
