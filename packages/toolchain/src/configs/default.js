@@ -6,7 +6,6 @@ export const defaultOptions = {
     publicPath: "/",
     dest: "dist",
     port: 3000,
-    minify: production ? true : false,
     open: production ? false : true,
     legacy: false,
     paths: undefined,

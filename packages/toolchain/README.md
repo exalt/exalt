@@ -45,16 +45,14 @@ This toolchain enables the following features for @exalt/cli:
 This toolchain offers some options to configure this functionality.
 
 #### Options:
-- library (default: false) - sets the project to be compiled as a library.
 - target (default: "es2015") - sets the JavaScript version to be transpiled to.
-- codesplitting (default: false) - specifies whether or not to use a code splitting build.
-- minify (default: false) - determines whether or not the build should be minified.
-- sourcemap (default: false) - determines whether or not sourcemaps should be generated.
-- paths (default: {}) - object that maps aliases to file paths.
 - publicPath (default: "/") - the asset path to append to the beginning of all asset paths.
-- open (default: true) - tells the cli whether or not to launch your app or not.
+- dest (default: "dist") - the build output directory.
 - port (default: 3000) - sets the web server port.
-- headers (default: {}) - sets headers to be sent with each request/response.
+- open (default: true) - tells the cli whether or not to launch your app or not.
+- legacy (default: false) - sets the build output to support legacy browsers.
+- paths (default: {}) - object that maps aliases to file paths.
+- external (default: []) - sets the modules to be exluded from the bundle.
 
 ---
 

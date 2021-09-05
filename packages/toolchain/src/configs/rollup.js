@@ -102,12 +102,12 @@ export function createRollupConfig(config, settings) {
         plugins: [
             esbuild({
                 target: settings.target,
-                minify: settings.minify,
+                minify: production,
                 loaders: { ".js": "ts" }
             }),
 
             template({
-                shouldMinify: () => settings.minify,
+                shouldMinify: () => production,
                 minifyOptions: {
                     caseSensitive: true,
                     keepClosingSlash: true,
@@ -126,7 +126,7 @@ export function createRollupConfig(config, settings) {
 
             folder(),
 
-            css({ minify: settings.minify }),
+            css({ minify: production }),
 
             del({
                 targets: `${settings.dest}/*`,
