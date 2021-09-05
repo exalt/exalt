@@ -21,16 +21,22 @@ This command will run your production build on a web server.
 
 ## Customizing the Project
 
-You can configure your project using the generated `exalt.json` file.
+You can configure your project using the `exalt.json` file.
 The `toolchain` property in your config file is the package that powers everything behind the cli commands.
 You can pass options to your toolchain of choice using the `toolchainOptions` property.
 Look at the documentation for your toolchain to determine what options are available.
 
 ---
 
+## Building an SPA?
+
+If your building a single page app, try using [@exalt/router](https://www.npmjs.com/package/@exalt/router) for your routing.
+
+---
+
 ## Learn How to Develop Apps with Exalt
 
-You can get started learning Exalt [here](https://github.com/exalt/exalt)
+You can get started learning Exalt by reading the [documentation](https://github.com/exalt/exalt#documentation).
 
 ---
 

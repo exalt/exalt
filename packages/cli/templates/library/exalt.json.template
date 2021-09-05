@@ -1,9 +1,5 @@
 {
     "name": "{{project-name}}",
     "input": "src/index.js",
-    "toolchain": "@exalt/toolchain",
-    "toolchainOptions": {
-        "library": true,
-        "external": ["@exalt/core"]
-    }
+    "toolchain": "@exalt/toolchain"
 }

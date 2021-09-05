@@ -21,9 +21,9 @@ export class ProjectGenerator {
             : path.join(__dirname, "../templates/application");
 
         this.dependencies = [
-            { name: "@exalt/toolchain@0.5.x", dev: true },
-            { name: "@exalt/cli@0.5.x", dev: true },
-            { name: "@exalt/core@0.5.x", dev: this.library }
+            { name: "@exalt/toolchain@0.6.x", dev: true },
+            { name: "@exalt/cli@0.6.x", dev: true },
+            { name: "@exalt/core@0.6.x", dev: false }
         ];
     }
 
@@ -122,15 +122,10 @@ export class ProjectGenerator {
         console.log("Get started with your new project!\n");
         console.log(`${color.cyan} > cd ./${path.relative(process.cwd(), this.dest)} ${color.reset}`);
 
-        if (this.skipInstall) {
-            console.log(`${color.cyan} > npm install${color.reset}`);
-        }
+        if (this.skipInstall) console.log(`${color.cyan} > npm install${color.reset}`);
 
-        if (this.library) {
-            console.log(`${color.cyan} > npm run build${color.reset}`);
-        } else {
-            console.log(`${color.cyan} > npm run dev${color.reset}`);
-        }
+        if (this.library) console.log(`${color.cyan} > npm run build${color.reset}`);
+        else console.log(`${color.cyan} > npm run dev${color.reset}`);
 
         console.log("----------------------------------");
     }

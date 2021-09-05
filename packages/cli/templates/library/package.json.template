@@ -12,8 +12,5 @@
         "dist"
     ],
     "author": "",
-    "license": "ISC",
-    "peerDependencies": {
-        "@exalt/core": "^0.4.x"
-    }
+    "license": "ISC"
 }

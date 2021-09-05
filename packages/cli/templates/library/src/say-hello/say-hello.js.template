@@ -1,9 +1,8 @@
 import { Component, html } from "@exalt/core";
-import { define, options } from "@exalt/core/decorators";
+import { define } from "@exalt/core/decorators";
 import styles from "./say-hello.css";
 
-@define("say-hello")
-@options({ shadow: true, styles: [styles] })
+@define({ tag: "say-hello", styles: [styles] })
 export class SayHello extends Component {
 
     render({ name }) {
