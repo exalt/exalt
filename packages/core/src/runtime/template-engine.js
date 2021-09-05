@@ -10,8 +10,10 @@ export function createTemplate(strings, values) {
         let match;
 
         /* if we find an attribute binding, collect the data and place a marker */
-        if ((match = string.match(/ ([a-z]*)=$/i))) {
+        if ((match = string.match(/ ([a-z]*)="?$/i))) {
             data.push({ name: match[1], value: value });
+            if(string.endsWith(`"`)) string = string.slice(0, -1);
+            
             return combined + string + `"{{a}}"`;
         }
 
