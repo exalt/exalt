@@ -32,13 +32,9 @@ export async function loadToolchain(config) {
 
     const toolchain = isFilePath(config.toolchain) ? path.join(process.cwd(), config.toolchain) : config.toolchain;
 
-    try {
-        /* load the toolchain using the node resolution algorithm */
-        const toolchainModule = await import(require.resolve(toolchain, { paths: [process.cwd()] }));
-        return toolchainModule.default;
-    } catch {
-        throw new Error("Unable to find the toolchain specified in exalt.json");
-    }
+    /* load the toolchain using the node resolution algorithm */
+    const toolchainModule = await import(require.resolve(toolchain, { paths: [process.cwd()] }));
+    return toolchainModule.default;
 }
 
 /* load the options from the config */
