@@ -47,7 +47,6 @@ importers:
       '@babel/core': ^7.15.5
       '@babel/eslint-parser': ^7.15.4
       '@rollup/plugin-alias': ^3.1.5
-      '@rollup/plugin-babel': ^5.3.0
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-html': ^0.2.3
       '@rollup/plugin-json': ^4.1.0
@@ -67,7 +66,6 @@ importers:
       rollup-plugin-watch: ^1.0.1
     dependencies:
       '@rollup/plugin-alias': 3.1.5_rollup@2.56.3
-      '@rollup/plugin-babel': 5.3.0_@babel+core@7.15.5+rollup@2.56.3
       '@rollup/plugin-commonjs': 20.0.0_rollup@2.56.3
       '@rollup/plugin-html': 0.2.3_rollup@2.56.3
       '@rollup/plugin-json': 4.1.0_rollup@2.56.3
@@ -203,6 +201,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.15.4
+    dev: true
 
   /@babel/helper-module-transforms/7.15.4:
     resolution: {integrity: sha512-9fHHSGE9zTC++KuXLZcB5FKgvlV83Ox+NLUmQTawovwlJ85+QMhk1CnVk406CQVj97LaWod6KVjl2Sfgw9Aktw==}
@@ -256,6 +255,7 @@ packages:
   /@babel/helper-validator-identifier/7.14.9:
     resolution: {integrity: sha512-pQYxPY0UP6IHISRitNe8bsijHex4TWZXi2HwKVsjPiltzlhse2znVcm9Ace510VT1kxIHjGJCZZQBX2gJDbo0g==}
     engines: {node: '>=6.9.0'}
+    dev: true
 
   /@babel/helper-validator-option/7.14.5:
     resolution: {integrity: sha512-OX8D5eeX4XwcroVW45NMvoYaIuFI+GQpA2a8Gi+X/U/cDUIRsV37qQfF905F0htTRCREQIB4KqPeaveRJUl3Ow==}
@@ -320,6 +320,7 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.14.9
       to-fast-properties: 2.0.0
+    dev: true
 
   /@eslint/eslintrc/0.4.3:
     resolution: {integrity: sha512-J6KFFz5QCYUJq3pf0mjEcCJVERbzv71PUIDczuh9JkwGEzced6CO5ADLHB1rbf/+oPBtoPfMYNOpGDzCANlbXw==}
@@ -382,23 +383,6 @@ packages:
     dependencies:
       rollup: 2.56.3
       slash: 3.0.0
-    dev: false
-
-  /@rollup/plugin-babel/5.3.0_@babel+core@7.15.5+rollup@2.56.3:
-    resolution: {integrity: sha512-9uIC8HZOnVLrLHxayq/PTzw+uS25E14KPUBh5ktF+18Mjo5yK0ToMMx6epY0uEgkjwJw0aBW4x2horYXh8juWw==}
-    engines: {node: '>= 10.0.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@types/babel__core': ^7.1.9
-      rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      '@types/babel__core':
-        optional: true
-    dependencies:
-      '@babel/core': 7.15.5
-      '@babel/helper-module-imports': 7.15.4
-      '@rollup/pluginutils': 3.1.0_rollup@2.56.3
-      rollup: 2.56.3
     dev: false
 
   /@rollup/plugin-commonjs/20.0.0_rollup@2.56.3:
@@ -1781,6 +1765,7 @@ packages:
   /to-fast-properties/2.0.0:
     resolution: {integrity: sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=}
     engines: {node: '>=4'}
+    dev: true
 
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
