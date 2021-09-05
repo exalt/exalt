@@ -1,7 +1,6 @@
 import rollup from "rollup";
 import { createRollupConfig } from "../configs/rollup";
 import { log, logError} from "../utils/logging";
-import { copyFolder } from "../utils/file-system";
 
 export async function dev({ config, settings }) {
     const rollupConfig = createRollupConfig(config, settings);
@@ -12,8 +11,8 @@ export async function dev({ config, settings }) {
     watcher.on("event", (event) => {
         switch (event.code) {
             case "BUNDLE_END":
-                copyFolder("public", settings.dest, true);
                 log("compiled successfully");
+                event.result.close();
                 break;
 
             case "ERROR":

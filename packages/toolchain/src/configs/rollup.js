@@ -6,8 +6,10 @@ import json from "@rollup/plugin-json";
 import alias from "@rollup/plugin-alias";
 import folder from "rollup-plugin-import-folder";
 import css from "rollup-plugin-import-css";
+import del from "rollup-plugin-delete";
 import html, { makeHtmlAttributes } from "@rollup/plugin-html";
 import watch from "rollup-plugin-watch";
+import copy from "rollup-plugin-copy";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
 import { color, log } from "../utils/logging";
@@ -126,6 +128,11 @@ export function createRollupConfig(config, settings) {
 
             css({ minify: settings.minify }),
 
+            del({
+                targets: `${settings.dest}/*`,
+                runOnce: !production
+            }),
+
             !settings.library && html({
                 title: config.name,
                 publicPath: settings.publicPath,
@@ -133,6 +140,11 @@ export function createRollupConfig(config, settings) {
             }),
 
             !settings.library && watch({ dir: "public" }),
+
+            !settings.library && copy({
+                targets: [{ src: "public/*", dest: settings.dest }],
+                copyOnce: !production
+            }),
 
             !production && serve({
                 open: settings.open,
@@ -144,6 +156,6 @@ export function createRollupConfig(config, settings) {
             }),
 
             !production && livereload({ watch: settings.dest, verbose: false })
-        ],
+        ]
     };
 }

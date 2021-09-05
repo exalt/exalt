@@ -43,6 +43,8 @@
         "app-serve": "^1.0.0",
         "esbuild": "^0.12.15",
         "rollup": "^2.54.0",
+        "rollup-plugin-copy": "^3.4.0",
+        "rollup-plugin-delete": "^2.0.0",
         "rollup-plugin-esbuild": "^4.5.0",
         "rollup-plugin-html-literals": "^1.1.4",
         "rollup-plugin-import-css": "^3.0.0",
