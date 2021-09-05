@@ -8,8 +8,9 @@ export class Component extends HTMLElement {
         super();
 
         /* get the options specified in the component creation */
-        const defaultOptions = { shadow: false, styles: [], connect: [] };
-        const { shadow, styles, connect } = Object.assign(defaultOptions, this.constructor.options || {});
+        const parent = this.constructor;
+        const defaultOptions = Object.assign({ shadow: true, styles: [], connect: [] }, parent.defaultOptions || {});
+        const { shadow, styles, connect } = Object.assign(defaultOptions, parent.options || {});
 
         this._styles = styles;
         this._reactive = [];

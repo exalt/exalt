@@ -1,16 +1,21 @@
+declare interface ComponentOptions {
+    tag?: string,
+    shadow?: boolean;
+    styles?: string[];
+    connect?: object[];
+}
+
 declare module "@exalt/core" {
     type UpdateCallback = (key?: string | number | symbol, value?: any) => void;
 
-    interface ComponentProps {
-        [key: string]: any;
-    }
-
-    interface Template {
-        source: string;
-        data: any[];
-    }
+    interface ComponentProps { [key: string]: any; }
+    interface Store { [key: string]: any; }
+    interface Template { source: string; data: any[]; }
 
     abstract class Component extends HTMLElement {
+
+        static defaultOptions: ComponentOptions;
+        static options: ComponentOptions;
 
         private _styles: string[];
         private _reactive: number[];
@@ -37,20 +42,14 @@ declare module "@exalt/core" {
 
     function html(string: TemplateStringsArray, ...values: any[]): Template;
 
-    function createStore(store: object): object;
+    function createStore(store: object): Store;
 
     export { Template, Component, html, createStore };
 }
 
 declare module "@exalt/core/decorators" {
-    interface ComponentOptions {
-        tag?: string,
-        shadow?: boolean;
-        styles?: string[];
-        connect?: object[];
-    }
 
     function define(name: string | ComponentOptions): void;
 
-    export { ComponentOptions, define };
+    export { define };
 }

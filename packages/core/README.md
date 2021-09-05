@@ -31,9 +31,9 @@ npm install @exalt/core
 
 Exalt Components are a small wrapper over native Web Components. This means they work as valid HTML elements and can be used anywhere HTML can be used, including other frameworks. You can use components to build independent and reusable pieces of your application. Components allow you to define your own html tags and hook into the component state and lifecycle.
 
-Component names must have a hypen in the name as required by the custom elements standard. By Default exalt components do not make use of the [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) in order to maintain compatibility with global css frameworks and other libraries. This can easily be enabled using the component options.
+Component names must have a hypen in the name as required by the custom elements standard. By Default exalt components make use of the [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) in order to provide encapsulation. This can easily be disabled using the component options.
 
-In order to make a component usable, it needs to be defined with the CustomElementRegistry. Exalt Components also provide a static options object to allow for further customization. These two requirements can be done with or without decorators. 
+In order to make a component usable, it needs to be defined with the CustomElementRegistry. Exalt Components provide a static options object for customizing component behavior. Defining and customizing a component can be done with the `define` decorator. To set default options for all components, you can set the options on `Component.defaultOptions`. 
 
 **Options**
 - tag: string - sets the component tag.
@@ -41,7 +41,7 @@ In order to make a component usable, it needs to be defined with the CustomEleme
 - styles: string[] - set the styles to be used in the component.
 - connect: object[] - tells the component to react to changes in the provided stores.
 
-The simplest way to create a component is to create a class that extends `Component` and return a template in the render method.
+To create a component all you need to do is create a class that extends `Component` and return a template in the render method.
 
 **Example:**
 ```js
@@ -223,8 +223,7 @@ export class HelloWorld extends Component {
 
 Exalt provides a tagged template function for creating templates. This is similar to JSX but its entirely native to the web. You can write standard HTML inside them and use JavaScript expressions through placeholders indicated by curly braces prefixed with a dollar sign.
 
-The `html` function provides an easier way to bind events to elements and pass data to components, You can pass any data you want as an attribute and exalt will process it for you.
-Events are functions bound to attributes with the "on" prefix, these can be any native dom events or custom events.
+The `html` function provides an easier way to bind events to elements and pass data to components, You can pass any data you want as an attribute and exalt will process it for you. Events are functions bound to attributes with the "on" prefix, these can be any native dom events or custom events.
 
 **Example:**
 ```js
@@ -257,8 +256,8 @@ import { define } from "@exalt/core/decorators";
 const store = createStore({ 
     count: 0,
 
-    setCount(count) {
-        store.count = count;
+    increment() {
+        this.count++
     }
 });
 
@@ -266,10 +265,8 @@ const store = createStore({
 export class Counter extends Component {
 
     render() {
-        const { count, setCount } = store;
-
         return html`
-            <button onclick=${() => setCount(count++)}>Clicked: ${count}</button>
+            <button onclick=${() => store.increment()}>Clicked: ${store.count}</button>
         `;
     }
 
