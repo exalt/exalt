@@ -107,12 +107,14 @@ export function createRollupConfig(config, settings) {
             }),
 
             template({
-                shouldMinify: () => production,
-                minifyOptions: {
-                    caseSensitive: true,
-                    keepClosingSlash: true,
-                    removeAttributeQuotes: true,
-                    collapseBooleanAttributes: true
+                options: {
+                    shouldMinify: () => production,
+                    minifyOptions: {
+                        caseSensitive: true,
+                        keepClosingSlash: true,
+                        removeAttributeQuotes: true,
+                        collapseBooleanAttributes: true
+                    }
                 }
             }),
 
@@ -142,7 +144,7 @@ export function createRollupConfig(config, settings) {
             !settings.library && watch({ dir: "public" }),
 
             !settings.library && copy({
-                targets: [{ src: "public/*", dest: settings.dest }],
+                targets: [{ src: ["public/*", "!public/index.html"], dest: settings.dest }],
                 copyOnce: !production
             }),
 
