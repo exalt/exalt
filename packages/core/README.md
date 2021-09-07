@@ -241,6 +241,20 @@ const items = [
 html`<list-view items=${items} />`;
 ```
 
+Additionally you can spread an object as attributes using the spread attribute.
+All properties on the object will be bound as an attribute using the key as the attribute name, and the value as the attribute value.
+
+**Example:**
+```js
+
+const details = {
+    name: "John Doe",
+    age: 34
+};
+
+html`<user-details ...=${details} />`;
+```
+
 ---
 
 ## Store API

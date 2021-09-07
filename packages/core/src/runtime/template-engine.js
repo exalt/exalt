@@ -10,11 +10,21 @@ export function createTemplate(strings, values) {
         let match;
 
         /* if we find an attribute binding, collect the data and place a marker */
-        if ((match = string.match(/ ([a-z]*)="?$/i))) {
+        if ((match = string.match(/ ([a-z]*)=$/i))) {
             data.push({ name: match[1], value: value });
-            if(string.endsWith(`"`)) string = string.slice(0, -1);
-            
             return combined + string + `"{{a}}"`;
+        }
+
+        /* if we find a "...", we need to spread the object as props */
+        else if ((string.match(/ ...=$/i))) {
+            let source = string.slice(0, -4);
+
+            Object.entries(value).forEach((prop) => {
+                source += `${prop[0]}="{{a}}" `;
+                data.push({ name: prop[0], value: prop[1] });
+            });
+
+            return combined + source;
         }
 
         /* if we find a template, merge it into this template */
