@@ -41,3 +41,9 @@ export function logError(message) {
 export function logWarning(message) {
     console.error(`${color.yellow}[exalt]${color.reset} - ${message}`);
 }
+
+/* log an error and exit the process */
+export function logFatalError(message) {
+    console.error(`${color.red}[exalt]${color.reset} - ${message}`);
+    process.exit(-1);
+}

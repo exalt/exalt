@@ -12,7 +12,7 @@ import watch from "rollup-plugin-watch";
 import copy from "rollup-plugin-copy";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
-import { color, log } from "../utils/logging";
+import { color, log, logFatalError } from "../utils/logging";
 import path from "path";
 import fs from "fs";
 
@@ -21,23 +21,23 @@ export function createRollupConfig(config, settings) {
     const production = (process.env.NODE_ENV == "production");
 
     if (settings.legacy && typeof config.input != "string") {
-        throw new Error("Code splitting is not supported in legacy builds!");
+        logFatalError("Code splitting is not supported in legacy builds!");
     }
 
     if (settings.legacy && settings.external != undefined) {
-        throw new Error(`The "external" toolchain option is not supported in legacy builds!`);
+        logFatalError(`The "external" toolchain option is not supported in legacy builds!`);
     }
 
     if(settings.legacy && settings.library) {
-        throw new Error("Libraries are not supported in legacy builds!");
+        logFatalError("Libraries are not supported in legacy builds!");
     }
 
     if(settings.legacy && settings.prerender) {
-        throw new Error("Prerendering is not supported in legacy builds!");
+        logFatalError("Prerendering is not supported in legacy builds!");
     }
 
     if(settings.prerender && settings.library) {
-        throw new Error("Prerendering is not supported in library builds!");
+        logFatalError("Prerendering is not supported in library builds!");
     }
 
     /* format the paths config to be compatible with @rollup/plugin-alias */
