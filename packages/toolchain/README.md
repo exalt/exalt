@@ -50,6 +50,7 @@ This toolchain offers some options to configure this functionality.
 - dest (default: "dist") - the build output directory.
 - port (default: 3000) - sets the web server port.
 - open (default: true) - tells the cli whether or not to launch your app or not.
+- prerender (default: false) - tells the cli to prerender your app to static html files.
 - legacy (default: false) - sets the build output to support legacy browsers.
 - paths (default: {}) - object that maps aliases to file paths.
 - external (default: []) - sets the modules to be exluded from the bundle.
