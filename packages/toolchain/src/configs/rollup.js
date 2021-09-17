@@ -36,6 +36,10 @@ export function createRollupConfig(config, settings) {
         throw new Error("Prerendering is not supported in legacy builds!");
     }
 
+    if(settings.prerender && settings.library) {
+        throw new Error("Prerendering is not supported in library builds!");
+    }
+
     /* format the paths config to be compatible with @rollup/plugin-alias */
     const formatAliasPaths = (paths) => {
         if (!paths) return undefined;
