@@ -52,7 +52,7 @@ importers:
       '@rollup/plugin-html': ^0.2.3
       '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^13.0.4
-      app-serve: ^1.0.2
+      app-serve: ^1.0.3
       esbuild: ^0.12.28
       eslint: ^7.32.0
       html-minifier: ^4.0.0
@@ -73,7 +73,7 @@ importers:
       '@rollup/plugin-html': 0.2.3_rollup@2.56.3
       '@rollup/plugin-json': 4.1.0_rollup@2.56.3
       '@rollup/plugin-node-resolve': 13.0.4_rollup@2.56.3
-      app-serve: 1.0.2
+      app-serve: 1.0.3
       esbuild: 0.12.28
       html-minifier: 4.0.0
       rollup: 2.56.3
@@ -593,8 +593,8 @@ packages:
       picomatch: 2.3.0
     dev: false
 
-  /app-serve/1.0.2:
-    resolution: {integrity: sha512-4ikix8/eiIiSM4cuxe0+8SHZAJ2I6Ym5QAPH8yLsD5NWkdmhU2Bk71Aki0cY2StOHPbG0QC6Za7BGTbZAamYVw==}
+  /app-serve/1.0.3:
+    resolution: {integrity: sha512-uCLvUMKJLGynRsbcH4lrWzBHI/pXjCv2oyd9JHS3OAD3TwBKI/n96Yn0/dyR9dLRsCGyCVioeZMN566bECI07g==}
     dependencies:
       mime: 2.5.2
     dev: false
