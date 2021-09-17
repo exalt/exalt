@@ -7,6 +7,7 @@ export const defaultOptions = {
     dest: "dist",
     port: 3000,
     open: production ? false : true,
+    prerender: false,
     legacy: false,
     paths: undefined,
     external: undefined
