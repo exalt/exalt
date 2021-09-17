@@ -17,7 +17,11 @@ export class Component extends HTMLElement {
         this._refs = false;
 
         /* create the component root */
-        this.root = (shadow) ? this.attachShadow({ mode: "open" }) : this;
+        if(this.shadowRoot) {
+            this.root = this.shadowRoot;
+        } else {
+            this.root = (shadow) ? this.attachShadow({ mode: "open" }) : this;
+        }
 
         /* subscribe to all the stores */
         connect.forEach((store) => store._components.push(this._requestUpdate()));
