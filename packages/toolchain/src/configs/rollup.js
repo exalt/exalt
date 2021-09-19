@@ -16,7 +16,6 @@ import { color, log, logFatalError } from "../utils/logging";
 import path from "path";
 import fs from "fs";
 
-
 export function createRollupConfig(config, settings) {
     const production = (process.env.NODE_ENV == "production");
 
