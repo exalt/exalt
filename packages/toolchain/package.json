@@ -1,6 +1,6 @@
 {
     "name": "@exalt/toolchain",
-    "version": "0.6.8",
+    "version": "0.6.9",
     "publishConfig": {
         "access": "public"
     },
@@ -46,7 +46,7 @@
         "rollup-plugin-delete": "^2.0.0",
         "rollup-plugin-esbuild": "^4.5.0",
         "rollup-plugin-html-literals": "^1.1.4",
-        "rollup-plugin-import-css": "^3.0.1",
+        "rollup-plugin-import-css": "^3.0.2",
         "rollup-plugin-import-folder": "^1.0.3",
         "rollup-plugin-livereload": "^2.0.5",
         "rollup-plugin-serve": "^1.1.0",
