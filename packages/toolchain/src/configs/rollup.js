@@ -151,8 +151,7 @@ export function createRollupConfig(config, settings) {
             !settings.library && watch({ dir: "public" }),
 
             !settings.library && copy({
-                targets: [{ src: ["public/*", "!public/index.html"], dest: settings.dest }],
-                copyOnce: !production
+                targets: [{ src: ["public/*", "!public/index.html"], dest: settings.dest }]
             }),
 
             !production && serve({
