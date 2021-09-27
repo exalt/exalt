@@ -1,6 +1,6 @@
 {
     "name": "@exalt/toolchain",
-    "version": "0.6.10",
+    "version": "0.6.11",
     "publishConfig": {
         "access": "public"
     },
@@ -32,16 +32,16 @@
     "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
     "license": "MIT",
     "dependencies": {
-        "@exalt/ssr": "^0.1.2",
+        "@exalt/ssr": "^0.1.7",
         "@rollup/plugin-alias": "^3.1.5",
         "@rollup/plugin-commonjs": "^20.0.0",
         "@rollup/plugin-html": "^0.2.3",
         "@rollup/plugin-json": "^4.1.0",
-        "@rollup/plugin-node-resolve": "^13.0.4",
+        "@rollup/plugin-node-resolve": "^13.0.5",
         "app-serve": "^1.0.3",
-        "esbuild": "^0.12.28",
+        "esbuild": "^0.13.2",
         "html-minifier": "^4.0.0",
-        "rollup": "^2.56.3",
+        "rollup": "^2.57.0",
         "rollup-plugin-copy": "^3.4.0",
         "rollup-plugin-delete": "^2.0.0",
         "rollup-plugin-esbuild": "^4.5.0",
