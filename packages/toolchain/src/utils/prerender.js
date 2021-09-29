@@ -32,7 +32,7 @@ export function prerender(buildPath) {
         const html = renderToString(new App(), (currentNode) => {
             if (currentNode.nodeName != "A") return;
 
-            const href = currentNode.getAttribute("href");
+            const [href] = currentNode.getAttribute("href").split("#");
             if (href.startsWith("/") && !renderedPages.includes(href)) {
                 renderPage(href);
             }
