@@ -1,7 +1,6 @@
 # Exalt Toolchain
 
 Exalt Toolchain provides a standard development environment with all the features you need for developing websites, web apps, and component libraries with exalt.
-Full documentation is available [here](https://www.exaltjs.com/docs/#exalt-toolchain)
 
 ![Actions](https://github.com/exalt/exalt/workflows/build/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/exalt/exalt/blob/main/LICENSE)
