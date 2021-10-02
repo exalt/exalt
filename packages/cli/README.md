@@ -1,6 +1,7 @@
 # Exalt CLI
 
-The CLI tool for development
+Exalt CLI provides a clean interface to start new exalt projects and run your build pipeline.
+Full documentation is available [here](https://www.exaltjs.com/docs/#exalt-cli)
 
 ![Actions](https://github.com/exalt/exalt/workflows/build/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/exalt/exalt/blob/main/LICENSE)

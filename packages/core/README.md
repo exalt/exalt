@@ -1,6 +1,7 @@
 # Exalt Core
 
-The framework runtime.
+Exalt Core is the framework runtime. It provides the component model, declarative templates, and the Store API.
+Full documentation is available [here](https://www.exaltjs.com/docs/#exalt-core)
 
 ![Actions](https://github.com/exalt/exalt/workflows/build/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/exalt/exalt/blob/main/LICENSE)

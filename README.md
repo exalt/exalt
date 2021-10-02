@@ -17,9 +17,9 @@ According to [webcomponents.dev](https://webcomponents.dev/blog/all-the-ways-to-
 * [Installation](#installation)
 * [Getting Started](#getting-started)
 * [Ecosystem](#ecosystem)
-* [Core Documentation](https://github.com/exalt/exalt/tree/main/packages/core#readme)
-* [CLI Documentation](https://github.com/exalt/exalt/tree/main/packages/cli#readme)
-* [Toolchain Documentation](https://github.com/exalt/exalt/tree/main/packages/toolchain#readme)
+* [Core Documentation](https://www.exaltjs.com/docs/#exalt-core)
+* [CLI Documentation](https://www.exaltjs.com/docs/#exalt-cli)
+* [Toolchain Documentation](https://www.exaltjs.com/docs/#exalt-toolchain)
 * [Supporting Development](#supporting-development)
 
 ---
@@ -73,14 +73,15 @@ exalt dev
 | [@exalt/cli](https://www.npmjs.com/package/@exalt/cli)        | Framework CLI |
 | [@exalt/toolchain](https://www.npmjs.com/package/@exalt/toolchain)      | Toolchain for JavaScript and TypeScript development |
 | [@exalt/router](https://www.npmjs.com/package/@exalt/router)        | A simple client side router for exalt apps |
+| [@exalt/ssr](https://www.npmjs.com/package/@exalt/ssr)        | A module to render web components on the server |
 
 ---
 
 ## Supporting Development
 
-Exalt is licensed under [MIT](https://github.com/exalt/exalt/blob/main/LICENSE) and is developed during the authors free time along with the support of contributors.
+Exalt is licensed under [MIT](https://github.com/exalt/exalt/blob/main/LICENSE) and is developed during the authors free time.
 
-If you are interested in supporting the project financially, to allow for more time the developers can focus on making Exalt better. You can sponsor the project on [Patreon](https://patreon.com/outwalkstudios) or [PayPal](http://paypal.me/outwalkstudios)
+If you are interested in supporting the project financially, You can sponsor the project on [Patreon](https://patreon.com/outwalkstudios) or [PayPal](http://paypal.me/outwalkstudios)
 
 ---
 
