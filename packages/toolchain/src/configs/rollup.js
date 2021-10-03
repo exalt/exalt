@@ -99,7 +99,7 @@ export function createRollupConfig(config, settings) {
             };
         }
 
-        return { dir: settings.dest, format: "esm" };
+        return { dir: settings.dest, format: "esm", inlineDynamicImports: settings.prerender };
     };
 
     return {
