@@ -21,9 +21,9 @@ export class ProjectGenerator {
             : path.join(__dirname, "../templates/application");
 
         this.dependencies = [
-            { name: "@exalt/toolchain@0.6.x", dev: true },
-            { name: "@exalt/cli@0.6.x", dev: true },
-            { name: "@exalt/core@0.6.x", dev: false }
+            { name: "@exalt/toolchain@1.x.x", dev: true },
+            { name: "@exalt/cli@1.x.x", dev: true },
+            { name: "@exalt/core@1.x.x", dev: false }
         ];
     }
 
