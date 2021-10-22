@@ -15,6 +15,7 @@ export class Component extends HTMLElement {
         this._styles = styles;
         this._reactive = [];
         this._refs = false;
+        this._debounce = null;
 
         /* create the component root */
         if(this.shadowRoot) {
@@ -65,11 +66,18 @@ export class Component extends HTMLElement {
     /* request an update function callback */
     _requestUpdate() {
         return (key, value) => {
-            if (this.shouldUpdate(key, value)) {
-                reconcile(this.render(this.props), this.root, this._styles);
-                this._parseRefs();
-                this.onUpdate && this.onUpdate(key, value);
+            /* debounce the update so that we dont run multiple repaints per frame */
+            if(this._debounce) {
+                cancelAnimationFrame(this._debounce);
             }
+
+            this._debounce = requestAnimationFrame(() => {
+                if (this.shouldUpdate(key, value)) {
+                    reconcile(this.render(this.props), this.root, this._styles);
+                    this._parseRefs();
+                    this.onUpdate && this.onUpdate(key, value);
+                }
+            });
         };
     }
 

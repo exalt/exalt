@@ -20,6 +20,7 @@ declare module "@exalt/core" {
         private _styles: string[];
         private _reactive: number[];
         private _refs: boolean;
+        private _debounce: number;
 
         props: ComponentProps;
         root: HTMLElement | ShadowRoot;
