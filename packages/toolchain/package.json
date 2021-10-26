@@ -1,6 +1,6 @@
 {
     "name": "@exalt/toolchain",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publishConfig": {
         "access": "public"
     },
@@ -32,19 +32,19 @@
     "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
     "license": "MIT",
     "dependencies": {
-        "@exalt/ssr": "^1.0.0",
-        "@rollup/plugin-alias": "^3.1.5",
-        "@rollup/plugin-commonjs": "^21.0.0",
+        "@exalt/ssr": "^1.0.4",
+        "@rollup/plugin-alias": "^3.1.8",
+        "@rollup/plugin-commonjs": "^21.0.1",
         "@rollup/plugin-html": "^0.2.4",
         "@rollup/plugin-json": "^4.1.0",
-        "@rollup/plugin-node-resolve": "^13.0.5",
+        "@rollup/plugin-node-resolve": "^13.0.6",
         "app-serve": "^1.0.3",
-        "esbuild": "^0.13.3",
+        "esbuild": "^0.13.9",
         "html-minifier": "^4.0.0",
-        "rollup": "^2.58.0",
+        "rollup": "^2.58.3",
         "rollup-plugin-copy": "^3.4.0",
         "rollup-plugin-delete": "^2.0.0",
-        "rollup-plugin-esbuild": "^4.5.0",
+        "rollup-plugin-esbuild": "^4.6.0",
         "rollup-plugin-html-literals": "^1.1.4",
         "rollup-plugin-import-css": "^3.0.2",
         "rollup-plugin-import-folder": "^1.0.3",
@@ -53,8 +53,6 @@
         "rollup-plugin-watch": "^1.0.1"
     },
     "devDependencies": {
-        "@babel/core": "^7.15.5",
-        "@babel/eslint-parser": "^7.15.7",
-        "eslint": "^7.32.0"
+        "eslint": "^8.1.0"
     }
 }
