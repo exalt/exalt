@@ -31,7 +31,7 @@ export class Component extends HTMLElement {
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
 
-        const hasSSRProps = this.querySelector("script[type=application/json]");
+        const hasSSRProps = this.querySelector(`script[id="props"]`);
 
         if (hasSSRProps) {
             this.props = JSON.parse(hasSSRProps.textContent);

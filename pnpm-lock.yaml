@@ -36,7 +36,7 @@ importers:
 
   packages/toolchain:
     specifiers:
-      '@exalt/ssr': ^1.1.0
+      '@exalt/ssr': ^1.1.2
       '@rollup/plugin-alias': ^3.1.8
       '@rollup/plugin-commonjs': ^21.0.1
       '@rollup/plugin-html': ^0.2.4
@@ -57,7 +57,7 @@ importers:
       rollup-plugin-serve: ^1.1.0
       rollup-plugin-watch: ^1.0.1
     dependencies:
-      '@exalt/ssr': 1.1.0
+      '@exalt/ssr': 1.1.2
       '@rollup/plugin-alias': 3.1.8_rollup@2.58.3
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.58.3
       '@rollup/plugin-html': 0.2.4_rollup@2.58.3
@@ -98,8 +98,8 @@ packages:
       - supports-color
     dev: true
 
-  /@exalt/ssr/1.1.0:
-    resolution: {integrity: sha512-EdWw2oC9paumDDd3gom6ZdqYknSPTkAbsYsPGQqq9jAE5kr94rKtzg8SMjtb0BkZrMk/9UdkAW3v4BQf0M8gFw==}
+  /@exalt/ssr/1.1.2:
+    resolution: {integrity: sha512-8GMu2J3RIJMbiy89etGT/Z6LQamNR0AotFWJcXR4LNQy3gk3kqyoi4T+IHCByxYLbSvKA9Onn70T5JspeLOjLg==}
     dependencies:
       esm: 3.2.25
       parse5: 6.0.1
