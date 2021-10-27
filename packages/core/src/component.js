@@ -18,7 +18,7 @@ export class Component extends HTMLElement {
         this._debounce = null;
 
         /* create the component root */
-        if(this.shadowRoot) {
+        if (this.shadowRoot) {
             this.root = this.shadowRoot;
         } else {
             this.root = (shadow) ? this.attachShadow({ mode: "open" }) : this;
@@ -31,17 +31,25 @@ export class Component extends HTMLElement {
     /* native lifecycle callback, gets called whenever a component is added to the dom */
     connectedCallback() {
 
-        /* if there are attributes, make them accessible via props */
-        this.props = this.props ?? {};
-        if (this.hasAttributes()) {
-            /* make sure to not override the existing props */
-            const keys = Object.keys(this.props);
-            Array.from(this.attributes)
-                .filter(({ localName }) => !keys.includes(localName))
-                .forEach(({ localName, value }) => {
-                    this.props[localName] = (value == "") ? true : value;
-                });
+        const hasSSRProps = this.querySelector("script[type=application/json]");
+
+        if (hasSSRProps) {
+            this.props = JSON.parse(hasSSRProps.textContent);
+        } else {
+            this.props = this.props ?? {};
+            if (this.hasAttributes()) {
+                /* make sure to not override the existing props */
+                const keys = Object.keys(this.props);
+                Array.from(this.attributes)
+                    .filter(({ localName }) => !keys.includes(localName))
+                    .forEach(({ localName, value }) => {
+                        this.props[localName] = (value == "") ? true : value;
+                    });
+            }
         }
+
+        /* if there are attributes, make them accessible via props */
+
 
         /* render the component */
         reconcile(this.render(this.props), this.root, this._styles);
@@ -67,7 +75,7 @@ export class Component extends HTMLElement {
     _requestUpdate() {
         return (key, value) => {
             /* debounce the update so that we dont run multiple repaints per frame */
-            if(this._debounce) {
+            if (this._debounce) {
                 cancelAnimationFrame(this._debounce);
             }
 

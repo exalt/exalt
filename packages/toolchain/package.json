@@ -1,6 +1,6 @@
 {
     "name": "@exalt/toolchain",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "publishConfig": {
         "access": "public"
     },
@@ -32,7 +32,7 @@
     "author": "Outwalk Studios <support@outwalkstudios.com> (https://www.outwalkstudios.com/)",
     "license": "MIT",
     "dependencies": {
-        "@exalt/ssr": "^1.0.4",
+        "@exalt/ssr": "^1.1.0",
         "@rollup/plugin-alias": "^3.1.8",
         "@rollup/plugin-commonjs": "^21.0.1",
         "@rollup/plugin-html": "^0.2.4",
