@@ -33,6 +33,7 @@ export class Component extends HTMLElement {
 
         const hasSSRProps = this.querySelector(`script[id="props"]`);
 
+        /* if there are attributes, make them accessible via props */
         if (hasSSRProps) {
             this.props = JSON.parse(hasSSRProps.textContent);
         } else {
@@ -47,8 +48,6 @@ export class Component extends HTMLElement {
                     });
             }
         }
-
-        /* if there are attributes, make them accessible via props */
 
 
         /* render the component */

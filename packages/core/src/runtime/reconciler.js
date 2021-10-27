@@ -112,7 +112,9 @@ function diffProps(newNode, oldNode) {
     const newProps = newNode.props;
     const oldProps = oldNode.props;
 
-    if (newProps && oldProps) {
+    if(newProps) {
+        if(!oldProps) oldNode.props = {};
+
         const newKeys = Object.keys(newProps);
         for (let name of newKeys) {
             const newProp = newProps[name];
