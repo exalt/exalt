@@ -70,6 +70,18 @@ export class Component extends HTMLElement {
         this.unmount && this.unmount();
     }
 
+    /* update the props when an attribute is set manually */
+    setAttribute(name, value) {
+        super.setAttribute(name, value);
+        this.props[name] = value;
+    }
+
+    /* update the props when an attribute is removed */
+    removeAttribute(name) {
+        super.removeAttribute(name);
+        delete this.props[name];
+    }
+
     /* request an update function callback */
     _requestUpdate() {
         return (key, value) => {
