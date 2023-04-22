@@ -1,15 +1,16 @@
 {
   "name": "exalt",
   "private": true,
-  "scripts": {
-    "bootstrap": "pnpm install",
-    "update": "pnpm -r update",
-    "deploy": "pnpm -r publish",
-    "build": "pnpm run -r build",
-    "lint": "pnpm run -r lint"
-  },
   "license": "MIT",
-  "devDependencies": {
-    "pnpm": "^6.19.1"
-  }
+  "engines": {
+    "node": "^16",
+    "npm": "^8"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
